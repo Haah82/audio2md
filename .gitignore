@@ -1,0 +1,75 @@
+# ==========================================
+# CẤU HÌNH MÔI TRƯỜNG & THÔNG TIN NHẠY CẢM
+# ==========================================
+# Bỏ qua file chứa API Key (Gemini) và biến môi trường
+.env
+.env.*
+*.env
+
+# Bỏ qua môi trường ảo (Virtual Environment) của Python
+.venv/
+venv/
+env/
+
+# ==========================================
+# DỮ LIỆU ĐẦU VÀO / ĐẦU RA (DATA)
+# ==========================================
+# Bỏ qua các file tài liệu người dùng tải lên/trích xuất
+# (Chỉ giữ lại cấu trúc thư mục nếu có file .gitkeep)
+#data/input/*
+#!data/input/.gitkeep
+
+#data/output/*
+#!data/output/.gitkeep
+
+# ==========================================
+# FILE TẠM & CACHE CỦA PYTHON
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ==========================================
+# LOGS & REPORTS
+# ==========================================
+*.log
+logs/
+temp/
+tmp/
+
+# ==========================================
+# HỆ ĐIỀU HÀNH & CÔNG CỤ LẬP TRÌNH (IDE)
+# ==========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code / Cursor / PyCharm
+.vscode/
+.idea/
+*.swp
+*.swo

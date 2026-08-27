@@ -1,0 +1,200 @@
+{
+  "main": {
+    "id": "127820135b2bed7e",
+    "type": "split",
+    "children": [
+      {
+        "id": "bc62401827dddfd7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "24bc4c7f00f880d1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "First Taste of Vietnam! Street Food, Hidden Gems & Train Street..._raw.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "First Taste of Vietnam! Street Food, Hidden Gems & Train Street..._raw"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8113acc8a43d55f4",
+    "type": "split",
+    "children": [
+      {
+        "id": "4c7fa7acddeafccf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "90608f3afe248662",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "ce32f28ffba3f889",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "2c81f5b2a0ac250b",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "516ed550c069f0eb",
+    "type": "split",
+    "children": [
+      {
+        "id": "a76a106cf587589e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "befc6d3930332c83",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "e8625acd273a4f8a",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "8de67d509763732b",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "1b87313a31245e19",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "02291fd649af9240",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "24bc4c7f00f880d1",
+  "lastOpenFiles": [
+    "First Taste of Vietnam! Street Food, Hidden Gems & Train Street..._refine.md",
+    "How I Got My American Accent_raw.md",
+    "How I Got My American Accent_refine.md",
+    "How I Learned English Vocabulary_raw.md",
+    "How I Learned English Vocabulary_refine.md",
+    "4-Year Marketing Degree in 2 MINUTES._refine.md",
+    "4-Year Marketing Degree in 2 MINUTES._raw.md",
+    "First Taste of Vietnam! Street Food, Hidden Gems & Train Street..._raw.md",
+    "Hướng dẫn chi tiết cách đóng phí và đặt lịch thi chứng chỉ PMP® và các chứng chỉ khác từ PMI._raw.md"
+  ]
+}
