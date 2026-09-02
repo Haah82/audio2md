@@ -1,4 +1,4 @@
-# Claude AI quá mạnh cho công việc hàng ngày 💪 #aiagent #claude
+# Claude AI quá mạnh cho công việc hàng ngày
 
 > **Reference:** https://www.youtube.com/shorts/N1flCC_XIz4
 

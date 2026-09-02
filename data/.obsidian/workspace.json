@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "output/This Simple Habit Will Make You Fluent in Any Language (backed by science)_refine.md",
+                "file": "input/build-audio2md.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "This Simple Habit Will Make You Fluent in Any Language (backed by science)_refine"
+              "title": "build-audio2md"
             }
           }
         ]
@@ -210,6 +210,15 @@
   },
   "active": "8ef4f818a0a3173f",
   "lastOpenFiles": [
+    "output/Hướng dẫn chi tiết cách đóng phí và đặt lịch thi chứng chỉ PMP® và các chứng chỉ khác từ PMI._refine.md",
+    "input/build-audio2md.md",
+    "Living Alone vlog - 5am grocery shop, new monitor, meeting neighbours_raw.md",
+    "output/First Taste of Vietnam! Street Food, Hidden Gems & Train Street..._refine.md",
+    "output/Claude AI quá mạnh cho công việc hàng ngày 💪 _aiagent _claude_raw.md",
+    "output/Claude AI quá mạnh cho công việc hàng ngày 💪 _aiagent _claude_refine.md",
+    "Claude AI quá mạnh cho công việc hàng ngày 💪.md",
+    "Claude AI quá mạnh cho công việc hàng ngày_raw.md",
+    "output/This Simple Habit Will Make You Fluent in Any Language (backed by science)_refine.md",
     "output/Emergency Podcast_ When Will Vietnam’s Stock Market Go Up__refine.md",
     "output/Emergency Podcast_ When Will Vietnam’s Stock Market Go Up__raw.md",
     "input/q3bQc7i2D5E.mp3",
@@ -225,9 +234,7 @@
     "input/obQgWiSX8tY.webm",
     "input/obQgWiSX8tY.webm.part",
     "output/This Simple Habit Will Make You Fluent in Any Language (backed by science)_raw.md",
-    "input/build-audio2md.md",
     "output/Your bad habits make perfect sense once you understand this_refine.md",
-    "output/This Simple Habit Will Make You Fluent in Any Language (backed by science)_refine.md",
     "output/Life in Hanoi, Vietnam 🇻🇳_refine.md",
     "output/Life in Hanoi, Vietnam 🇻🇳_raw.md",
     "output/Deep Work_ Tập trung sâu trong một thế giới nhiễu loạn_refine.md",
@@ -237,8 +244,6 @@
     "output/How to study English as a busy person _ The English Podcast_refine.md",
     "output/How to study English as a busy person _ The English Podcast_raw.md",
     "output/How I Learned English with Movies and TV-Shows_refine.md",
-    "output/Claude AI quá mạnh cho công việc hàng ngày 💪 _aiagent _claude_refine.md",
-    "output/Claude AI quá mạnh cho công việc hàng ngày 💪 _aiagent _claude_raw.md",
     "output/4-Year Marketing Degree in 2 MINUTES._raw.md"
   ]
 }

@@ -1,4 +1,4 @@
-# Claude AI quá mạnh cho công việc hàng ngày 💪 #aiagent #claude
+# Claude AI quá mạnh cho công việc hàng ngày
 
 # 1. Tiêu đề chính
 Sức Mạnh Của Claude AI Trong Tự Động Hóa Công Việc Và Lý Do Bạn Không Nên Chờ Đợi Công Nghệ
