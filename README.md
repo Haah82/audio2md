@@ -1,6 +1,6 @@
 # Audio2MD
 
-Hệ thống trích xuất và tinh luyện văn bản từ Audio, Video và Link.
+Hệ thống trích xuất và tóm tắt văn bản từ Audio, Video và Link Youtube/Facebook/LinkedIn.
 
 ## Tổng quan
 Audio2MD là một pipeline được thiết kế với tư duy MVP (chi phí thấp, tốc độ cao). Hệ thống tự động chuyển đổi nội dung âm thanh và video thành các tài liệu Markdown có cấu trúc rõ ràng.
