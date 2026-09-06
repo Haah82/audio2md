@@ -1,32 +1,24 @@
 {
   "main": {
-    "id": "6efc8a0a336e05fa",
+    "id": "da249ba1250a223b",
     "type": "split",
     "children": [
       {
-        "id": "88373340c85ef34c",
+        "id": "02aab3dee492379e",
         "type": "tabs",
         "children": [
           {
-            "id": "4111d88a8d50076c",
+            "id": "9a27482eb25805e2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-<<<<<<< Updated upstream
-                "file": "data/output/Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_raw.md",
-=======
-                "file": "data/output/Jensen-Huang-reactions_raw.md",
->>>>>>> Stashed changes
+                "file": "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-<<<<<<< Updated upstream
-              "title": "Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_raw"
-=======
-              "title": "Jensen-Huang-reactions_raw"
->>>>>>> Stashed changes
+              "title": "Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw"
             }
           }
         ]
@@ -35,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "75c0fec276630c7d",
+    "id": "6afa7e8f142be5be",
     "type": "split",
     "children": [
       {
-        "id": "62a3dc115b2f970a",
+        "id": "29b54a1853567625",
         "type": "tabs",
         "children": [
           {
-            "id": "e31400208006c49e",
+            "id": "1a6d72cc00bd0f01",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -58,7 +50,7 @@
             }
           },
           {
-            "id": "5f5661fcb56be504",
+            "id": "c0ceb0ad403e37c2",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -75,7 +67,7 @@
             }
           },
           {
-            "id": "adab6938c9a573c0",
+            "id": "1a5ba528dcc0a150",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -94,20 +86,20 @@
     "width": 300
   },
   "right": {
-    "id": "8c2db964509365c0",
+    "id": "63cea8afb7762bf5",
     "type": "split",
     "children": [
       {
-        "id": "015f4c5885ecdcb4",
+        "id": "7fcd862472f1d1d1",
         "type": "tabs",
         "children": [
           {
-            "id": "a662aa3e83215735",
+            "id": "b105fb843347960d",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data/output/Deep Work_ Tập trung sâu trong một thế giới nhiễu loạn_refine.md",
+                "file": "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,12 +113,12 @@
             }
           },
           {
-            "id": "a1cdb52b9507395f",
+            "id": "f1fbb841071bd443",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data/output/Deep Work_ Tập trung sâu trong một thế giới nhiễu loạn_refine.md",
+                "file": "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -135,7 +127,7 @@
             }
           },
           {
-            "id": "9fc022496f506de8",
+            "id": "853265e9d9976269",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -150,7 +142,7 @@
             }
           },
           {
-            "id": "486a89ce95f6de61",
+            "id": "ba496c4637331171",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -164,12 +156,12 @@
             }
           },
           {
-            "id": "24cd3df5a94bcbb6",
+            "id": "95dbad1bf86a044f",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "data/output/Deep Work_ Tập trung sâu trong một thế giới nhiễu loạn_refine.md",
+                "file": "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -196,44 +188,23 @@
       "bases:Create new base": false
     }
   },
-  "active": "4111d88a8d50076c",
+  "active": "9a27482eb25805e2",
   "lastOpenFiles": [
-<<<<<<< Updated upstream
-    "data/output/Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_refine.md",
     "data/input/build-audio2md.md",
-    "Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_raw.md",
-    "data/output/Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_raw.md",
-    "Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_refine.md",
-=======
+    "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_refine.md",
+    "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
+    "data/input/Pbegkiaj5MI.mp3",
+    "data/input/Pbegkiaj5MI.webm",
+    "data/input/Pbegkiaj5MI.webm.part",
+    "data/output/germanwings-9525_raw.md",
+    "data/output/germanwings-9525_refine.md",
+    "data/input/1428739582271815.mp3",
+    "data/input/1428739582271815.temp.m4a",
+    "data/input/1428739582271815.m4a",
+    "data/input/1428739582271815.m4a.part",
+    "data/output/X10-hieu-suat-AI-AGENT_raw.md",
+    "data/output/X10-hieu-suat-AI-AGENT_refine.md",
     "data/output/Jensen-Huang-reactions_refine.md",
-    "data/output/Jensen-Huang-reactions_raw.md",
-    "data/input/build-audio2md.md",
-    "data/output/X10 HIỆU SUẤT NÃO BỘ VỚI BỘ NÃO THỨ 2 TẠO RA BỞI AI AGENT_refine.md",
-    "data/output/X10 HIỆU SUẤT NÃO BỘ VỚI BỘ NÃO THỨ 2 TẠO RA BỞI AI AGENT_raw.md",
-    "data/output/Rada-cong-nghe_refine.md",
-    "data/input/26953677307615282.mp3",
-    "data/input/26953677307615282.temp.m4a",
-    "data/input/26953677307615282.m4a",
-    "data/input/26953677307615282.m4a.part",
-    "data/output/Rada-cong-nghe_raw.md",
-    "data/output/US-news_raw.md",
-    "372K views · 4.3K reactions_raw.md",
-    "data/output/This Simple Habit Will Make You Fluent in Any Language (backed by science)_raw.md",
-    "data/input/1503723204511568.mp3",
-    "data/input/1503723204511568.temp.m4a",
-    "data/input/1503723204511568.m4a",
-    "data/input/1503723204511568.m4a.part",
-    "data/output/US-news_refine.md",
-    "data/input/1005750608818720.mp3",
-    "data/input/1005750608818720.temp.m4a",
-    "data/output/Chinese HSK2 complete course( 150 HSK 2 words+useful sentences+grammar explanation+listening)_refine.md",
-    "data/output/Chinese HSK2 complete course( 150 HSK 2 words+useful sentences+grammar explanation+listening)_raw.md",
-    "Chinese HSK2 complete course( 150 HSK 2 words+useful sentences+grammar explanation+listening)_raw.md",
->>>>>>> Stashed changes
-    "data/output/Best places to visit in Hanoi, Vietnam in 2026_refine.md",
-    "data/output/Best places to visit in Hanoi, Vietnam in 2026_raw.md",
-    "data/output/4-Year Marketing Degree in 2 MINUTES._raw.md",
-    "data/output/Deep Work_ Tập trung sâu trong một thế giới nhiễu loạn_refine.md",
-    "data/output/Deep Work_ Tập trung sâu trong một thế giới nhiễu loạn_raw.md"
+    "data/output/Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_refine.md"
   ]
 }
