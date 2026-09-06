@@ -73,3 +73,6 @@ $RECYCLE.BIN/
 .idea/
 *.swp
 *.swo
+
+# obsidian
+.obsidian/
