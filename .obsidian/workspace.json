@@ -13,12 +13,20 @@
             "state": {
               "type": "markdown",
               "state": {
+<<<<<<< Updated upstream
                 "file": "data/output/Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_raw.md",
+=======
+                "file": "data/output/Jensen-Huang-reactions_raw.md",
+>>>>>>> Stashed changes
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
+<<<<<<< Updated upstream
               "title": "Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_raw"
+=======
+              "title": "Jensen-Huang-reactions_raw"
+>>>>>>> Stashed changes
             }
           }
         ]
@@ -190,11 +198,38 @@
   },
   "active": "4111d88a8d50076c",
   "lastOpenFiles": [
+<<<<<<< Updated upstream
     "data/output/Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_refine.md",
     "data/input/build-audio2md.md",
     "Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_raw.md",
     "data/output/Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_raw.md",
     "Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_refine.md",
+=======
+    "data/output/Jensen-Huang-reactions_refine.md",
+    "data/output/Jensen-Huang-reactions_raw.md",
+    "data/input/build-audio2md.md",
+    "data/output/X10 HIỆU SUẤT NÃO BỘ VỚI BỘ NÃO THỨ 2 TẠO RA BỞI AI AGENT_refine.md",
+    "data/output/X10 HIỆU SUẤT NÃO BỘ VỚI BỘ NÃO THỨ 2 TẠO RA BỞI AI AGENT_raw.md",
+    "data/output/Rada-cong-nghe_refine.md",
+    "data/input/26953677307615282.mp3",
+    "data/input/26953677307615282.temp.m4a",
+    "data/input/26953677307615282.m4a",
+    "data/input/26953677307615282.m4a.part",
+    "data/output/Rada-cong-nghe_raw.md",
+    "data/output/US-news_raw.md",
+    "372K views · 4.3K reactions_raw.md",
+    "data/output/This Simple Habit Will Make You Fluent in Any Language (backed by science)_raw.md",
+    "data/input/1503723204511568.mp3",
+    "data/input/1503723204511568.temp.m4a",
+    "data/input/1503723204511568.m4a",
+    "data/input/1503723204511568.m4a.part",
+    "data/output/US-news_refine.md",
+    "data/input/1005750608818720.mp3",
+    "data/input/1005750608818720.temp.m4a",
+    "data/output/Chinese HSK2 complete course( 150 HSK 2 words+useful sentences+grammar explanation+listening)_refine.md",
+    "data/output/Chinese HSK2 complete course( 150 HSK 2 words+useful sentences+grammar explanation+listening)_raw.md",
+    "Chinese HSK2 complete course( 150 HSK 2 words+useful sentences+grammar explanation+listening)_raw.md",
+>>>>>>> Stashed changes
     "data/output/Best places to visit in Hanoi, Vietnam in 2026_refine.md",
     "data/output/Best places to visit in Hanoi, Vietnam in 2026_raw.md",
     "data/output/4-Year Marketing Degree in 2 MINUTES._raw.md",
