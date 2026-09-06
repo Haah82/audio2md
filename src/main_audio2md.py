@@ -5,25 +5,18 @@ import urllib.parse
 import re
 import glob
 import yt_dlp
-from google import genai
 from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INPUT_DIR = os.path.join(BASE_DIR, 'data', 'input')
 OUTPUT_DIR = os.path.join(BASE_DIR, 'data', 'output')
 
-MODELS = ['gemini-3.6-flash', 'gemini-2.5-flash']
-
+# Nap .env TRUOC khi import pool: pool doc cau hinh ngay luc khoi tao.
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-FORCE_OVERWRITE = os.environ.get("FORCE_OVERWRITE", "0") == "1"
+from gemini_pool import GeminiPool
 
-def get_gemini_client():
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key or api_key == "YOUR_GEMINI_API_KEY_HERE":
-        print("[ERROR] Vui long cau hinh GEMINI_API_KEY trong file .env")
-        sys.exit(1)
-    return genai.Client(api_key=api_key)
+FORCE_OVERWRITE = os.environ.get("FORCE_OVERWRITE", "0") == "1"
 
 def is_url(string):
     try:
@@ -90,21 +83,69 @@ def update_md_table(item_url, title, raw_file_name, refine_file_name):
                     if saved_link == item_url:
                         parts[3] = f" {safe_title} "
                         parts[5] = f" [[{raw_file_name}]] "
+                        # De trong khi chua co file: wikilink hong se bi Obsidian
+                        # bien thanh file rong ngay khi co nguoi bam vao.
+                        o_refine = f"[[{refine_file_name}]]" if refine_file_name else ""
                         
                         last_part = parts[6].rstrip()
                         if last_part.endswith('\n'):
-                            parts[6] = f" [[{refine_file_name}]] \n"
+                            parts[6] = f" {o_refine} \n"
                         else:
                             if len(parts) > 7:
-                                parts[6] = f" [[{refine_file_name}]] "
+                                parts[6] = f" {o_refine} "
                             else:
-                                parts[6] = f" [[{refine_file_name}]] |\n"
+                                parts[6] = f" {o_refine} |\n"
                         lines[i] = "|".join(parts)
                         
         with open(md_file, 'w', encoding='utf-8') as f:
             f.writelines(lines)
     except Exception as e:
         print(f"[WARN] Khong the cap nhat file md danh sach: {e}")
+
+def xoa_dong_md(item_url):
+    """Xoa dong cua link hong khoi bang va danh so lai STT.
+
+    Bat buoc phai danh so lai: build-audio2md.bat dung chinh gia tri STT lam
+    chi so mang (link[!raw_stt!]) va dem count theo so dong, nen de hong so
+    thu tu se lam lech toan bo danh sach o cac lan chay sau.
+    """
+    md_file = os.path.join(INPUT_DIR, 'build-audio2md.md')
+    if not os.path.exists(md_file):
+        return
+    try:
+        with open(md_file, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+
+        giu = []
+        da_xoa = False
+        for line in lines:
+            parts = line.split('|')
+            if len(parts) >= 7 and parts[2].strip() == item_url and not da_xoa:
+                da_xoa = True
+                continue
+            giu.append(line)
+
+        if not da_xoa:
+            return
+
+        # Danh so lai: bang xep moi nhat len dau nen STT giam dan tu tren xuong.
+        vi_tri_du_lieu = []
+        for i, line in enumerate(giu):
+            parts = line.split('|')
+            if len(parts) >= 7 and parts[1].strip() not in ('STT', '---', ''):
+                vi_tri_du_lieu.append(i)
+
+        tong = len(vi_tri_du_lieu)
+        for thu_tu, i in enumerate(vi_tri_du_lieu):
+            parts = giu[i].split('|')
+            parts[1] = f" {tong - thu_tu} ".ljust(len(parts[1]))
+            giu[i] = "|".join(parts)
+
+        with open(md_file, 'w', encoding='utf-8') as f:
+            f.writelines(giu)
+        print(f"[DON DEP] Da go link hong khoi build-audio2md.md va danh so lai {tong} dong.")
+    except Exception as e:
+        print(f"[WARN] Khong the go dong khoi file md danh sach: {e}")
 
 def download_media(link):
     print(f"\n[INFO] Dang ket noi toi URL: {link}")
@@ -177,50 +218,51 @@ def download_media(link):
             print(f"[ERROR] Loi yt-dlp: {e2}")
             return None, None, None
 
-def transcribe_raw(client, file_path, title):
-    print(f"[PROCESSING] Dang Upload file '{os.path.basename(file_path)}' len he thong AI...")
+def doc_raw_da_co(raw_md_path):
+    """Doc lai ban Raw da luu (bo dong Reference dau file) de khoi boc bang lai."""
+    if not os.path.exists(raw_md_path):
+        return None
     try:
-        uploaded_file = client.files.upload(file=file_path)
-        print("[PROCESSING] Dang cho he thong xu ly file...", end="")
-        while uploaded_file.state.name == "PROCESSING":
-            print(".", end="", flush=True)
-            time.sleep(2)
-            uploaded_file = client.files.get(name=uploaded_file.name)
-        print()
-        
-        prompt = """Bạn là chuyên gia bóc băng (transcribe) chuyên nghiệp. Hãy chuyển đổi toàn bộ lời thoại trong file này thành văn bản.
+        with open(raw_md_path, 'r', encoding='utf-8') as f:
+            noi_dung = f.read()
+    except Exception:
+        return None
+    noi_dung = re.sub(r'^>[^\n]*Reference:.*?\n', '', noi_dung, count=1).strip()
+    return noi_dung or None
+
+def transcribe_raw(pool, file_path, title):
+    prompt = """Bạn là chuyên gia bóc băng (transcribe) chuyên nghiệp. Hãy chuyển đổi toàn bộ lời thoại trong file này thành văn bản.
 Yêu cầu BẮT BUỘC:
 1. GIỮ NGUYÊN 100% NGÔN NGỮ GỐC của audio/video. Tuyệt đối không dịch thuật.
 2. Chia thành các đoạn văn (paragraphs) ngắn gọn, hợp lý để dễ đọc trên ứng dụng Obsidian.
 3. Không tóm tắt, không lược bỏ, không thêm thắt bất kỳ bình luận nào.
 Trả về duy nhất nội dung thô."""
-        
-        print("[PROCESSING] Dang boc bang (Raw Transcription)...")
-        for m in MODELS:
-            try:
-                chat = client.chats.create(model=m)
-                response = chat.send_message([uploaded_file, prompt])
-                
-                if response.text:
-                    raw_text = response.text.strip()
-                    try: client.files.delete(name=uploaded_file.name)
-                    except: pass
-                    return raw_text
-            except Exception as e:
-                print(f"[WARN] Loi model {m}: {e}")
-                time.sleep(10)
-                
-    except Exception as e:
-        print(f"[ERROR] Loi trong qua trinh boc bang: {e}")
-    
-    return None
 
-def refine_content(client, raw_text, original_title, file_title, reference_str, item_overwrite=False):
+    def boc_bang(client, model):
+        # File da upload chi thuoc ve dung key da upload no -> doi key la upload lai.
+        print(f"[PROCESSING] Dang Upload '{os.path.basename(file_path)}'...", end="", flush=True)
+        uploaded_file = client.files.upload(file=file_path)
+        while uploaded_file.state.name == "PROCESSING":
+            print(".", end="", flush=True)
+            time.sleep(2)
+            uploaded_file = client.files.get(name=uploaded_file.name)
+        print()
+        try:
+            response = client.models.generate_content(
+                model=model, contents=[uploaded_file, prompt])
+            return response.text.strip() if response.text else None
+        finally:
+            try: client.files.delete(name=uploaded_file.name)
+            except Exception: pass
+
+    return pool.chay(boc_bang, f"Boc bang '{title}'")
+
+def refine_content(pool, raw_text, original_title, file_title, reference_str, item_overwrite=False):
     refine_md_path = os.path.join(OUTPUT_DIR, f"{file_title}_refine.md")
     
     if not item_overwrite and os.path.exists(refine_md_path):
         print(f"[SKIP] Da ton tai ban Refine: {refine_md_path}")
-        return
+        return True
         
     prompt = f"""Bạn là biên tập viên chuyên nghiệp. Dựa vào bản Transcript dưới đây, hãy tinh luyện và chắt lọc nội dung cốt lõi. 
 BẮT BUỘC trả về nội dung gồm 2 phần: PHẦN 1 (Tiếng Việt) và PHẦN 2 (Tiếng Anh). Trình bày theo đúng định dạng Markdown sau (không thay đổi cấu trúc):
@@ -257,23 +299,20 @@ Nội dung Transcript:
 {raw_text}
 """
     
-    print("[PROCESSING] Dang tinh luyen noi dung (Refine)...")
-    for m in MODELS:
-        try:
-            chat = client.chats.create(model=m)
-            response = chat.send_message(prompt)
-            
-            if response.text:
-                refined_text = response.text.strip()
-                final_output = f"{refined_text}\n\n---\n**Reference:** {reference_str}"
-                
-                with open(refine_md_path, 'w', encoding='utf-8') as f:
-                    f.write(final_output)
-                print(f"[SUCCESS] Da luu ban Refine song ngu: {file_title}_refine.md")
-                return
-        except Exception as e:
-            print(f"[WARN] Loi tinh luyen model {m}: {e}")
-            time.sleep(10)
+    def tinh_luyen(client, model):
+        response = client.models.generate_content(model=model, contents=prompt)
+        return response.text.strip() if response.text else None
+
+    refined_text = pool.chay(tinh_luyen, f"Refine '{file_title}'")
+    if refined_text:
+        final_output = f"{refined_text}\n\n---\n**Reference:** {reference_str}"
+        with open(refine_md_path, 'w', encoding='utf-8') as f:
+            f.write(final_output)
+        print(f"[SUCCESS] Da luu ban Refine song ngu: {file_title}_refine.md")
+        return True
+
+    print(f"[WARN] Khong tao duoc ban Refine cho '{file_title}'.")
+    return False
 
 def main():
     if len(sys.argv) < 2:
@@ -287,7 +326,11 @@ def main():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR, exist_ok=True)
         
-    client = get_gemini_client()
+    try:
+        pool = GeminiPool()
+    except RuntimeError as e:
+        print(f"[ERROR] {e}")
+        sys.exit(1)
     
     with open(temp_list_path, 'r', encoding='utf-8') as f:
         items = [line.strip() for line in f.readlines() if line.strip()]
@@ -310,12 +353,13 @@ def main():
                     info = ydl.extract_info(item, download=False)
                     original_title = info.get('title', 'Unknown_Title')
                     file_title = sanitize_filename(original_title)
-            except:
-                file_title = "Unknown"
-                original_title = "Unknown"
-                
-            update_md_table(item, original_title, f"{file_title}_raw", f"{file_title}_refine")
-            
+            except Exception as e:
+                # Link bi chan bao mat, can dang nhap, da xoa hoac rieng tu.
+                print(f"[LOI] Khong lay duoc thong tin link: {str(e).splitlines()[0][:160]}")
+                print(f"[BO QUA] Khong tong hop link hong vao build-audio2md.md: {item}")
+                xoa_dong_md(item)
+                continue
+
             raw_md_path = os.path.join(OUTPUT_DIR, f"{file_title}_raw.md")
             refine_md_path = os.path.join(OUTPUT_DIR, f"{file_title}_refine.md")
             
@@ -327,8 +371,12 @@ def main():
                 item_overwrite = True
 
             raw_text, target_audio, file_title = download_media(item)
+            if not file_title or (raw_text is None and target_audio is None):
+                print(f"[BO QUA] Tai that bai, khong tong hop vao build-audio2md.md: {item}")
+                xoa_dong_md(item)
+                continue
             is_temp = True
-            
+
         else:
             target_audio = item
             original_title = os.path.splitext(os.path.basename(item))[0]
@@ -355,19 +403,41 @@ def main():
             print(f"[SUCCESS] Da luu ban Nguyen Tac (Raw): {file_title}_raw.md")
             
         elif target_audio and os.path.exists(target_audio):
-            raw_text = transcribe_raw(client, target_audio, file_title)
+            # Chi tai su dung ban Raw cu khi nguoi dung KHONG yeu cau ghi de.
+            raw_text = None if item_overwrite else doc_raw_da_co(raw_md_path)
             if raw_text:
-                raw_text_content = f"> **Reference:** {reference_str}\n\n{raw_text}"
-                with open(raw_md_path, 'w', encoding='utf-8') as f:
-                    f.write(raw_text_content)
-                print(f"[SUCCESS] Da luu ban Nguyen Tac (Raw): {file_title}_raw.md")
-            
+                print(f"[TIET KIEM] Da co ban Raw -> bo qua boc bang lai: {file_title}_raw.md")
+            else:
+                raw_text = transcribe_raw(pool, target_audio, file_title)
+                if raw_text:
+                    raw_text_content = f"> **Reference:** {reference_str}\n\n{raw_text}"
+                    with open(raw_md_path, 'w', encoding='utf-8') as f:
+                        f.write(raw_text_content)
+                    print(f"[SUCCESS] Da luu ban Nguyen Tac (Raw): {file_title}_raw.md")
+
             if is_temp and os.path.exists(target_audio):
                 os.remove(target_audio)
                 print(f"[CLEANUP] Da xoa file tam: {target_audio}")
                 
-        if raw_text:
-            refine_content(client, raw_text, original_title, file_title, reference_str, item_overwrite)
+        if not raw_text:
+            # Boc bang that bai (het key, API loi...) -> khong de lai dong rac
+            # tro toi file khong ton tai. Bam vao wikilink hong, Obsidian se tu
+            # tao ra file rong.
+            print(f"[BO QUA] Khong tao duoc noi dung: {item}")
+            if is_url(item):
+                xoa_dong_md(item)
+            continue
+
+        co_refine = refine_content(pool, raw_text, original_title, file_title,
+                                   reference_str, item_overwrite)
+
+        # Chi ghi vao bang khi da thuc su co file. Ghi o day (thay vi truoc khi
+        # tai) de wikilink khop dung ten file cuoi cung do download_media tra ve.
+        if is_url(item):
+            update_md_table(item, original_title, f"{file_title}_raw",
+                            f"{file_title}_refine" if co_refine else None)
+
+    pool.tong_ket()
 
 if __name__ == "__main__":
     main()

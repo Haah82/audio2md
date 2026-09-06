@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "02aab3dee492379e",
+        "id": "7e2e15abf2259fc9",
         "type": "tabs",
         "children": [
           {
-            "id": "9a27482eb25805e2",
+            "id": "9ca412b4db074285",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
+                "file": "data/output/Living Alone at 50 in China 🇨🇳_refine.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw"
+              "title": "Living Alone at 50 in China 🇨🇳_refine"
             }
           }
         ]
@@ -188,20 +188,27 @@
       "bases:Create new base": false
     }
   },
-  "active": "9a27482eb25805e2",
+  "active": "9ca412b4db074285",
   "lastOpenFiles": [
     "data/input/build-audio2md.md",
-    "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_refine.md",
+    "data/output/Living Alone at 50 in China 🇨🇳_refine.md",
+    "data/output/Living Alone at 50 in China 🇨🇳_raw.md",
+    "data/input/Q72ZxcBALMw.mp3",
+    "data/input/Q72ZxcBALMw.webm",
+    "data/input/Q72ZxcBALMw.webm.part",
+    "src/main_audio2md.py.tmp.17512.806cdfa24c77",
+    "mvp_free.md.tmp.17512.5aa7a2e53137",
+    "mvp_free.md",
+    "mvp_free.md.tmp.17512.6b05fcd1d071",
+    "Unknown_raw.md",
     "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
+    "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_refine.md",
     "data/input/Pbegkiaj5MI.mp3",
     "data/input/Pbegkiaj5MI.webm",
     "data/input/Pbegkiaj5MI.webm.part",
     "data/output/germanwings-9525_raw.md",
     "data/output/germanwings-9525_refine.md",
     "data/input/1428739582271815.mp3",
-    "data/input/1428739582271815.temp.m4a",
-    "data/input/1428739582271815.m4a",
-    "data/input/1428739582271815.m4a.part",
     "data/output/X10-hieu-suat-AI-AGENT_raw.md",
     "data/output/X10-hieu-suat-AI-AGENT_refine.md",
     "data/output/Jensen-Huang-reactions_refine.md",
