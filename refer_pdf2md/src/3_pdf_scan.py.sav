@@ -1,0 +1,138 @@
+import os, sys, glob, time, re
+import logging, warnings
+from google import genai
+from dotenv import load_dotenv
+
+logging.getLogger("google").setLevel(logging.ERROR)
+warnings.filterwarnings("ignore")
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+INPUT_DIR = os.path.join(BASE_DIR, 'data', 'input')
+OUTPUT_DIR = os.path.join(BASE_DIR, 'data', 'output')
+
+CANDIDATE_MODELS = [
+    'gemini-3.6-flash',
+    'gemini-2.5-flash',
+    'gemini-2.0-flash',
+    'gemini-1.5-flash'
+]
+
+def process():
+    load_dotenv(os.path.join(BASE_DIR, '.env'))
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key: 
+        print("❌ Thiếu GEMINI_API_KEY trong file .env")
+        return
+    client = genai.Client(api_key=api_key)
+    
+    target = sys.argv[1] if len(sys.argv) > 1 else "ALL"
+    if target == "ALL":
+        files = glob.glob(os.path.join(INPUT_DIR, '*.pdf'))
+    else:
+        file_path = os.path.join(INPUT_DIR, target)
+        if not os.path.exists(file_path):
+            print(f"❌ Khong tim thay file: {target}")
+            return
+        files = [file_path]
+
+    # Cập nhật Prompt: Ép xuất Bảng biểu cực chuẩn bằng <br> và triệt tiêu HTML rác
+    prompt = (
+        "Đóng vai chuyên gia. Chuyển đổi tài liệu PDF scan này sang định dạng Markdown.\n"
+        "YÊU CẦU NGHIÊM NGẶT:\n"
+        "1. BẮT BUỘC CHỈ trả về văn bản Markdown.\n"
+        "2. Mọi bảng biểu PHẢI trình bày bằng Markdown Table chuẩn (| Cột 1 | Cột 2 |). Nếu văn bản trong một ô bị xuống dòng, HÃY dùng thẻ <br> thay cho dấu xuống dòng để không phá vỡ cấu trúc bảng.\n"
+        "3. TUYỆT ĐỐI KHÔNG dùng bất kỳ thẻ HTML nào khác ngoài thẻ <br>.\n"
+        "4. Lọc bỏ toàn bộ các đường kẻ ngang rác hoặc gạch dưới (___).\n"
+        "5. Không giải thích gì thêm."
+    )
+    
+    working_model = None
+
+    for f in files:
+        base = os.path.splitext(os.path.basename(f))[0]
+        out_path = os.path.join(OUTPUT_DIR, f"{base}_scan.md")
+        if os.path.exists(out_path): continue
+        print(f"\n🤖 [PDF Scan Gemini] Dang upload: {base}...")
+        
+        try:
+            uploaded = client.files.upload(file=f)
+            
+            print("⏳ Đang chờ Google xử lý file PDF", end="")
+            while "PROCESSING" in str(uploaded.state):
+                print(".", end="", flush=True)
+                time.sleep(2)
+                uploaded = client.files.get(name=uploaded.name)
+            print() 
+            
+            if "FAILED" in str(uploaded.state):
+                print("❌ Lỗi: Server Gemini xử lý file thất bại.")
+                continue
+
+            success = False
+            models_to_try = [working_model] if working_model else CANDIDATE_MODELS
+
+            for m in models_to_try:
+                max_retries = 3
+                retry_count = 0
+                model_success = False
+                
+                while retry_count < max_retries:
+                    try:
+                        if retry_count == 0:
+                            print(f"🧠 Đang trích xuất bằng model {m}...")
+                        res = client.models.generate_content(
+                            model=m, 
+                            contents=[uploaded, prompt]
+                        )
+                        if res.text:
+                            text = res.text.replace("```markdown", "").replace("```", "").strip()
+                            
+                            # --- LỚP BẢO VỆ REGEX KẾ THỪA TỪ WORD & EXCEL ---
+                            # 1. Xóa thẻ <a> ẩn nếu có
+                            text = re.sub(r'</?a[^>]*>', '', text)
+                            
+                            # 2. Dọn dẹp đường kẻ rác
+                            text = re.sub(r'_{3,}', '', text)
+                            
+                            # 3. DIỆT DẤU ESCAPE (\) THỪA làm rối văn bản
+                            text = re.sub(r'\\([.\-\+\(\)\[\]*_])', r'\1', text)
+                            
+                            # 4. Tối ưu khoảng trắng
+                            text = re.sub(r'\n{3,}', '\n\n', text)
+                            
+                            with open(out_path, 'w', encoding='utf-8') as out: out.write(text)
+                            print(f"✅ Đã tạo thành công: {base}_scan.md (Sử dụng model: {m})")
+                            working_model = m  
+                            model_success = True
+                            success = True
+                            break 
+                            
+                    except Exception as ex: 
+                        err_str = str(ex)
+                        if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
+                            print(f"⏳ Quá tải API (Lỗi 429). Tạm nghỉ 35 giây để thử lại (Lần {retry_count+1}/{max_retries})...")
+                            time.sleep(35)
+                            retry_count += 1
+                            continue 
+                        elif "404" in err_str or "NOT_FOUND" in err_str or "not found" in err_str.lower():
+                            print(f"⚠️ Model [{m}] bị lỗi 404, bỏ qua model này...")
+                            working_model = None
+                            break 
+                        else:
+                            print(f"⚠️ Lỗi nội bộ với {m}: {ex}")
+                            break 
+                            
+                if model_success:
+                    break 
+                    
+            try:
+                client.files.delete(name=uploaded.name)
+            except: pass
+            
+            if not success:
+                print("❌ Đã thử tất cả các model và các lần thử lại nhưng đều thất bại.")
+                
+        except Exception as e: 
+            print(f"❌ Lỗi tổng thể: {e}")
+
+if __name__ == "__main__": process()
