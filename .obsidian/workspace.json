@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "data/output/LET’S PRACTICE YOUR ENGLISH__raw.md",
+                "file": "data/output/Japan Looks Rich… But I Feel Poor_refine.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "LET’S PRACTICE YOUR ENGLISH__raw"
+              "title": "Japan Looks Rich… But I Feel Poor_refine"
             }
           }
         ]
@@ -190,9 +190,19 @@
   },
   "active": "9ca412b4db074285",
   "lastOpenFiles": [
+    "data/output/No.1 Performance Psychologist_ The Secret to High Performance and Excellence_refine.md",
+    "data/output/No.1 Performance Psychologist_ The Secret to High Performance and Excellence_raw.md",
+    "data/input/JOh-9iaPcGU.mp3",
+    "data/input/JOh-9iaPcGU.webm",
+    "data/input/JOh-9iaPcGU.webm.part",
     "data/input/build-audio2md.md",
-    "data/output/LET’S PRACTICE YOUR ENGLISH__refine.md",
+    "data/output/The Powerful Speech That Will Change Your 2025 By Barrack Obama. Powerbooth motivation_refine.md",
+    "data/output/The Powerful Speech That Will Change Your 2025 By Barrack Obama. Powerbooth motivation_raw.md",
+    "data/input/4zQh99jdyho.mp3",
+    "data/input/4zQh99jdyho.webm",
+    "data/input/4zQh99jdyho.webm.part",
     "data/output/LET’S PRACTICE YOUR ENGLISH__raw.md",
+    "data/output/LET’S PRACTICE YOUR ENGLISH__refine.md",
     "data/input/V38vkPbz6-k.mp3",
     "data/input/V38vkPbz6-k.webm",
     "data/input/V38vkPbz6-k.webm.part",
@@ -200,12 +210,6 @@
     "plan-audio2md.md",
     "mvp_free.md",
     "install-ffmpeg.bat",
-    "git-push.bat",
-    "build-audio2md.bat",
-    "src/__pycache__/gemini_pool.cpython-314.pyc",
-    "src/__pycache__",
-    "src/main_audio2md.py",
-    "src/gemini_pool.py",
     "data/output/The Powerful Speech That Will Change Your 2025 By Barrack Obama. Powerbooth motivation-cce91ef8_raw.md",
     "data/output/The Magic of Thinking Big Audiobook_refine.md",
     "refer_pdf2md/temp-update.md",
@@ -221,10 +225,6 @@
     "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
     "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_refine.md",
     "data/output/germanwings-9525_raw.md",
-    "data/output/germanwings-9525_refine.md",
-    "data/output/X10-hieu-suat-AI-AGENT_raw.md",
-    "data/output/X10-hieu-suat-AI-AGENT_refine.md",
-    "data/output/Jensen-Huang-reactions_refine.md",
-    "data/output/Andrew Ng_ The Biggest Opportunities in AI Aren't Where You Think_refine.md"
+    "data/output/germanwings-9525_refine.md"
   ]
 }
