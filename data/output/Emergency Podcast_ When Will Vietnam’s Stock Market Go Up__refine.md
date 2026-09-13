@@ -36,3 +36,19 @@ Despite Vietnam's impressive GDP growth of around 8% and record FDI inflows, the
 
 ---
 **Reference:** https://www.youtube.com/watch?v=q3bQc7i2D5E
+
+This emergency podcast (0:52) features Hao Tran and Michael Kokalari, Chief Economist at VinaCapital, discussing the current state of Vietnam's economy and its divergent stock market performance.
+
+Main Content & Timestamps
+
+The Stock Market Paradox: (2:17 - 3:44) Despite 8% GDP growth, the stock market remains flat. This is largely because local investors are prioritizing high bank deposit interest rates over equities, and foreign investors have significantly reduced their market exposure.
+FDI vs. Stock Market: (18:41 - 20:36) Foreign Direct Investment (FDI) is booming (up 60% in new registrations), fueling manufacturing and exports, but this rarely trickles down to direct stock market gains, as these are distinct investment classes.
+Real Estate Market: (21:13 - 27:41) Property prices have surged due to limited supply rather than speculative construction booms. Michael advises that the market is currently at a plateau and suggests that those planning to live in their property should look for mid-tier options.
+The Trade Deficit: (32:10 - 36:28) Vietnam is experiencing a record trade deficit (approx. 7% of GDP), driven by high RAM chip costs (due to the AI boom), energy imports related to global conflict, and the import of machinery for long-term industrial capacity building.
+Future Outlook: (39:18 - 41:24) The market is currently undervalued (PE ratio 11-12). While high interest rates will likely keep the market flat for the remainder of the year, recovery and growth are expected in 2027.
+
+Key Lessons Learned
+
+1.  Investment Insurance: Michael suggests maintaining about 10% of your net worth in gold as a hedge against global money printing and inflationary pressures (16:04 - 17:31).
+2.  Understand Market Segments: Not all real estate or stocks move in unison. Distinguishing between high-end luxury assets and the mid-tier/accessible market is crucial for making sound personal investment decisions (24:23 - 25:53).
+3.  Think Long-Term: Economic indicators like FDI flows are positive signs for the country's long-term health, even if they don't produce immediate results in the stock market (18:41 - 20:07).
