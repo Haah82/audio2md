@@ -1,32 +1,24 @@
 {
   "main": {
-    "id": "da249ba1250a223b",
+    "id": "b665a73dc4079d58",
     "type": "split",
     "children": [
       {
-        "id": "7e2e15abf2259fc9",
+        "id": "7fd115d25f9c6a87",
         "type": "tabs",
         "children": [
           {
-            "id": "9ca412b4db074285",
+            "id": "b02e410be82eb421",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-<<<<<<< Updated upstream
-                "file": "data/output/DHTL2026_refine.md",
-=======
-                "file": "data/output/Jensen-Huang-reactions_raw.md",
->>>>>>> Stashed changes
+                "file": "data/output/Sự Sụp Đổ Của The Coffee House_ Tại Sao Quán Luôn _Kín Bàn_ Nhưng Lại Âm Thầm Phá Sản__refine.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-<<<<<<< Updated upstream
-              "title": "DHTL2026_refine"
-=======
-              "title": "Jensen-Huang-reactions_raw"
->>>>>>> Stashed changes
+              "title": "Sự Sụp Đổ Của The Coffee House_ Tại Sao Quán Luôn _Kín Bàn_ Nhưng Lại Âm Thầm Phá Sản__refine"
             }
           }
         ]
@@ -35,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "6afa7e8f142be5be",
+    "id": "bae6c79ec9f36891",
     "type": "split",
     "children": [
       {
-        "id": "29b54a1853567625",
+        "id": "d77ed23fde2022e1",
         "type": "tabs",
         "children": [
           {
-            "id": "1a6d72cc00bd0f01",
+            "id": "81e496b76dcee4b8",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -58,7 +50,7 @@
             }
           },
           {
-            "id": "c0ceb0ad403e37c2",
+            "id": "92a1b414f88e01db",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -75,7 +67,7 @@
             }
           },
           {
-            "id": "1a5ba528dcc0a150",
+            "id": "82c85d9081970d45",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -94,20 +86,20 @@
     "width": 300
   },
   "right": {
-    "id": "63cea8afb7762bf5",
+    "id": "4c95ece6c667ee9c",
     "type": "split",
     "children": [
       {
-        "id": "7fcd862472f1d1d1",
+        "id": "433f20f9463f7bd3",
         "type": "tabs",
         "children": [
           {
-            "id": "b105fb843347960d",
+            "id": "fc88bebfd533f70f",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
+                "file": "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,12 +113,12 @@
             }
           },
           {
-            "id": "f1fbb841071bd443",
+            "id": "a459ba4d2a3cf2e1",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
+                "file": "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -135,7 +127,7 @@
             }
           },
           {
-            "id": "853265e9d9976269",
+            "id": "88ecd9600f043333",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -150,7 +142,7 @@
             }
           },
           {
-            "id": "ba496c4637331171",
+            "id": "d4ebb6110281fcf7",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -164,12 +156,12 @@
             }
           },
           {
-            "id": "95dbad1bf86a044f",
+            "id": "eb384657526206bf",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "data/output/Carl Jung Said that Life Really BEGINS at 40_ My Midlife Advice To My Younger Self_raw.md",
+                "file": "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -196,75 +188,21 @@
       "bases:Create new base": false
     }
   },
-  "active": "1a6d72cc00bd0f01",
+  "active": "b02e410be82eb421",
   "lastOpenFiles": [
-<<<<<<< Updated upstream
-    "data/output/DHTL2026_raw.md",
     "data/input/build-audio2md.md",
+    "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
+    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_raw.md",
+    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_refine.md",
+    "data/input/1678673940228548.mp3",
+    "data/input/1678673940228548.temp.m4a",
+    "data/input/1678673940228548.m4a",
+    "data/input/1678673940228548.m4a.part",
     "data/output/The Doolittle Raid rescue_ A beacon across time_refine.md",
-    "data/output/Japan Looks Rich… But I Feel Poor_refine.md",
-    "data/output/The Secret of 5 AM_refine.md",
-    "data/output/The Secret of 5 AM_raw.md",
-    "audio2md.bat",
-    "data/output/No.1 Performance Psychologist_ The Secret to High Performance and Excellence_refine.md",
-    "data/output/No.1 Performance Psychologist_ The Secret to High Performance and Excellence_raw.md",
-    "data/input/JOh-9iaPcGU.mp3",
-    "data/input/JOh-9iaPcGU.webm",
-    "data/input/JOh-9iaPcGU.webm.part",
-    "data/output/The Powerful Speech That Will Change Your 2025 By Barrack Obama. Powerbooth motivation_refine.md",
-    "data/output/The Powerful Speech That Will Change Your 2025 By Barrack Obama. Powerbooth motivation_raw.md",
-    "data/input/4zQh99jdyho.mp3",
-    "data/input/4zQh99jdyho.webm",
-    "data/input/4zQh99jdyho.webm.part",
-    "data/output/LET’S PRACTICE YOUR ENGLISH__raw.md",
-    "data/output/LET’S PRACTICE YOUR ENGLISH__refine.md",
-    "data/input/V38vkPbz6-k.mp3",
-    "data/input/V38vkPbz6-k.webm",
-    "data/input/V38vkPbz6-k.webm.part",
-    "README.md",
-    "plan-audio2md.md",
-    "mvp_free.md",
-    "data/output/The Powerful Speech That Will Change Your 2025 By Barrack Obama. Powerbooth motivation-cce91ef8_raw.md",
-    "data/output/The Magic of Thinking Big Audiobook_refine.md",
-    "refer_pdf2md/temp-update.md",
-    "refer_pdf2md/temp-plan-tkinter.md",
-    "refer_pdf2md/tem-api-toi-uu.md",
-    "refer_pdf2md/README.md",
-    "refer_pdf2md/image_link.md",
-    "refer_pdf2md/guide-pdf.md",
-    "data/output/The Magic of Thinking Big Audiobook_raw.md",
-    "data/output/Living Alone at 50 in China 🇨🇳_raw.md",
-    "data/output/Living Alone at 50 in China 🇨🇳_refine.md"
-=======
-    "data/output/Jensen-Huang-reactions_refine.md",
-    "data/output/Jensen-Huang-reactions_raw.md",
-    "data/input/build-audio2md.md",
-    "data/output/X10 HIỆU SUẤT NÃO BỘ VỚI BỘ NÃO THỨ 2 TẠO RA BỞI AI AGENT_refine.md",
-    "data/output/X10 HIỆU SUẤT NÃO BỘ VỚI BỘ NÃO THỨ 2 TẠO RA BỞI AI AGENT_raw.md",
-    "data/output/Rada-cong-nghe_refine.md",
-    "data/input/26953677307615282.mp3",
-    "data/input/26953677307615282.temp.m4a",
-    "data/input/26953677307615282.m4a",
-    "data/input/26953677307615282.m4a.part",
-    "data/output/Rada-cong-nghe_raw.md",
-    "data/output/US-news_raw.md",
-    "372K views · 4.3K reactions_raw.md",
-    "data/output/This Simple Habit Will Make You Fluent in Any Language (backed by science)_raw.md",
-    "data/input/1503723204511568.mp3",
-    "data/input/1503723204511568.temp.m4a",
-    "data/input/1503723204511568.m4a",
-    "data/input/1503723204511568.m4a.part",
-    "data/output/US-news_refine.md",
-    "data/input/1005750608818720.mp3",
-    "data/input/1005750608818720.temp.m4a",
-    "data/output/Chinese HSK2 complete course( 150 HSK 2 words+useful sentences+grammar explanation+listening)_refine.md",
-    "data/output/Chinese HSK2 complete course( 150 HSK 2 words+useful sentences+grammar explanation+listening)_raw.md",
-    "Chinese HSK2 complete course( 150 HSK 2 words+useful sentences+grammar explanation+listening)_raw.md",
-    "data/output/Best places to visit in Hanoi, Vietnam in 2026_refine.md",
-    "data/output/Best places to visit in Hanoi, Vietnam in 2026_raw.md",
+    "data/output/Sự Kiện Ngày 11.9_raw.md",
+    "data/output/Sự Kiện Ngày 11.9_refine.md",
     "data/output/4-Year Marketing Degree in 2 MINUTES._raw.md",
-    "data/output/Deep Work_ Tập trung sâu trong một thế giới nhiễu loạn_refine.md",
-    "data/output/Deep Work_ Tập trung sâu trong một thế giới nhiễu loạn_raw.md"
->>>>>>> Stashed changes
+    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_refine.md",
+    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_raw.md"
   ]
 }
