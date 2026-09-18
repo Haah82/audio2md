@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>Audio2MD — Implementation Notes</title>
+</head>
+<body>
+  <h1>Implementation notes</h1>
+  <p>Cập nhật: 18/09/2026</p>
+  <h2>Quyết định triển khai</h2>
+  <ul>
+    <li><strong>Security:</strong> Không đọc, in, ghi, hoặc đưa API key vào log, test, HTML hay tài liệu. Output chỉ dùng nhãn biến môi trường và tier.</li>
+    <li><strong>Secret archive:</strong> Thêm <code>env.zip</code> vào <code>.gitignore</code> vì workspace có archive cấu hình không được commit. File không bị mở, thay đổi hay xóa.</li>
+    <li><strong>Live probe là opt-in:</strong> <code>check_api.py</code> chỉ list model mặc định; <code>--probe</code> mới gọi <code>generate_content</code>. Quyết định này tránh phát sinh request/billing ngoài ý muốn.</li>
+    <li><strong>503:</strong> Xem là lỗi tạm thời của service/model, retry với exponential backoff trên FREE tier và không rơi sang PAID chỉ vì 503.</li>
+    <li><strong>Model discovery:</strong> Không tự đoán fallback. Model chính/fallback chỉ lấy từ <code>GEMINI_MODEL</code> và <code>GEMINI_FALLBACK_MODELS</code>.</li>
+    <li><strong>404 classification:</strong> Chỉ đánh dấu model hỏng khi message vừa chỉ ra <code>404/not found</code> vừa có từ <code>model</code>; lỗi file upload 404 không được phép vô hiệu hóa model.</li>
+    <li><strong>Existing test suite:</strong> Các test cũ import những module không tồn tại trong <code>src/</code> hiện tại. Đã thêm test độc lập cho <code>gemini_pool</code>; không sửa/xóa test cũ vì đó là thay đổi ngoài phạm vi.</li>
+    <li><strong>Verification blocker:</strong> Không chạy được unit test trong workspace: <code>.venv\Scripts\python.exe</code> trỏ tới Python base interpreter không còn truy cập được. Không chạy live <code>check_api.py</code> để tránh gọi API khi local runtime đang lỗi.</li>
+  </ul>
+</body>
+</html>

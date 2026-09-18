@@ -22,5 +22,9 @@ Audio2MD là một pipeline được thiết kế với tư duy MVP (chi phí th
 4. Tại giao diện Menu, chọn **[1] Cai dat he thong** để hệ thống tự động tạo môi trường ảo `.venv`, cài đặt thư viện (`google-genai`, `python-dotenv`, `yt-dlp`) và tự động cấu hình FFmpeg.
 5. Sau khi cài đặt hoàn tất, sử dụng các Menu từ [2] đến [4] để xử lý Video, Audio hoặc Link tương ứng.
 
+### Kiểm tra Gemini API
+
+Chạy <code>python src/check_api.py</code> để chỉ liệt kê các model hỗ trợ <code>generateContent</code> theo từng nhãn key, không in API key. Chỉ dùng <code>python src/check_api.py --probe</code> khi muốn gửi request text tối thiểu để kiểm tra model; request này có thể dùng quota.
+
 ## Quản lý Link
 Đối với tính năng convert từ URL (Menu 4), hệ thống sử dụng file `data/input/build-audio2md.md` để quản lý danh sách các link cần xử lý, cho phép thêm mới hoặc chọn xử lý hàng loạt.

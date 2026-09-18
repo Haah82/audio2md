@@ -5,6 +5,8 @@
 .env
 .env.*
 *.env
+# Khong commit archive cau hinh co the chua credential.
+env.zip
 
 # Bỏ qua môi trường ảo (Virtual Environment) của Python
 .venv/

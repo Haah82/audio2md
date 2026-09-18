@@ -1,24 +1,24 @@
 {
   "main": {
-    "id": "b665a73dc4079d58",
+    "id": "41802e70ed4e53b3",
     "type": "split",
     "children": [
       {
-        "id": "7fd115d25f9c6a87",
+        "id": "4f2946c20a809a79",
         "type": "tabs",
         "children": [
           {
-            "id": "b02e410be82eb421",
+            "id": "7978e293a105416c",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "data/output/I Started Over At 47—and it changed EVERYTHING_refine.md",
-                "mode": "preview",
+                "file": "data/output/183 - William Damon_ How to Live a Purposeful Life_raw.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "I Started Over At 47—and it changed EVERYTHING_refine"
+              "title": "183 - William Damon_ How to Live a Purposeful Life_raw"
             }
           }
         ]
@@ -27,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "bae6c79ec9f36891",
+    "id": "75e608c87c353ecd",
     "type": "split",
     "children": [
       {
-        "id": "d77ed23fde2022e1",
+        "id": "99751e26c6dc6dc9",
         "type": "tabs",
         "children": [
           {
-            "id": "81e496b76dcee4b8",
+            "id": "eaedfece71b6f5db",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -50,7 +50,7 @@
             }
           },
           {
-            "id": "92a1b414f88e01db",
+            "id": "3983dd6e00250664",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -67,7 +67,7 @@
             }
           },
           {
-            "id": "82c85d9081970d45",
+            "id": "11f86485bcc3054c",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -86,20 +86,20 @@
     "width": 300
   },
   "right": {
-    "id": "4c95ece6c667ee9c",
+    "id": "7c2bc91f66fc75e7",
     "type": "split",
     "children": [
       {
-        "id": "433f20f9463f7bd3",
+        "id": "2669874634b0973e",
         "type": "tabs",
         "children": [
           {
-            "id": "fc88bebfd533f70f",
+            "id": "6822602a5ed1c4f1",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
+                "file": "data/output/183 - William Damon_ How to Live a Purposeful Life_refine.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,12 +113,12 @@
             }
           },
           {
-            "id": "a459ba4d2a3cf2e1",
+            "id": "09b58bc042028914",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
+                "file": "data/output/183 - William Damon_ How to Live a Purposeful Life_refine.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -127,7 +127,7 @@
             }
           },
           {
-            "id": "88ecd9600f043333",
+            "id": "1e6fccd6b8efe24e",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -142,7 +142,7 @@
             }
           },
           {
-            "id": "d4ebb6110281fcf7",
+            "id": "9ff5e0b62d52f102",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -156,12 +156,12 @@
             }
           },
           {
-            "id": "eb384657526206bf",
+            "id": "29a091634063a81e",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
+                "file": "data/output/183 - William Damon_ How to Live a Purposeful Life_refine.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -188,36 +188,24 @@
       "bases:Create new base": false
     }
   },
-  "active": "b02e410be82eb421",
+  "active": "7978e293a105416c",
   "lastOpenFiles": [
-    "data/I Started Over At 47—and it changed EVERYTHING_refine.pdf",
     "data/input/build-audio2md.md",
-    "data/output/The wild pear tree_raw.md",
-    "data/output/I Started Over At 47—and it changed EVERYTHING_refine.md",
-    "data/output/I Started Over At 47—and it changed EVERYTHING_raw.md",
-    "data/input/CV-ppc7JtgU.mp3",
-    "data/input/CV-ppc7JtgU.webm",
-    "data/input/CV-ppc7JtgU.webm.part",
-    "data/output/The wild pear tree_refine.md",
-    "data/output/I'm 52. If you're in your 30s or 40s, watch this._refine.md",
-    "data/input/1359661832494777.mp3",
-    "data/input/1359661832494777.temp.m4a",
-    "data/input/1359661832494777.m4a",
-    "data/input/1359661832494777.m4a.part",
-    "data/output/I DREAM BIG BUT DO NOTHING. the neuroscience behind why & how to fix_refine.md",
-    "data/output/I'm 52. If you're in your 30s or 40s, watch this._raw.md",
-    "data/input/D8HG9ULvKPc.mp3",
-    "data/input/D8HG9ULvKPc.webm",
-    "data/input/D8HG9ULvKPc.webm.part",
-    "data/output/Sự Sụp Đổ Của The Coffee House_ Tại Sao Quán Luôn _Kín Bàn_ Nhưng Lại Âm Thầm Phá Sản__refine.md",
-    "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
-    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_raw.md",
-    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_refine.md",
-    "data/output/The Doolittle Raid rescue_ A beacon across time_refine.md",
-    "data/output/Sự Kiện Ngày 11.9_raw.md",
-    "data/output/Sự Kiện Ngày 11.9_refine.md",
-    "data/output/4-Year Marketing Degree in 2 MINUTES._raw.md",
-    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_refine.md",
-    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_raw.md"
+    "data/output/183 - William Damon_ How to Live a Purposeful Life_refine.md",
+    "history/implementation-notes.html",
+    "history/check-api.md",
+    "data/output/183 - William Damon_ How to Live a Purposeful Life_raw.md",
+    "data/input/214084299.mp3",
+    "data/input/214084299.mp3.part",
+    "tests/test_check_api.py",
+    "tests/test_gemini_pool.py",
+    "src/check_api.py",
+    "src/gemini_pool.py",
+    "implementation-notes.html",
+    "plan-audio2md.md",
+    "data/output/179 - Cynthia Osborne_ Translating Evidence Into Early Childhood Policy_refine.md",
+    "README.md",
+    "env.zip",
+    "Không được xác nhận 666740.crdownload"
   ]
 }
