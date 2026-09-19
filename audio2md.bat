@@ -14,7 +14,7 @@ set "TEMP_LIST=%TEMP%\selected_links_audio2md.txt"
 
 if not exist "%INPUT_DIR%" mkdir "%INPUT_DIR%"
 if not exist "%LINK_FILE%" (
-    > "%LINK_FILE%" echo !pipe! STT !pipe! Link !pipe! Tên file - tiêu đề !pipe! Thời gian !pipe! Raw !pipe! Refine !pipe!
+    > "%LINK_FILE%" echo !pipe! STT !pipe! Link !pipe! Tên file - tiêu đề !pipe! Thời gian !pipe! Raw !pipe! Refine !pipe! Status !pipe!
     >> "%LINK_FILE%" echo !pipe!---!pipe!---!pipe!---!pipe!---!pipe!---!pipe!---!pipe!
 )
 
@@ -175,9 +175,9 @@ set "datetime="
 for /f "delims=" %%a in ('powershell -Command "Get-Date -Format 'dd/MM/yy HH:mm:ss'"') do set "datetime=%%a"
 
 set "TMP_MD=%TEMP%\temp_build_audio2md.md"
-> "!TMP_MD!" echo !pipe! STT !pipe! Link !pipe! Tên file - tiêu đề !pipe! Thời gian !pipe! Raw !pipe! Refine !pipe!
+> "!TMP_MD!" echo !pipe! STT !pipe! Link !pipe! Tên file - tiêu đề !pipe! Thời gian !pipe! Raw !pipe! Refine !pipe! Status !pipe!
 >> "!TMP_MD!" echo !pipe!---!pipe!---!pipe!---!pipe!---!pipe!---!pipe!---!pipe!
->> "!TMP_MD!" echo !pipe! !next_idx! !pipe! !newlink! !pipe! (Chua co tieu de) !pipe! !datetime! !pipe!  !pipe!  !pipe!
+>> "!TMP_MD!" echo !pipe! !next_idx! !pipe! !newlink! !pipe! (Chua co tieu de) !pipe! !datetime! !pipe!  !pipe!  !pipe! Pending !pipe!
 
 for /F "usebackq skip=2 delims=" %%L in ("%LINK_FILE%") do (
     >> "!TMP_MD!" echo %%L

@@ -25,6 +25,30 @@ def is_url(string):
     except:
         return False
 
+def canonical_url(value):
+    """Return one stable key for a media URL, ignoring harmless trackers."""
+    parsed = urllib.parse.urlsplit(value.strip())
+    host = parsed.netloc.lower().removeprefix('www.')
+    path = parsed.path.rstrip('/')
+
+    # A YouTube video can be expressed as youtu.be, /watch, or /shorts.
+    if host in ('youtube.com', 'm.youtube.com', 'youtu.be'):
+        video_id = ''
+        if host == 'youtu.be':
+            video_id = path.lstrip('/').split('/')[0]
+        elif path == '/watch':
+            video_id = urllib.parse.parse_qs(parsed.query).get('v', [''])[0]
+        elif path.startswith('/shorts/'):
+            video_id = path.split('/')[2]
+        if video_id:
+            return f'youtube:{video_id}'
+
+    query = urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
+    query = [(key, val) for key, val in query
+             if not key.lower().startswith('utm_') and key.lower() not in ('fbclid', 'si', 'pp')]
+    normalized_query = urllib.parse.urlencode(query)
+    return urllib.parse.urlunsplit((parsed.scheme.lower(), host, path, normalized_query, ''))
+
 def sanitize_filename(name):
     # Cắt bỏ phần sau dấu '|' (tên kênh) hoặc '#' (hashtag) để tên file ngắn gọn
     name = re.split(r'[|#]', name)[0].strip()
@@ -75,40 +99,33 @@ def update_md_table(item_url, title, raw_file_name, refine_file_name):
         with open(md_file, 'r', encoding='utf-8') as f:
             lines = f.readlines()
             
+        matches = []
+        target_key = canonical_url(item_url)
         for i, line in enumerate(lines):
-            if '|' in line:
-                parts = line.split('|')
-                if len(parts) >= 7:
-                    saved_link = parts[2].strip()
-                    if saved_link == item_url:
-                        parts[3] = f" {safe_title} "
-                        parts[5] = f" [[{raw_file_name}]] "
-                        # De trong khi chua co file: wikilink hong se bi Obsidian
-                        # bien thanh file rong ngay khi co nguoi bam vao.
-                        o_refine = f"[[{refine_file_name}]]" if refine_file_name else ""
-                        
-                        last_part = parts[6].rstrip()
-                        if last_part.endswith('\n'):
-                            parts[6] = f" {o_refine} \n"
-                        else:
-                            if len(parts) > 7:
-                                parts[6] = f" {o_refine} "
-                            else:
-                                parts[6] = f" {o_refine} |\n"
-                        lines[i] = "|".join(parts)
+            parts = line.rstrip('\n').split('|')
+            if len(parts) >= 9 and parts[1].strip().isdigit() and canonical_url(parts[2]) == target_key:
+                matches.append((i, parts))
+
+        if not matches:
+            print(f"[WARN] Khong tim thay dong cho link: {item_url}")
+            return
+        if len(matches) > 1:
+            print(f"[WARN] Tim thay {len(matches)} dong trung link; chi cap nhat dong dau tien.")
+
+        i, parts = matches[0]
+        parts[3] = f" {safe_title} "
+        parts[5] = f" [[{raw_file_name}]] "
+        parts[6] = f" [[{refine_file_name}]] " if refine_file_name else " "
+        parts[7] = " Done " if refine_file_name else " Raw only "
+        lines[i] = "|".join(parts) + "\n"
                         
         with open(md_file, 'w', encoding='utf-8') as f:
             f.writelines(lines)
     except Exception as e:
         print(f"[WARN] Khong the cap nhat file md danh sach: {e}")
 
-def xoa_dong_md(item_url):
-    """Xoa dong cua link hong khoi bang va danh so lai STT.
-
-    Bat buoc phai danh so lai: build-audio2md.bat dung chinh gia tri STT lam
-    chi so mang (link[!raw_stt!]) va dem count theo so dong, nen de hong so
-    thu tu se lam lech toan bo danh sach o cac lan chay sau.
-    """
+def ghi_loi_md(item_url, reason):
+    """Keep failed URLs visible and mark the row for a later retry."""
     md_file = os.path.join(INPUT_DIR, 'build-audio2md.md')
     if not os.path.exists(md_file):
         return
@@ -116,34 +133,22 @@ def xoa_dong_md(item_url):
         with open(md_file, 'r', encoding='utf-8') as f:
             lines = f.readlines()
 
-        giu = []
-        da_xoa = False
-        for line in lines:
-            parts = line.split('|')
-            if len(parts) >= 7 and parts[2].strip() == item_url and not da_xoa:
-                da_xoa = True
-                continue
-            giu.append(line)
+        target_key = canonical_url(item_url)
+        found = False
+        for i, line in enumerate(lines):
+            parts = line.rstrip('\n').split('|')
+            if len(parts) >= 9 and parts[1].strip().isdigit() and canonical_url(parts[2]) == target_key:
+                parts[7] = f" Failed: {reason[:80]} "
+                lines[i] = "|".join(parts) + "\n"
+                found = True
+                break
 
-        if not da_xoa:
+        if not found:
             return
 
-        # Danh so lai: bang xep moi nhat len dau nen STT giam dan tu tren xuong.
-        vi_tri_du_lieu = []
-        for i, line in enumerate(giu):
-            parts = line.split('|')
-            if len(parts) >= 7 and parts[1].strip() not in ('STT', '---', ''):
-                vi_tri_du_lieu.append(i)
-
-        tong = len(vi_tri_du_lieu)
-        for thu_tu, i in enumerate(vi_tri_du_lieu):
-            parts = giu[i].split('|')
-            parts[1] = f" {tong - thu_tu} ".ljust(len(parts[1]))
-            giu[i] = "|".join(parts)
-
         with open(md_file, 'w', encoding='utf-8') as f:
-            f.writelines(giu)
-        print(f"[DON DEP] Da go link hong khoi build-audio2md.md va danh so lai {tong} dong.")
+            f.writelines(lines)
+        print(f"[LOI] Da danh dau link de thu lai sau: {item_url}")
     except Exception as e:
         print(f"[WARN] Khong the go dong khoi file md danh sach: {e}")
 
@@ -357,7 +362,7 @@ def main():
                 # Link bi chan bao mat, can dang nhap, da xoa hoac rieng tu.
                 print(f"[LOI] Khong lay duoc thong tin link: {str(e).splitlines()[0][:160]}")
                 print(f"[BO QUA] Khong tong hop link hong vao build-audio2md.md: {item}")
-                xoa_dong_md(item)
+                ghi_loi_md(item, "Khong lay duoc thong tin link")
                 continue
 
             raw_md_path = os.path.join(OUTPUT_DIR, f"{file_title}_raw.md")
@@ -373,7 +378,7 @@ def main():
             raw_text, target_audio, file_title = download_media(item)
             if not file_title or (raw_text is None and target_audio is None):
                 print(f"[BO QUA] Tai that bai, khong tong hop vao build-audio2md.md: {item}")
-                xoa_dong_md(item)
+                ghi_loi_md(item, "Tai media that bai")
                 continue
             is_temp = True
 
@@ -420,12 +425,10 @@ def main():
                 print(f"[CLEANUP] Da xoa file tam: {target_audio}")
                 
         if not raw_text:
-            # Boc bang that bai (het key, API loi...) -> khong de lai dong rac
-            # tro toi file khong ton tai. Bam vao wikilink hong, Obsidian se tu
-            # tao ra file rong.
+            # Keep the failed URL in the list so it can be retried later.
             print(f"[BO QUA] Khong tao duoc noi dung: {item}")
             if is_url(item):
-                xoa_dong_md(item)
+                ghi_loi_md(item, "Khong tao duoc noi dung")
             continue
 
         co_refine = refine_content(pool, raw_text, original_title, file_title,
