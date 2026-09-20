@@ -13,12 +13,20 @@
             "state": {
               "type": "markdown",
               "state": {
+<<<<<<< Updated upstream
                 "file": "data/output/How I read every day (with a full time job)_raw.md",
+=======
+                "file": "data/input/build-audio2md.md",
+>>>>>>> Stashed changes
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
+<<<<<<< Updated upstream
               "title": "How I read every day (with a full time job)_raw"
+=======
+              "title": "build-audio2md"
+>>>>>>> Stashed changes
             }
           }
         ]
@@ -190,6 +198,7 @@
   },
   "active": "29be7a6149dfd50a",
   "lastOpenFiles": [
+<<<<<<< Updated upstream
     "data/input/build-audio2md.md",
     "data/output/How I read every day (with a full time job)_refine.md",
     "data/output/183 - William Damon_ How to Live a Purposeful Life_refine.md",
@@ -197,5 +206,35 @@
     "data/input/8RA8a97_DTY.mp3",
     "data/input/8RA8a97_DTY.webm",
     "data/input/8RA8a97_DTY.webm.part"
+=======
+    "data/output/I Started Over At 47—and it changed EVERYTHING_refine.md",
+    "data/I Started Over At 47—and it changed EVERYTHING_refine.pdf",
+    "data/input/build-audio2md.md",
+    "data/output/The wild pear tree_raw.md",
+    "data/output/I Started Over At 47—and it changed EVERYTHING_raw.md",
+    "data/input/CV-ppc7JtgU.mp3",
+    "data/input/CV-ppc7JtgU.webm",
+    "data/input/CV-ppc7JtgU.webm.part",
+    "data/output/The wild pear tree_refine.md",
+    "data/output/I'm 52. If you're in your 30s or 40s, watch this._refine.md",
+    "data/input/1359661832494777.mp3",
+    "data/input/1359661832494777.temp.m4a",
+    "data/input/1359661832494777.m4a",
+    "data/input/1359661832494777.m4a.part",
+    "data/output/I DREAM BIG BUT DO NOTHING. the neuroscience behind why & how to fix_refine.md",
+    "data/output/I'm 52. If you're in your 30s or 40s, watch this._raw.md",
+    "data/input/D8HG9ULvKPc.mp3",
+    "data/input/D8HG9ULvKPc.webm",
+    "data/output/Sự Sụp Đổ Của The Coffee House_ Tại Sao Quán Luôn _Kín Bàn_ Nhưng Lại Âm Thầm Phá Sản__refine.md",
+    "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
+    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_raw.md",
+    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_refine.md",
+    "data/output/The Doolittle Raid rescue_ A beacon across time_refine.md",
+    "data/output/Sự Kiện Ngày 11.9_raw.md",
+    "data/output/Sự Kiện Ngày 11.9_refine.md",
+    "data/output/4-Year Marketing Degree in 2 MINUTES._raw.md",
+    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_refine.md",
+    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_raw.md"
+>>>>>>> Stashed changes
   ]
 }
