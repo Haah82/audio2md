@@ -1,32 +1,24 @@
 {
   "main": {
-    "id": "713798d33d63fa54",
+    "id": "46880ef94ba4db2c",
     "type": "split",
     "children": [
       {
-        "id": "e32dda10fd2cb48f",
+        "id": "a71761f7254eff70",
         "type": "tabs",
         "children": [
           {
-            "id": "29be7a6149dfd50a",
+            "id": "e9c54762d9c0b818",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-<<<<<<< Updated upstream
-                "file": "data/output/How I read every day (with a full time job)_raw.md",
-=======
-                "file": "data/input/build-audio2md.md",
->>>>>>> Stashed changes
+                "file": "data/output/Binh Luc channel (china)_raw.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-<<<<<<< Updated upstream
-              "title": "How I read every day (with a full time job)_raw"
-=======
-              "title": "build-audio2md"
->>>>>>> Stashed changes
+              "title": "Binh Luc channel (china)_raw"
             }
           }
         ]
@@ -35,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "34f9d12d09724235",
+    "id": "5d95c1e8c84316be",
     "type": "split",
     "children": [
       {
-        "id": "13066d408c57f717",
+        "id": "7dbaf829e4db1cc9",
         "type": "tabs",
         "children": [
           {
-            "id": "c46507b9689f9d46",
+            "id": "eb660883c709d189",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -58,7 +50,7 @@
             }
           },
           {
-            "id": "1293f363cfe6194b",
+            "id": "035b98c6a611622b",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -75,7 +67,7 @@
             }
           },
           {
-            "id": "790252649f4affd0",
+            "id": "529f0afe084e3b0a",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -94,20 +86,20 @@
     "width": 300
   },
   "right": {
-    "id": "21e5cf63d84df053",
+    "id": "d7596a27f64d74ad",
     "type": "split",
     "children": [
       {
-        "id": "71619a7d41ff657f",
+        "id": "e4a15bc1a45222e3",
         "type": "tabs",
         "children": [
           {
-            "id": "1f5920d263b3e1db",
+            "id": "fc60926c6351816b",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data/output/How I read every day (with a full time job)_raw.md",
+                "file": "data/output/Binh Luc channel (china)_raw.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,12 +113,12 @@
             }
           },
           {
-            "id": "d76fd04cae9e0c95",
+            "id": "86f1554bfc1ded69",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data/output/How I read every day (with a full time job)_raw.md",
+                "file": "data/output/Binh Luc channel (china)_raw.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -135,7 +127,7 @@
             }
           },
           {
-            "id": "847a32421adec9b4",
+            "id": "c9325a7ed7b3f5b4",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -150,7 +142,7 @@
             }
           },
           {
-            "id": "697ad201a22be016",
+            "id": "96e1446353c83514",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -164,12 +156,12 @@
             }
           },
           {
-            "id": "4c4bf246cff8d0f3",
+            "id": "587d544e05bc5695",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "data/output/How I read every day (with a full time job)_raw.md",
+                "file": "data/output/Binh Luc channel (china)_raw.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -196,45 +188,19 @@
       "bases:Create new base": false
     }
   },
-  "active": "29be7a6149dfd50a",
+  "active": "e9c54762d9c0b818",
   "lastOpenFiles": [
-<<<<<<< Updated upstream
     "data/input/build-audio2md.md",
-    "data/output/How I read every day (with a full time job)_refine.md",
-    "data/output/183 - William Damon_ How to Live a Purposeful Life_refine.md",
-    "data/output/How I read every day (with a full time job)_raw.md",
-    "data/input/8RA8a97_DTY.mp3",
-    "data/input/8RA8a97_DTY.webm",
-    "data/input/8RA8a97_DTY.webm.part"
-=======
-    "data/output/I Started Over At 47—and it changed EVERYTHING_refine.md",
-    "data/I Started Over At 47—and it changed EVERYTHING_refine.pdf",
-    "data/input/build-audio2md.md",
-    "data/output/The wild pear tree_raw.md",
-    "data/output/I Started Over At 47—and it changed EVERYTHING_raw.md",
-    "data/input/CV-ppc7JtgU.mp3",
-    "data/input/CV-ppc7JtgU.webm",
-    "data/input/CV-ppc7JtgU.webm.part",
-    "data/output/The wild pear tree_refine.md",
-    "data/output/I'm 52. If you're in your 30s or 40s, watch this._refine.md",
-    "data/input/1359661832494777.mp3",
-    "data/input/1359661832494777.temp.m4a",
-    "data/input/1359661832494777.m4a",
-    "data/input/1359661832494777.m4a.part",
-    "data/output/I DREAM BIG BUT DO NOTHING. the neuroscience behind why & how to fix_refine.md",
-    "data/output/I'm 52. If you're in your 30s or 40s, watch this._raw.md",
-    "data/input/D8HG9ULvKPc.mp3",
-    "data/input/D8HG9ULvKPc.webm",
-    "data/output/Sự Sụp Đổ Của The Coffee House_ Tại Sao Quán Luôn _Kín Bàn_ Nhưng Lại Âm Thầm Phá Sản__refine.md",
-    "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
-    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_raw.md",
-    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_refine.md",
-    "data/output/The Doolittle Raid rescue_ A beacon across time_refine.md",
-    "data/output/Sự Kiện Ngày 11.9_raw.md",
-    "data/output/Sự Kiện Ngày 11.9_refine.md",
-    "data/output/4-Year Marketing Degree in 2 MINUTES._raw.md",
-    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_refine.md",
-    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_raw.md"
->>>>>>> Stashed changes
+    "data/output/US-news_refine.md",
+    "data/output/US-news_raw.md",
+    "data/output/Binh Luc channel (china)_raw.md",
+    "data/output/Binh Luc channel (china)_refine.md",
+    "data/output/5 Tiny Habits That Make You Instantly Magnetic_refine.md",
+    "data/input/ST_1LjQYdCg.mp3",
+    "data/input/ST_1LjQYdCg.webm",
+    "data/input/ST_1LjQYdCg.webm.part",
+    "src/__pycache__/main_audio2md.cpython-314.pyc",
+    "cookie-update.md",
+    "data/output/5 Tiny Habits That Make You Instantly Magnetic_raw.md"
   ]
 }
