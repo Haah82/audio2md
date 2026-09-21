@@ -49,11 +49,47 @@ def canonical_url(value):
     normalized_query = urllib.parse.urlencode(query)
     return urllib.parse.urlunsplit((parsed.scheme.lower(), host, path, normalized_query, ''))
 
+def youtube_extraction_url(value):
+    """Strip tracking parameters before handing a YouTube URL to yt-dlp."""
+    parsed = urllib.parse.urlsplit(value.strip())
+    host = parsed.netloc.lower().removeprefix('www.')
+    if host == 'youtu.be':
+        video_id = parsed.path.lstrip('/').split('/')[0]
+    elif host in ('youtube.com', 'm.youtube.com') and parsed.path == '/watch':
+        video_id = urllib.parse.parse_qs(parsed.query).get('v', [''])[0]
+    elif host in ('youtube.com', 'm.youtube.com') and parsed.path.startswith('/shorts/'):
+        video_id = parsed.path.split('/')[2]
+    else:
+        video_id = ''
+    if video_id:
+        return f'https://www.youtube.com/watch?v={video_id}'
+    return value.strip()
+
 def sanitize_filename(name):
     # Cắt bỏ phần sau dấu '|' (tên kênh) hoặc '#' (hashtag) để tên file ngắn gọn
     name = re.split(r'[|#]', name)[0].strip()
     clean_name = re.sub(r'[\\/*?:"<>|]', "_", name)
     return " ".join(clean_name.split())[:150]
+
+def local_media_title(file_path):
+    """Get the default output title from a local media filename, never from a URL."""
+    return sanitize_filename(os.path.splitext(os.path.basename(file_path))[0])
+
+def normalize_generated_text(text):
+    """Keep generated Markdown plain: short hyphens, no emoji/AI icons."""
+    if not text:
+        return text
+
+    # Replace en/em dashes (and the common horizontal bar variants) with '-'.
+    text = re.sub(r'[\u2010\u2011\u2012\u2013\u2014\u2015\u2212]', '-', text)
+
+    # Remove emoji and pictographic symbols so output stays suitable for plain Markdown.
+    text = re.sub(
+        r'[\U0001F1E6-\U0001F1FF\U0001F300-\U0001FAFF\u2600-\u27BF\uFE0F\u200D]',
+        '',
+        text,
+    )
+    return re.sub(r'[ \t]{2,}', ' ', text).strip()
 
 def clean_subtitle(file_path):
     try:
@@ -154,74 +190,78 @@ def ghi_loi_md(item_url, reason):
 
 def download_media(link):
     print(f"\n[INFO] Dang ket noi toi URL: {link}")
-    ydl_opts = {
+    download_url = youtube_extraction_url(link)
+    common_opts = {
         'ffmpeg_location': r'C:\FFmpeg\bin' if __import__('os').path.exists(r'C:\FFmpeg\bin\ffmpeg.exe') else (__import__('os').path.join(__import__('os').environ.get('USERPROFILE', ''), 'FFmpeg', 'bin') if __import__('os').path.exists(__import__('os').path.join(__import__('os').environ.get('USERPROFILE', ''), 'FFmpeg', 'bin', 'ffmpeg.exe')) else None),
-        'format': 'bestaudio/best',
         'outtmpl': os.path.join(INPUT_DIR, '%(id)s.%(ext)s'),
+        'quiet': False,
+        'no_warnings': True,
+        'restrictfilenames': True,
+        'retries': 10,
+        'fragment_retries': 10,
+        'extractor_retries': 5,
+    }
+    subtitle_opts = {
+        **common_opts,
+        'skip_download': True,
         'writesubtitles': True,
         'writeautomaticsub': True,
-        'subtitleslangs': ['vi', 'en'],
+        # English captions are usually the original track and are less likely
+        # to be rate-limited than translated Vietnamese auto-captions.
+        'subtitleslangs': ['en', 'vi'],
+        'sleep_interval_subtitles': 2,
+    }
+    audio_opts = {
+        **common_opts,
+        'format': 'bestaudio/best',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
-        'quiet': False,
-        'no_warnings': True,
-        'restrictfilenames': True
     }
-    
+
+    info = None
+    video_key = canonical_url(download_url).removeprefix('youtube:')
     try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(link, download=True)
-            title = sanitize_filename(info.get('title', 'Unknown_Title'))
-            video_id = info.get('id', 'unknown')
-            
-            sub_files = glob.glob(os.path.join(INPUT_DIR, f"{video_id}*.vtt")) + \
-                        glob.glob(os.path.join(INPUT_DIR, f"{video_id}*.srt"))
-            
-            raw_text = None
-            if sub_files:
-                print(f"[SUCCESS] Da tim thay phu de tu yt-dlp: {os.path.basename(sub_files[0])}")
-                raw_text = clean_subtitle(sub_files[0])
-                
-                for sf in sub_files:
-                    try: os.remove(sf)
-                    except: pass
-            
-            filename = ydl.prepare_filename(info)
-            base_ext = os.path.splitext(filename)[0]
-            mp3_file = base_ext + '.mp3'
-            
-            if raw_text:
-                print(f"[SUCCESS] Trich xuat nguyen tac thanh cong (Bo qua xu ly Audio).")
-                if os.path.exists(mp3_file):
-                    os.remove(mp3_file)
-                return raw_text, None, title
-            else:
-                print(f"[INFO] Khong co phu de, da tai am thanh: {os.path.basename(mp3_file)}")
-                return None, mp3_file, title
-                
+        with yt_dlp.YoutubeDL(subtitle_opts) as ydl:
+            info = ydl.extract_info(download_url, download=True)
     except Exception as e:
-        print(f"[WARN] Loi yt-dlp: {e}")
-        print("[INFO] Dang thu lai (Chi tai am thanh)...")
-        
-        ydl_opts['writesubtitles'] = False
-        ydl_opts['writeautomaticsub'] = False
-        
-        try:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                info = ydl.extract_info(link, download=True)
-                title = sanitize_filename(info.get('title', 'Unknown_Title'))
-                filename = ydl.prepare_filename(info)
-                base_ext = os.path.splitext(filename)[0]
-                mp3_file = base_ext + '.mp3'
-                
-                print(f"[SUCCESS] Da tai am thanh: {os.path.basename(mp3_file)}")
-                return None, mp3_file, title
-        except Exception as e2:
-            print(f"[ERROR] Loi yt-dlp: {e2}")
-            return None, None, None
+        print(f"[WARN] Loi tai phu de: {e}")
+
+    sub_files = glob.glob(os.path.join(INPUT_DIR, f"{video_key}*.vtt")) + \
+                glob.glob(os.path.join(INPUT_DIR, f"{video_key}*.srt"))
+    for sub_file in sub_files:
+        raw_text = clean_subtitle(sub_file)
+        if raw_text:
+            if not info:
+                try:
+                    with yt_dlp.YoutubeDL({
+                        'quiet': True,
+                        'no_warnings': True,
+                        'noplaylist': True,
+                    }) as metadata_ydl:
+                        info = metadata_ydl.extract_info(download_url, download=False)
+                except Exception:
+                    info = {}
+            title = sanitize_filename(info.get('title', video_key or 'Unknown_Title'))
+            for sf in sub_files:
+                try: os.remove(sf)
+                except OSError: pass
+            print(f"[SUCCESS] Da dung phu de: {os.path.basename(sub_file)}")
+            return raw_text, None, title
+
+    print("[INFO] Khong co phu de hop le, dang tai am thanh...")
+    try:
+        with yt_dlp.YoutubeDL(audio_opts) as ydl:
+            info = ydl.extract_info(download_url, download=True)
+            title = sanitize_filename(info.get('title', 'Unknown_Title'))
+            mp3_file = os.path.splitext(ydl.prepare_filename(info))[0] + '.mp3'
+            print(f"[SUCCESS] Da tai am thanh: {os.path.basename(mp3_file)}")
+            return None, mp3_file, title
+    except Exception as error:
+        print(f"[ERROR] Loi yt-dlp: {error}")
+        return None, None, None
 
 def doc_raw_da_co(raw_md_path):
     """Doc lai ban Raw da luu (bo dong Reference dau file) de khoi boc bang lai."""
@@ -241,7 +281,9 @@ Yêu cầu BẮT BUỘC:
 1. GIỮ NGUYÊN 100% NGÔN NGỮ GỐC của audio/video. Tuyệt đối không dịch thuật.
 2. Chia thành các đoạn văn (paragraphs) ngắn gọn, hợp lý để dễ đọc trên ứng dụng Obsidian.
 3. Không tóm tắt, không lược bỏ, không thêm thắt bất kỳ bình luận nào.
-Trả về duy nhất nội dung thô."""
+4. KHÔNG dùng gạch ngang dài (—, –, ―). Nếu cần, chỉ dùng dấu gạch ngang ngắn '-'.
+5. KHÔNG dùng emoji, biểu tượng AI hoặc ký hiệu trang trí.
+Trả về duy nhất nội dung thô, ở dạng Markdown thuần."""
 
     def boc_bang(client, model):
         # File da upload chi thuoc ve dung key da upload no -> doi key la upload lai.
@@ -255,7 +297,7 @@ Trả về duy nhất nội dung thô."""
         try:
             response = client.models.generate_content(
                 model=model, contents=[uploaded_file, prompt])
-            return response.text.strip() if response.text else None
+            return normalize_generated_text(response.text) if response.text else None
         finally:
             try: client.files.delete(name=uploaded_file.name)
             except Exception: pass
@@ -283,7 +325,7 @@ BẮT BUỘC trả về nội dung gồm 2 phần: PHẦN 1 (Tiếng Việt) và
 ## 3. Trích dẫn hay nhất
 (Trích nguyên văn 1-3 câu nói truyền cảm hứng hoặc đắt giá nhất từ nội dung)
 
----
+***
 
 # [English Title]
 
@@ -299,6 +341,8 @@ BẮT BUỘC trả về nội dung gồm 2 phần: PHẦN 1 (Tiếng Việt) và
 LƯU Ý QUAN TRỌNG: 
 - Bỏ qua các đoạn dạo đầu, chào hỏi, quảng cáo, kêu gọi like/share.
 - Tuyệt đối KHÔNG tự ý sáng tạo hay ảo tưởng thêm thông tin ngoài transcript.
+- Không dùng gạch ngang dài (—, –, ―); chỉ dùng dấu gạch ngang ngắn '-'.
+- Không dùng emoji, biểu tượng AI hoặc ký hiệu trang trí.
 
 Nội dung Transcript:
 {raw_text}
@@ -306,11 +350,11 @@ Nội dung Transcript:
     
     def tinh_luyen(client, model):
         response = client.models.generate_content(model=model, contents=prompt)
-        return response.text.strip() if response.text else None
+        return normalize_generated_text(response.text) if response.text else None
 
     refined_text = pool.chay(tinh_luyen, f"Refine '{file_title}'")
     if refined_text:
-        final_output = f"{refined_text}\n\n---\n**Reference:** {reference_str}"
+        final_output = f"{refined_text}\n\n***\n**Reference:** {reference_str}"
         with open(refine_md_path, 'w', encoding='utf-8') as f:
             f.write(final_output)
         print(f"[SUCCESS] Da luu ban Refine song ngu: {file_title}_refine.md")
@@ -354,8 +398,14 @@ def main():
             reference_str = item 
             print("[INFO] Dang kiem tra thong tin tieu de...")
             try:
-                with yt_dlp.YoutubeDL({'quiet': True, 'no_warnings': True}) as ydl:
-                    info = ydl.extract_info(item, download=False)
+                metadata_opts = {
+                    'quiet': True,
+                    'no_warnings': True,
+                    'noplaylist': True,
+                }
+                metadata_url = youtube_extraction_url(item)
+                with yt_dlp.YoutubeDL(metadata_opts) as ydl:
+                    info = ydl.extract_info(metadata_url, download=False)
                     original_title = info.get('title', 'Unknown_Title')
                     file_title = sanitize_filename(original_title)
             except Exception as e:
@@ -384,8 +434,8 @@ def main():
 
         else:
             target_audio = item
-            original_title = os.path.splitext(os.path.basename(item))[0]
-            file_title = sanitize_filename(original_title)
+            original_title = local_media_title(item)
+            file_title = original_title
             is_temp = False
             reference_str = os.path.basename(item) 
             
@@ -402,7 +452,7 @@ def main():
         raw_md_path = os.path.join(OUTPUT_DIR, f"{file_title}_raw.md")
         
         if raw_text:
-            raw_text_content = f"> **Reference:** {reference_str}\n\n{raw_text}"
+            raw_text_content = f"> **Reference:** {reference_str}\n\n{normalize_generated_text(raw_text)}"
             with open(raw_md_path, 'w', encoding='utf-8') as f:
                 f.write(raw_text_content)
             print(f"[SUCCESS] Da luu ban Nguyen Tac (Raw): {file_title}_raw.md")
@@ -415,7 +465,7 @@ def main():
             else:
                 raw_text = transcribe_raw(pool, target_audio, file_title)
                 if raw_text:
-                    raw_text_content = f"> **Reference:** {reference_str}\n\n{raw_text}"
+                    raw_text_content = f"> **Reference:** {reference_str}\n\n{normalize_generated_text(raw_text)}"
                     with open(raw_md_path, 'w', encoding='utf-8') as f:
                         f.write(raw_text_content)
                     print(f"[SUCCESS] Da luu ban Nguyen Tac (Raw): {file_title}_raw.md")
