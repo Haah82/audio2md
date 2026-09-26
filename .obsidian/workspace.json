@@ -1,38 +1,24 @@
 {
   "main": {
-    "id": "18d81914f99a952d",
+    "id": "cb21c8079162ebb2",
     "type": "split",
     "children": [
       {
-        "id": "23f6651a06c1ca7b",
+        "id": "0e36aecb6fc22575",
         "type": "tabs",
         "children": [
           {
-            "id": "b1b1d5bf6f4f95a6",
+            "id": "ac2aa45b7bb9ac6f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "data/output/CLIP 06 Cong lay nuoc_refine.md",
+                "file": "data/output/How I Practice English by Myself_raw.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CLIP 06 Cong lay nuoc_refine"
-            }
-          },
-          {
-            "id": "c75cdab14a60afff",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "data/output/CLIP 30 Kiem tra thuong xuyen_raw.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "CLIP 30 Kiem tra thuong xuyen_raw"
+              "title": "How I Practice English by Myself_raw"
             }
           }
         ]
@@ -41,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "e6ab2d60a6990969",
+    "id": "5901c02b5f1dce43",
     "type": "split",
     "children": [
       {
-        "id": "6aa9e28d0811b5ed",
+        "id": "63749ca39cc90473",
         "type": "tabs",
         "children": [
           {
-            "id": "e1e0f5be06591b84",
+            "id": "69b78f29c3ed34c4",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -64,7 +50,7 @@
             }
           },
           {
-            "id": "c49cabcf8576b070",
+            "id": "fad4ace0d9afe25e",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -81,7 +67,7 @@
             }
           },
           {
-            "id": "2cc765ab00867639",
+            "id": "0badae2c4d829886",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -100,20 +86,20 @@
     "width": 300
   },
   "right": {
-    "id": "7958825a92ae7bb8",
+    "id": "f2da24618ab4e689",
     "type": "split",
     "children": [
       {
-        "id": "2c460e77664372c3",
+        "id": "76e0ff43bb12d60c",
         "type": "tabs",
         "children": [
           {
-            "id": "cd5d0b5e84489bfd",
+            "id": "a033504a576ce114",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data/output/Binh Luc channel (china)_raw.md",
+                "file": "data/output/How I Practice English by Myself_raw.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,12 +113,12 @@
             }
           },
           {
-            "id": "5419b37e4499f7b9",
+            "id": "46f9de6fba46aaab",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data/output/Binh Luc channel (china)_raw.md",
+                "file": "data/output/How I Practice English by Myself_raw.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -141,7 +127,7 @@
             }
           },
           {
-            "id": "16fb4604a164d617",
+            "id": "2cfbb3f93e0910c3",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -156,7 +142,7 @@
             }
           },
           {
-            "id": "09e11f5f64dc2408",
+            "id": "7d3a6c534ba403d5",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -170,12 +156,12 @@
             }
           },
           {
-            "id": "b9437bf84877b2b0",
+            "id": "e24a000dec16489d",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "data/output/Binh Luc channel (china)_raw.md",
+                "file": "data/output/How I Practice English by Myself_raw.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -202,43 +188,23 @@
       "bases:Create new base": false
     }
   },
-  "active": "b1b1d5bf6f4f95a6",
+  "active": "ac2aa45b7bb9ac6f",
   "lastOpenFiles": [
-    "data/output/CLIP 25 Cac hu hong cong lay nuoc_raw.md",
-    "data/input/I2WleBvZyl4.mp3",
-    "data/input/I2WleBvZyl4.mp4",
-    "data/input/I2WleBvZyl4.mp4.part",
-    "data/mp4/CLIP_03_Ket_cau_loc.mp4",
-    "data/mp4/CLIP_03_Ket_cau_loc.mp4.part",
-    "data/output/CLIP 04 Tran xa lu_refine.md",
-    "data/output/CLIP 04 Tran xa lu_raw.md",
-    "data/input/FFSxfrrE5tk.mp3",
-    "data/input/FFSxfrrE5tk.mp4",
-    "data/input/FFSxfrrE5tk.mp4.part",
-    "data/mp4/CLIP_04_Tran_xa_lu.mp4",
-    "data/mp4/CLIP_04_Tran_xa_lu.mp4.part",
-    "data/output/CLIP 05 Ket cau tieu nang_refine.md",
-    "data/output/CLIP 05 Ket cau tieu nang_raw.md",
-    "data/output/CLIP 06 Cong lay nuoc_refine.md",
-    "data/output/CLIP 06 Cong lay nuoc_raw.md",
-    "data/output/CLIP 07 Thiet bi quan trac_refine.md",
-    "data/output/CLIP 07 Thiet bi quan trac_raw.md",
-    "data/output/CLIP 08 Quan trac thuy van_refine.md",
-    "data/output/CLIP 08 Quan trac thuy van_raw.md",
-    "data/output/CLIP 09 He thong giam sat van hanh_refine.md",
-    "data/output/CLIP 09 He thong giam sat van hanh_raw.md",
-    "data/output/CLIP 10 Su co dap tren the gioi_refine.md",
-    "data/output/CLIP 10 Su co dap tren the gioi_raw.md",
-    "data/output/CLIP 12 Nguy co tran dinh dap_refine.md",
-    "data/output/CLIP 12 Nguy co tran dinh dap_raw.md",
-    "data/output/CLIP 13 Đap tran su co_refine.md",
+    "data/input/build-audio2md.md",
+    "data/output/Japan Looks Rich… But I Feel Poor_refine.md",
+    "data/output/How I Practice English by Myself_refine.md",
+    "data/output/How I Practice English by Myself_raw.md",
+    "data/input/1IaFHFSvqoQ.en.vtt",
+    "data/input/1IaFHFSvqoQ.en.vtt.part",
+    "data/output/X10-hieu-suat-AI-AGENT_raw.md",
+    "data/output/Real Life in VIETNAM 2026! The Country of Extremely Beautiful Woman & Pristine Architecture - Travel_refine.md",
     "data/output/CLIP 13 Đap tran su co_raw.md",
-    "data/output/CLIP 11 Su co dap o Viet Nam_refine.md",
-    "data/output/CLIP 11 Su co dap o Viet Nam_raw.md",
-    "data/output/CLIP 14 Tham xoi ngam dap dat_refine.md",
-    "data/output/CLIP 14 Tham xoi ngam dap dat_raw.md",
-    "data/output/CLIP 15 Tham xoi ngam tiep xuc_refine.md",
-    "data/output/CLIP 15 Tham xoi ngam tiep xuc_raw.md",
-    "data/output/CLIP 16 Nut dap va bien phap xu ly_refine.md"
+    "data/output/CLIP 32 Ung pho khan cap_raw.md",
+    "data/output/CLIP 32 Ung pho khan cap_refine.md",
+    "data/output/Gach block_refine.md",
+    "data/output/20K views · 1.3K reactions_refine.md",
+    "data/output/Gach block_raw.md",
+    "data/output/20K views · 1.3K reactions_raw.md",
+    "data/output/12 chữ giúp nhìn thấu kẻ giả nhân giả nghĩa bên cạnh bạn_raw.md"
   ]
 }

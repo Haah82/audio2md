@@ -29,4 +29,4 @@ Love inevitably comes with pain and tears that almost everyone must experience. 
 "Sorrowfully accepting as love turns away, silently enduring as sadness surrounds, letting go of dead affections with no one left to blame."
 
 ***
-**Reference:** https://www.facebook.com/share/r/19dY5Jha7G/
+**Reference:** https://www.facebook.com/share/r/19dY5Jha7G_/
