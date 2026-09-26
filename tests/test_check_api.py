@@ -1,4 +1,5 @@
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
@@ -20,6 +21,15 @@ class FakeClient:
 
 
 class CheckApiTests(unittest.TestCase):
+    def test_project_env_accepts_colon_without_overwriting_process_value(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / '.env'
+            path.write_text('save-mp4: Yes\nGEMINI_MODEL=from-file\n', encoding='utf-8')
+            env = {'GEMINI_MODEL': 'from-process'}
+            check_api.load_project_env(path, env)
+        self.assertEqual(env['SAVE_MP4'], 'Yes')
+        self.assertEqual(env['GEMINI_MODEL'], 'from-process')
+
     def test_list_only_is_safe_and_filters_generate_content(self):
         output = []
         secret = 'never-print-this'

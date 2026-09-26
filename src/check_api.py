@@ -3,12 +3,31 @@
 
 import argparse
 import os
+import re
 import sys
 
-from dotenv import load_dotenv
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+
+def load_project_env(path, environ=os.environ):
+    """Load both standard dotenv and Audio2MD's documented ``key: value`` form.
+
+    ``python-dotenv`` warns on the latter even though it is valid project
+    configuration, so the API checker uses the same tolerant parser as the
+    main CLI. Existing process variables continue to take precedence.
+    """
+    try:
+        with open(path, encoding='utf-8') as config:
+            for line in config:
+                match = re.match(r'^\s*([A-Za-z_][A-Za-z0-9_-]*)\s*[:=]\s*(.*?)\s*(?:#.*)?$', line)
+                if match:
+                    key, value = match.groups()
+                    environ.setdefault(key.replace('-', '_').upper(), value.strip())
+    except OSError:
+        pass
+
+
+load_project_env(os.path.join(BASE_DIR, '.env'))
 
 from gemini_pool import configured_keys, redact_error
 

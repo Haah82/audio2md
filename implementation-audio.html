@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audio2MD - Nhật ký triển khai MP4</title>
+  <style>
+    :root { color-scheme: light; --ink:#172033; --muted:#5d6779; --line:#e6eaf0; --accent:#2563eb; --soft:#eff6ff; }
+    * { box-sizing:border-box; } body { margin:0; background:#fff; color:var(--ink); font:16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { width:min(900px, calc(100% - 40px)); margin:56px auto 80px; } h1 { font-size:clamp(1.8rem,4vw,2.7rem); letter-spacing:-.04em; margin:0 0 8px; } h2 { margin:42px 0 14px; font-size:1.15rem; } p, li { color:var(--muted); } .lead { font-size:1.08rem; margin-top:0; } .badge { display:inline-block; padding:3px 9px; border-radius:999px; background:var(--soft); color:var(--accent); font-size:.78rem; font-weight:700; } .card { border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin:12px 0; } code { font: .9em ui-monospace, SFMono-Regular, Consolas, monospace; background:#f5f7fa; padding:2px 5px; border-radius:4px; color:#273142; } table { border-collapse:collapse; width:100%; font-size:.93rem; } th, td { border-bottom:1px solid var(--line); padding:10px 8px; text-align:left; vertical-align:top; } th { color:var(--ink); } .pending { color:#a16207; font-weight:650; }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="badge">Đang triển khai</span>
+    <h1>MP4 lưu trữ &amp; nhập nhiều link</h1>
+    <p class="lead">Nhật ký các quyết định ngoài đặc tả, thay đổi thực hiện và kiểm thử Menu 4 &gt; O.</p>
+
+    <h2>Quyết định thực hiện</h2>
+    <div class="card"><strong>Cấu hình.</strong><p><code>save-mp4: Yes</code> và <code>save-mp3: Yes</code> là opt-in; mọi giá trị khác hoặc thiếu đều không lưu. <code>MP4_MAX_HEIGHT</code> chỉ nhận 720/1080 và mặc định 1080 để không vô tình hạ chất lượng.</p></div>
+    <div class="card"><strong>Chất lượng thay vì nén.</strong><p>MP4 dùng format tốt nhất không vượt trần chiều cao và không tái mã hóa. Đây là đánh đổi chủ động: kích thước file không được bảo đảm, đổi lại không mất chất lượng và không thêm thời gian nén.</p></div>
+    <div class="card"><strong>Facebook giữ một luồng tải.</strong><p>Fallback player-client chỉ dành cho YouTube. Facebook không thử các YouTube client, tránh thêm lời gọi vô ích hoặc thay đổi hành vi extractor.</p></div>
+    <div class="card"><strong>Kiểm thử mạng.</strong><p>Danh sách Facebook sẽ được kiểm tra bằng metadata và tải MP4 riêng, không gọi Gemini hay ghi transcript. Điều này xác nhận được đường Menu 4 &gt; O/lưu MP4 mà không phát sinh chi phí API hoặc thay đổi bảng input.</p></div>
+
+    <h2>Kết quả kiểm thử</h2>
+    <div class="card"><strong>Menu 4 &gt; O.</strong><p>Đã nhập một chuỗi chứa toàn bộ 9 URL, với cả dấu phẩy lẫn chấm phẩy. Bộ chọn trả mã 0, ghi 9/9 URL theo đúng thứ tự và không mở menu kênh YouTube.</p></div>
+    <div class="card"><strong>Metadata Facebook.</strong><p>Cả 9 URL đều được yt-dlp 2026.08.19 đọc metadata thành công: ba <code>share/v</code>, ba <code>reel</code> và ba <code>share/r</code>. Nhánh Facebook chỉ dùng client mặc định như thiết kế.</p></div>
+    <div class="card"><strong>Giới hạn chủ động.</strong><p>Không gọi Gemini, không sửa bảng input và không tải toàn bộ MP4 trong đợt xác minh này. Việc tải cả danh sách có thể sinh nhiều file lớn; khi cần, bật <code>save-mp4: Yes</code> và chạy pipeline bình thường.</p></div>
+    <p>Chi tiết URL, ID và điều kiện môi trường nằm trong <code>save-mp4.md</code>.</p>
+
+    <h2>Sửa test suite</h2>
+    <div class="card"><strong>Nguyên nhân.</strong><p>Hai test lỗi đã kiểm tra một ứng dụng Tk/pipeline cũ mà repository không còn chứa. Thay vì dựng các module giả <code>media_io</code> và <code>gui_app</code>, test được chuyển sang kiểm tra CLI hiện hành, Menu 4 &gt; O, quy tắc lưu media, xử lý phụ đề và cập nhật bảng.</p></div>
+    <div class="card"><strong>Kết quả.</strong><p>Suite hiện chạy 19 test, tất cả đạt. Bộ nạp cấu hình của <code>check_api.py</code> cũng được đổi sang parser chấp nhận cả <code>KEY=VALUE</code> và <code>key: value</code>, loại bỏ cảnh báo <code>python-dotenv</code> cho cấu hình save MP4/MP3.</p></div>
+
+    <h2>Lệnh lưu MP4 độc lập</h2>
+    <div class="card"><strong>Phạm vi.</strong><p><code>save-mp4.bat</code> chỉ tải video; không gọi Gemini, không sinh Raw/Refine và không thay đổi danh sách Markdown. Nó nhận một hay nhiều link qua dấu phẩy/chấm phẩy, dùng cùng bộ chọn kênh YouTube an toàn với URL Facebook/Instagram.</p></div>
+    <div class="card"><strong>Lựa chọn.</strong><p>Cả danh sách dùng chung một thư mục: <code>data/mp4</code> hoặc thư mục chọn bằng hộp Browse. Chất lượng mặc định là 1080p, có tùy chọn 720p. Tên file có thể theo tiêu đề hoặc nhập riêng từng video; tên trùng được chặn để không ghi đè dữ liệu có sẵn.</p></div>
+    <div class="card"><strong>Sửa Reel Facebook.</strong><p>Tiêu đề/caption Reel có thể dài hơn giới hạn đường dẫn Windows, khiến yt-dlp không tạo được tệp <code>.part</code>. Tên mặc định giờ bị giới hạn ngay trong output template trước khi tạo file tạm và ép tương thích Windows; tên tự nhập cũng bị giới hạn 120 đơn vị ký tự Windows.</p></div>
+    <div class="card"><strong>Sửa chọn chất lượng Reel dọc.</strong><p>Reel 1080×1920 có <code>height=1920</code> nhưng vẫn là 1080p. Bộ chọn giờ thử giới hạn theo chiều cao cho video ngang rồi chiều rộng cho video dọc; vì vậy tùy chọn 1080p/720p không còn loại bỏ toàn bộ format Reel.</p></div>
+    <div class="card"><strong>Đối chiếu luồng lưu MP4.</strong><p>Đã đọc lại <code>save_mp4.py</code>: helper không tự giữ một selector riêng mà gọi <code>main_audio2md.mp4_format(max_height)</code>. Nhánh Menu 4 trong <code>main_audio2md.py</code> cũng dùng chính hàm này, nên sửa Reel dọc áp dụng nhất quán cho cả hai cách tải.</p></div>
+    <div class="card"><strong>Menu 4 - giới hạn tên MP4.</strong><p><code>audio2md.bat</code> đặt <code>MP4_FILENAME_LIMIT=150</code>. Pipeline dùng biến này trong template yt-dlp trước khi tạo tệp <code>.part</code>; tên mặc định bị giới hạn 150 byte và tương thích Windows, tránh lỗi đường dẫn dài khi lưu Reel.</p></div>
+  </main>
+</body>
+</html>

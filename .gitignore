@@ -24,6 +24,10 @@ env/
 #data/output/*
 #!data/output/.gitkeep
 
+# Media luu tuy chon tu Menu 4; co the rat lon va khong phai source.
+data/mp3/
+data/mp4/
+
 # ==========================================
 # FILE TẠM & CACHE CỦA PYTHON
 # ==========================================

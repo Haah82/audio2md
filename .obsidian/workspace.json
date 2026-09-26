@@ -13,12 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "data/output/Powerful Partnerships_ Collaborating to Achieve UN SDGs_refine.md",
+                "file": "data/output/CLIP 06 Cong lay nuoc_refine.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Powerful Partnerships_ Collaborating to Achieve UN SDGs_refine"
+              "title": "CLIP 06 Cong lay nuoc_refine"
+            }
+          },
+          {
+            "id": "c75cdab14a60afff",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "data/output/CLIP 30 Kiem tra thuong xuyen_raw.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "CLIP 30 Kiem tra thuong xuyen_raw"
             }
           }
         ]
@@ -190,20 +204,41 @@
   },
   "active": "b1b1d5bf6f4f95a6",
   "lastOpenFiles": [
-    "data/input/build-audio2md.md",
-    "data/output/Powerful Partnerships_ Collaborating to Achieve UN SDGs_refine.md",
-    "data/output/Powerful Partnerships_ Collaborating to Achieve UN SDGs_raw.md",
-    "data/input/kcNa2l6_Z1k.en.vtt",
-    "data/input/kcNa2l6_Z1k.en.vtt.part",
-    "data/input/kcNa2l6_Z1k.webm",
-    "data/input/kcNa2l6_Z1k.webm.part",
-    "data/input/kcNa2l6_Z1k.vi.vtt",
-    "data/input/kcNa2l6_Z1k.vi.vtt.part",
-    "data/input/kcNa2l6_Z1k.mp3",
-    "test-link-49.txt",
-    "data/output/more-nothing-now_raw.md",
-    "data/input/more-nothing-now.mp3",
-    "data/output/more-nothing-now_refine.md",
-    "data/output/Binh Luc channel (china)_raw.md"
+    "data/output/CLIP 25 Cac hu hong cong lay nuoc_raw.md",
+    "data/input/I2WleBvZyl4.mp3",
+    "data/input/I2WleBvZyl4.mp4",
+    "data/input/I2WleBvZyl4.mp4.part",
+    "data/mp4/CLIP_03_Ket_cau_loc.mp4",
+    "data/mp4/CLIP_03_Ket_cau_loc.mp4.part",
+    "data/output/CLIP 04 Tran xa lu_refine.md",
+    "data/output/CLIP 04 Tran xa lu_raw.md",
+    "data/input/FFSxfrrE5tk.mp3",
+    "data/input/FFSxfrrE5tk.mp4",
+    "data/input/FFSxfrrE5tk.mp4.part",
+    "data/mp4/CLIP_04_Tran_xa_lu.mp4",
+    "data/mp4/CLIP_04_Tran_xa_lu.mp4.part",
+    "data/output/CLIP 05 Ket cau tieu nang_refine.md",
+    "data/output/CLIP 05 Ket cau tieu nang_raw.md",
+    "data/output/CLIP 06 Cong lay nuoc_refine.md",
+    "data/output/CLIP 06 Cong lay nuoc_raw.md",
+    "data/output/CLIP 07 Thiet bi quan trac_refine.md",
+    "data/output/CLIP 07 Thiet bi quan trac_raw.md",
+    "data/output/CLIP 08 Quan trac thuy van_refine.md",
+    "data/output/CLIP 08 Quan trac thuy van_raw.md",
+    "data/output/CLIP 09 He thong giam sat van hanh_refine.md",
+    "data/output/CLIP 09 He thong giam sat van hanh_raw.md",
+    "data/output/CLIP 10 Su co dap tren the gioi_refine.md",
+    "data/output/CLIP 10 Su co dap tren the gioi_raw.md",
+    "data/output/CLIP 12 Nguy co tran dinh dap_refine.md",
+    "data/output/CLIP 12 Nguy co tran dinh dap_raw.md",
+    "data/output/CLIP 13 Đap tran su co_refine.md",
+    "data/output/CLIP 13 Đap tran su co_raw.md",
+    "data/output/CLIP 11 Su co dap o Viet Nam_refine.md",
+    "data/output/CLIP 11 Su co dap o Viet Nam_raw.md",
+    "data/output/CLIP 14 Tham xoi ngam dap dat_refine.md",
+    "data/output/CLIP 14 Tham xoi ngam dap dat_raw.md",
+    "data/output/CLIP 15 Tham xoi ngam tiep xuc_refine.md",
+    "data/output/CLIP 15 Tham xoi ngam tiep xuc_raw.md",
+    "data/output/CLIP 16 Nut dap va bien phap xu ly_refine.md"
   ]
 }

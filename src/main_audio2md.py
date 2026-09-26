@@ -5,18 +5,70 @@ import urllib.parse
 import re
 import glob
 import yt_dlp
-from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INPUT_DIR = os.path.join(BASE_DIR, 'data', 'input')
 OUTPUT_DIR = os.path.join(BASE_DIR, 'data', 'output')
+MP4_DIR = os.path.join(BASE_DIR, 'data', 'mp4')
+MP3_DIR = os.path.join(BASE_DIR, 'data', 'mp3')
 
-# Nap .env TRUOC khi import pool: pool doc cau hinh ngay luc khoi tao.
-load_dotenv(os.path.join(BASE_DIR, '.env'))
+# Đọc .env nội bộ để hỗ trợ cả dạng chuẩn KEY=VALUE và cấu hình save-mp4: Yes.
+def load_project_env():
+    try:
+        with open(os.path.join(BASE_DIR, '.env'), encoding='utf-8') as config:
+            for line in config:
+                match = re.match(r'^\s*([A-Za-z_][A-Za-z0-9_-]*)\s*[:=]\s*(.*?)\s*(?:#.*)?$', line)
+                if match:
+                    key, value = match.groups()
+                    os.environ.setdefault(key.replace('-', '_').upper(), value.strip())
+    except OSError:
+        pass
+
+load_project_env()
+
+def env_yes(key, custom_key):
+    """Accept normal dotenv keys and the documented save-mp4/save-mp3 keys."""
+    value = os.environ.get(key, '')
+    if value:
+        return value.strip().lower() == 'yes'
+    return os.environ.get(custom_key.replace('-', '_').upper(), '').strip().lower() == 'yes'
 
 from gemini_pool import GeminiPool
 
 FORCE_OVERWRITE = os.environ.get("FORCE_OVERWRITE", "0") == "1"
+SAVE_MP4 = env_yes("SAVE_MP4", "save-mp4")
+SAVE_MP3 = env_yes("SAVE_MP3", "save-mp3")
+
+# Gioi han do phan giai video nguon, khong ma hoa lai. Mac dinh 1080p.
+MP4_MAX_HEIGHT = os.environ.get('MP4_MAX_HEIGHT', '1080').strip()
+if MP4_MAX_HEIGHT not in ('720', '1080'):
+    print(f"[WARN] MP4_MAX_HEIGHT={MP4_MAX_HEIGHT!r} khong hop le; dung 1080.")
+    MP4_MAX_HEIGHT = '1080'
+
+try:
+    MP4_FILENAME_LIMIT = int(os.environ.get('MP4_FILENAME_LIMIT', '150'))
+except ValueError:
+    MP4_FILENAME_LIMIT = 150
+if not 80 <= MP4_FILENAME_LIMIT <= 180:
+    print(f"[WARN] MP4_FILENAME_LIMIT={MP4_FILENAME_LIMIT!r} khong hop le; dung 150.")
+    MP4_FILENAME_LIMIT = 150
+
+
+def mp4_output_template():
+    """Bound default media titles before yt-dlp opens a Windows .part file."""
+    return f'%(title).{MP4_FILENAME_LIMIT}B.%(ext)s'
+
+
+def mp4_format(max_dimension):
+    """Best MP4 source capped for landscape and portrait videos alike."""
+    return (
+        f'bestvideo[height<={max_dimension}]+bestaudio/'
+        f'best[height<={max_dimension}]/'
+        f'bestvideo[width<={max_dimension}]+bestaudio/'
+        f'best[width<={max_dimension}]/'
+        # A few extractors expose only an unknown-resolution muxed format.
+        'best'
+    )
 
 def is_url(string):
     try:
@@ -143,7 +195,10 @@ def update_md_table(item_url, title, raw_file_name, refine_file_name):
                 matches.append((i, parts))
 
         if not matches:
-            print(f"[WARN] Khong tim thay dong cho link: {item_url}")
+            # Link moi (vi du chon tu menu kenh): chen mot dong ngay duoi header
+            # thay vi bo qua. Nho vay batch khong can ghi truoc dong 'Pending'.
+            them_dong_moi(md_file, lines, item_url, safe_title,
+                          raw_file_name, refine_file_name)
             return
         if len(matches) > 1:
             print(f"[WARN] Tim thay {len(matches)} dong trung link; chi cap nhat dong dau tien.")
@@ -159,6 +214,33 @@ def update_md_table(item_url, title, raw_file_name, refine_file_name):
             f.writelines(lines)
     except Exception as e:
         print(f"[WARN] Khong the cap nhat file md danh sach: {e}")
+
+def them_dong_moi(md_file, lines, item_url, safe_title, raw_file_name, refine_file_name):
+    """Chen mot dong moi ngay duoi header bang, STT = so lon nhat + 1."""
+    stt_max = 0
+    vi_tri_chen = len(lines)
+    for i, line in enumerate(lines):
+        parts = line.rstrip('\n').split('|')
+        if len(parts) >= 9 and parts[1].strip().isdigit():
+            stt_max = max(stt_max, int(parts[1].strip()))
+            vi_tri_chen = min(vi_tri_chen, i)
+
+    if vi_tri_chen == len(lines):
+        # Bang chua co dong du lieu nao; chen sau header va dong ke phan cach.
+        vi_tri_chen = min(2, len(lines))
+
+    thoi_gian = time.strftime('%d/%m/%y %H:%M:%S')
+    refine_o = f" [[{refine_file_name}]] " if refine_file_name else " "
+    trang_thai = " Done " if refine_file_name else " Raw only "
+    dong_moi = "|".join([
+        "", f" {stt_max + 1} ", f" {item_url} ", f" {safe_title} ",
+        f" {thoi_gian} ", f" [[{raw_file_name}]] ", refine_o, trang_thai, "",
+    ]) + "\n"
+
+    lines.insert(vi_tri_chen, dong_moi)
+    with open(md_file, 'w', encoding='utf-8') as f:
+        f.writelines(lines)
+    print(f"[+] Da them vao danh sach o STT {stt_max + 1}: {safe_title}")
 
 def ghi_loi_md(item_url, reason):
     """Keep failed URLs visible and mark the row for a later retry."""
@@ -188,7 +270,77 @@ def ghi_loi_md(item_url, reason):
     except Exception as e:
         print(f"[WARN] Khong the go dong khoi file md danh sach: {e}")
 
-def download_media(link):
+# Chi nhung thong bao thuc su tuyet doi moi coi la hong han. Rieng
+# "This video is not available" KHONG thuoc nhom nay: da kiem chung 23/09/2026
+# rang client web bi tu choi nhung client android van tai duoc binh thuong.
+PERMANENT_ERROR_PATTERNS = (
+    'private video',
+    'removed by the uploader',
+    'account associated with this video has been terminated',
+    'members-only',
+)
+
+def loi_vinh_vien(message):
+    """True khi yt-dlp bao link khong the tai duoc du co thu lai."""
+    text = str(message).lower()
+    return any(pattern in text for pattern in PERMANENT_ERROR_PATTERNS)
+
+# Thu tu dua tren bang kiem chung 23/09/2026 voi link tUCyf4jvwWs.
+YOUTUBE_CLIENT_FALLBACKS = ('default', 'android', 'ios', 'mweb', 'tv')
+
+COOKIES_FROM_BROWSER = os.environ.get('YT_COOKIES_FROM_BROWSER', '').strip()
+
+def la_link_youtube(url):
+    host = urllib.parse.urlsplit(url).netloc.lower().removeprefix('www.')
+    return host in ('youtube.com', 'm.youtube.com', 'youtu.be')
+
+def opts_theo_client(base_opts, client):
+    """Gan player_client cho mot ban sao cua base_opts; 'default' giu nguyen."""
+    opts = dict(base_opts)
+    if client == 'default':
+        opts.pop('extractor_args', None)
+    else:
+        opts['extractor_args'] = {'youtube': {'player_client': [client]}}
+    if client == 'cookies':
+        opts.pop('extractor_args', None)
+        opts['cookiesfrombrowser'] = (COOKIES_FROM_BROWSER,)
+    return opts
+
+def danh_sach_client(url):
+    """Cac client se thu lan luot; link khong phai YouTube chi chay mot luot."""
+    if not la_link_youtube(url):
+        return ('default',)
+    clients = list(YOUTUBE_CLIENT_FALLBACKS)
+    if COOKIES_FROM_BROWSER:
+        clients.append('cookies')
+    return tuple(clients)
+
+def thu_tung_client(base_opts, url, mo_ta, action, uu_tien=None):
+    """Chay `action(ydl)` lan luot qua cac client, tra ve (ket_qua, client).
+
+    `action` nhan mot YoutubeDL da cau hinh va tra ve ket qua; neu nem exception
+    thi chuyen sang client ke tiep. Tra ve (None, None) khi tat ca deu that bai.
+    """
+    clients = danh_sach_client(url)
+    if uu_tien and uu_tien in clients:
+        clients = (uu_tien,) + tuple(c for c in clients if c != uu_tien)
+
+    for client in clients:
+        if len(clients) > 1:
+            print(f"[INFO] {mo_ta} - thu client: {client}")
+        try:
+            with yt_dlp.YoutubeDL(opts_theo_client(base_opts, client)) as ydl:
+                ket_qua = action(ydl)
+            print(f"[SUCCESS] {mo_ta} - dung client: {client}")
+            return ket_qua, client
+        except Exception as e:
+            print(f"[WARN] {mo_ta} loi voi client '{client}': {str(e).splitlines()[0][:160]}")
+            if loi_vinh_vien(e):
+                print("[LOI] Link bi go/rieng tu, khong thu them client nao.")
+                break
+    return None, None
+
+def download_media(link, uu_tien_client=None):
     print(f"\n[INFO] Dang ket noi toi URL: {link}")
     download_url = youtube_extraction_url(link)
     common_opts = {
@@ -213,7 +365,7 @@ def download_media(link):
     }
     audio_opts = {
         **common_opts,
-        'format': 'bestaudio/best',
+        'format': 'bestaudio/bestaudio*/best',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
@@ -221,13 +373,44 @@ def download_media(link):
         }],
     }
 
+    video_opts = {
+        **common_opts,
+        'format': mp4_format(MP4_MAX_HEIGHT),
+        'merge_output_format': 'mp4',
+        'outtmpl': os.path.join(MP4_DIR, mp4_output_template()),
+        'windowsfilenames': True,
+    }
+
     info = None
     video_key = canonical_url(download_url).removeprefix('youtube:')
+    client = uu_tien_client
+
+    if SAVE_MP4:
+        print(f"[INFO] MP4: chon ban nguon toi da {MP4_MAX_HEIGHT}p neu co.")
+        os.makedirs(MP4_DIR, exist_ok=True)
+        _, client_mp4 = thu_tung_client(
+            video_opts, download_url, "Tai video MP4",
+            lambda ydl: ydl.download([download_url]), client)
+        if client_mp4:
+            print(f"[SUCCESS] Da luu video vao: {MP4_DIR}")
+            if client_mp4 != 'default':
+                # Cac client thay the chi tra ve mot format muxed 360p.
+                print(f"[WARN] MP4 tai qua client '{client_mp4}' nen toi da chi 360p; "
+                      "client 'default' moi co ban do phan giai cao.")
+            client = client or client_mp4
+        else:
+            print("[WARN] Khong tai duoc MP4, van tiep tuc buoc boc bang.")
+
+    # Chi thu dung client ma buoc metadata da chon. Cac client khac thuong bao
+    # 'Requested format is not available' chu khong phai 'khong co phu de',
+    # nen do them chi ton thoi gian ma khong doi duoc ket qua.
     try:
-        with yt_dlp.YoutubeDL(subtitle_opts) as ydl:
+        with yt_dlp.YoutubeDL(opts_theo_client(subtitle_opts, client or 'default')) as ydl:
             info = ydl.extract_info(download_url, download=True)
     except Exception as e:
-        print(f"[WARN] Loi tai phu de: {e}")
+        print(f"[WARN] Tai phu de loi voi client '{client or 'default'}': "
+              f"{str(e).splitlines()[0][:160]}")
+        info = None
 
     sub_files = glob.glob(os.path.join(INPUT_DIR, f"{video_key}*.vtt")) + \
                 glob.glob(os.path.join(INPUT_DIR, f"{video_key}*.srt"))
@@ -235,15 +418,11 @@ def download_media(link):
         raw_text = clean_subtitle(sub_file)
         if raw_text:
             if not info:
-                try:
-                    with yt_dlp.YoutubeDL({
-                        'quiet': True,
-                        'no_warnings': True,
-                        'noplaylist': True,
-                    }) as metadata_ydl:
-                        info = metadata_ydl.extract_info(download_url, download=False)
-                except Exception:
-                    info = {}
+                info, _ = thu_tung_client(
+                    {'quiet': True, 'no_warnings': True, 'noplaylist': True},
+                    download_url, "Lay tieu de",
+                    lambda ydl: ydl.extract_info(download_url, download=False), client)
+                info = info or {}
             title = sanitize_filename(info.get('title', video_key or 'Unknown_Title'))
             for sf in sub_files:
                 try: os.remove(sf)
@@ -252,16 +431,27 @@ def download_media(link):
             return raw_text, None, title
 
     print("[INFO] Khong co phu de hop le, dang tai am thanh...")
-    try:
-        with yt_dlp.YoutubeDL(audio_opts) as ydl:
-            info = ydl.extract_info(download_url, download=True)
-            title = sanitize_filename(info.get('title', 'Unknown_Title'))
-            mp3_file = os.path.splitext(ydl.prepare_filename(info))[0] + '.mp3'
-            print(f"[SUCCESS] Da tai am thanh: {os.path.basename(mp3_file)}")
-            return None, mp3_file, title
-    except Exception as error:
-        print(f"[ERROR] Loi yt-dlp: {error}")
+
+    def tai_audio(ydl):
+        thong_tin = ydl.extract_info(download_url, download=True)
+        return thong_tin, os.path.splitext(ydl.prepare_filename(thong_tin))[0] + '.mp3'
+
+    ket_qua, _ = thu_tung_client(audio_opts, download_url, "Tai am thanh",
+                                 tai_audio, client)
+    if not ket_qua:
+        print("[ERROR] Da thu het cac client nhung khong tai duoc am thanh.")
         return None, None, None
+
+    info, mp3_file = ket_qua
+    title = sanitize_filename(info.get('title', 'Unknown_Title'))
+    if SAVE_MP3 and os.path.exists(mp3_file):
+        os.makedirs(MP3_DIR, exist_ok=True)
+        saved_mp3 = os.path.join(MP3_DIR, os.path.basename(mp3_file))
+        os.replace(mp3_file, saved_mp3)
+        mp3_file = saved_mp3
+        print(f"[SUCCESS] Da luu audio vao: {MP3_DIR}")
+    print(f"[SUCCESS] Da tai am thanh: {os.path.basename(mp3_file)}")
+    return None, mp3_file, title
 
 def doc_raw_da_co(raw_md_path):
     """Doc lai ban Raw da luu (bo dong Reference dau file) de khoi boc bang lai."""
@@ -397,23 +587,24 @@ def main():
         if is_url(item):
             reference_str = item 
             print("[INFO] Dang kiem tra thong tin tieu de...")
-            try:
-                metadata_opts = {
-                    'quiet': True,
-                    'no_warnings': True,
-                    'noplaylist': True,
-                }
-                metadata_url = youtube_extraction_url(item)
-                with yt_dlp.YoutubeDL(metadata_opts) as ydl:
-                    info = ydl.extract_info(metadata_url, download=False)
-                    original_title = info.get('title', 'Unknown_Title')
-                    file_title = sanitize_filename(original_title)
-            except Exception as e:
-                # Link bi chan bao mat, can dang nhap, da xoa hoac rieng tu.
-                print(f"[LOI] Khong lay duoc thong tin link: {str(e).splitlines()[0][:160]}")
-                print(f"[BO QUA] Khong tong hop link hong vao build-audio2md.md: {item}")
-                ghi_loi_md(item, "Khong lay duoc thong tin link")
-                continue
+            metadata_opts = {
+                'quiet': True,
+                'no_warnings': True,
+                'noplaylist': True,
+            }
+            metadata_url = youtube_extraction_url(item)
+            info, client_metadata = thu_tung_client(
+                metadata_opts, metadata_url, "Lay thong tin link",
+                lambda ydl: ydl.extract_info(metadata_url, download=False))
+            if info:
+                original_title = info.get('title', 'Unknown_Title')
+                file_title = sanitize_filename(original_title)
+            else:
+                # Khong client nao lay duoc metadata. Van thu buoc tai media:
+                # mot so client khong cho xem thong tin nhung van cho tai.
+                print("[LOI] Khong lay duoc thong tin link qua bat ky client nao.")
+                original_title = canonical_url(item).removeprefix('youtube:') or 'Unknown_Title'
+                file_title = sanitize_filename(original_title)
 
             raw_md_path = os.path.join(OUTPUT_DIR, f"{file_title}_raw.md")
             refine_md_path = os.path.join(OUTPUT_DIR, f"{file_title}_refine.md")
@@ -425,10 +616,11 @@ def main():
                     continue
                 item_overwrite = True
 
-            raw_text, target_audio, file_title = download_media(item)
+            raw_text, target_audio, file_title = download_media(item, client_metadata)
             if not file_title or (raw_text is None and target_audio is None):
+                so_client = len(danh_sach_client(youtube_extraction_url(item)))
                 print(f"[BO QUA] Tai that bai, khong tong hop vao build-audio2md.md: {item}")
-                ghi_loi_md(item, "Tai media that bai")
+                ghi_loi_md(item, f"Tai that bai (da thu {so_client} client)")
                 continue
             is_temp = True
 
@@ -470,7 +662,7 @@ def main():
                         f.write(raw_text_content)
                     print(f"[SUCCESS] Da luu ban Nguyen Tac (Raw): {file_title}_raw.md")
 
-            if is_temp and os.path.exists(target_audio):
+            if is_temp and not SAVE_MP3 and os.path.exists(target_audio):
                 os.remove(target_audio)
                 print(f"[CLEANUP] Da xoa file tam: {target_audio}")
                 

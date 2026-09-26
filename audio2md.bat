@@ -11,6 +11,8 @@ REM Kiem tra va tao thu muc, file can thiet
 set "INPUT_DIR=data\input"
 set "LINK_FILE=%INPUT_DIR%\build-audio2md.md"
 set "TEMP_LIST=%TEMP%\selected_links_audio2md.txt"
+REM Gioi han ten MP4 mac dinh truoc khi yt-dlp tao file .part tren Windows.
+set "MP4_FILENAME_LIMIT=150"
 
 if not exist "%INPUT_DIR%" mkdir "%INPUT_DIR%"
 if not exist "%LINK_FILE%" (
@@ -104,7 +106,7 @@ if !count! EQU 0 echo  (Danh sach link hien dang trong)
 echo ---------------------------------------------------
 echo  Go so de chon (VD: 1 hoac 1,3,5 hoac 2-4)
 echo  [A] Convert toan bo danh sach tren
-echo  [O] Nhap link moi (Tu dong luu vao danh sach)
+echo  [O] Nhap link moi; nhieu link cach nhau bang , hoac ;
 echo  [0] Quay lai Menu chinh
 echo ===================================================
 set "lchoice="
@@ -144,8 +146,30 @@ goto RUN_PYTHON
 :ADD_NEW_LINK
 echo.
 set "newlink="
-set /p newlink="Paste link moi vao day: "
+set /p newlink="Paste mot hoac nhieu link, cach nhau bang , hoac ; : "
 if "!newlink!"=="" goto MENU_LINK
+
+REM Python tach nhieu link, mo menu cho tung kenh/playlist va ghi danh sach theo thu tu.
+if not exist ".venv" (
+    echo [!] Chua co moi truong. Vui long chon Menu [1] truoc de cai dat.
+    pause
+    goto MENU
+)
+call .venv\Scripts\activate 2>nul
+python src\chon_video_kenh.py "!newlink!" "%TEMP_LIST%"
+set "KENH_RC=!errorlevel!"
+if "!KENH_RC!"=="2" goto MENU_LINK
+if "!KENH_RC!"=="1" (
+    pause
+    goto MENU_LINK
+)
+set "FORCE_OVERWRITE=0"
+goto RUN_PYTHON
+
+REM ---- Phan duoi giu lai de tham khao; khong con duong nao goi toi.
+REM ---- chon_video_kenh.py da ghi TEMP_LIST, con main_audio2md.py tu chen
+REM ---- dong moi vao bang sau khi xu ly xong nen khong can ghi Pending truoc.
+:ADD_NEW_LINK_CU
 
 set "link_exists=0"
 for /L %%i in (1,1,!count!) do (
