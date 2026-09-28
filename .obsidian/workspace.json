@@ -1,32 +1,24 @@
 {
   "main": {
-    "id": "cb21c8079162ebb2",
+    "id": "e17b5f60da3265d7",
     "type": "split",
     "children": [
       {
-        "id": "0e36aecb6fc22575",
+        "id": "64a431ccd5e15ed4",
         "type": "tabs",
         "children": [
           {
-            "id": "ac2aa45b7bb9ac6f",
+            "id": "dde68c32f5125630",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-<<<<<<< Updated upstream
-                "file": "data/output/Stuck at B2_ Do This for 90 Days_refine.md",
-=======
-                "file": "data/input/build-audio2md.md",
->>>>>>> Stashed changes
-                "mode": "source",
+                "file": "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-<<<<<<< Updated upstream
-              "title": "Stuck at B2_ Do This for 90 Days_refine"
-=======
-              "title": "build-audio2md"
->>>>>>> Stashed changes
+              "title": "how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine"
             }
           }
         ]
@@ -35,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "5901c02b5f1dce43",
+    "id": "cef2df2aaffad099",
     "type": "split",
     "children": [
       {
-        "id": "63749ca39cc90473",
+        "id": "fd166891a27b86b8",
         "type": "tabs",
         "children": [
           {
-            "id": "69b78f29c3ed34c4",
+            "id": "fafcadef07629f2b",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -58,7 +50,7 @@
             }
           },
           {
-            "id": "fad4ace0d9afe25e",
+            "id": "8ae5df069c353a87",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -75,7 +67,7 @@
             }
           },
           {
-            "id": "0badae2c4d829886",
+            "id": "8098744ede74b248",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -94,20 +86,20 @@
     "width": 300
   },
   "right": {
-    "id": "f2da24618ab4e689",
+    "id": "231d86eae20fb884",
     "type": "split",
     "children": [
       {
-        "id": "76e0ff43bb12d60c",
+        "id": "e3f43c60e62805db",
         "type": "tabs",
         "children": [
           {
-            "id": "a033504a576ce114",
+            "id": "e343980484923476",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data/output/How I Practice English by Myself_raw.md",
+                "file": "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,12 +113,12 @@
             }
           },
           {
-            "id": "46f9de6fba46aaab",
+            "id": "e3eecc7c55e9b6a0",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data/output/How I Practice English by Myself_raw.md",
+                "file": "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -135,7 +127,7 @@
             }
           },
           {
-            "id": "2cfbb3f93e0910c3",
+            "id": "83db159c33926482",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -150,7 +142,7 @@
             }
           },
           {
-            "id": "7d3a6c534ba403d5",
+            "id": "2b230a96694d0e6b",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -164,12 +156,12 @@
             }
           },
           {
-            "id": "e24a000dec16489d",
+            "id": "07015f8099bc5e89",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "data/output/How I Practice English by Myself_raw.md",
+                "file": "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -196,55 +188,11 @@
       "bases:Create new base": false
     }
   },
-  "active": "ac2aa45b7bb9ac6f",
+  "active": "dde68c32f5125630",
   "lastOpenFiles": [
-<<<<<<< Updated upstream
-    "Pasted image 20260927133614.png",
     "data/input/build-audio2md.md",
-    "data/output/How I Practice English by Myself_raw.md",
-    "data/output/Japan Looks Rich… But I Feel Poor_refine.md",
-    "data/output/How I Practice English by Myself_refine.md",
-    "data/input/1IaFHFSvqoQ.en.vtt",
-    "data/input/1IaFHFSvqoQ.en.vtt.part",
-    "data/output/X10-hieu-suat-AI-AGENT_raw.md",
-    "data/output/Real Life in VIETNAM 2026! The Country of Extremely Beautiful Woman & Pristine Architecture - Travel_refine.md",
-    "data/output/CLIP 13 Đap tran su co_raw.md",
-    "data/output/CLIP 32 Ung pho khan cap_raw.md",
-    "data/output/CLIP 32 Ung pho khan cap_refine.md",
-    "data/output/Gach block_refine.md",
-    "data/output/20K views · 1.3K reactions_refine.md",
-    "data/output/Gach block_raw.md",
-    "data/output/20K views · 1.3K reactions_raw.md",
-    "data/output/12 chữ giúp nhìn thấu kẻ giả nhân giả nghĩa bên cạnh bạn_raw.md"
-=======
-    "data/output/I Started Over At 47—and it changed EVERYTHING_refine.md",
-    "data/I Started Over At 47—and it changed EVERYTHING_refine.pdf",
-    "data/input/build-audio2md.md",
-    "data/output/The wild pear tree_raw.md",
-    "data/output/I Started Over At 47—and it changed EVERYTHING_raw.md",
-    "data/input/CV-ppc7JtgU.mp3",
-    "data/input/CV-ppc7JtgU.webm",
-    "data/input/CV-ppc7JtgU.webm.part",
-    "data/output/The wild pear tree_refine.md",
-    "data/output/I'm 52. If you're in your 30s or 40s, watch this._refine.md",
-    "data/input/1359661832494777.mp3",
-    "data/input/1359661832494777.temp.m4a",
-    "data/input/1359661832494777.m4a",
-    "data/input/1359661832494777.m4a.part",
-    "data/output/I DREAM BIG BUT DO NOTHING. the neuroscience behind why & how to fix_refine.md",
-    "data/output/I'm 52. If you're in your 30s or 40s, watch this._raw.md",
-    "data/input/D8HG9ULvKPc.mp3",
-    "data/input/D8HG9ULvKPc.webm",
-    "data/output/Sự Sụp Đổ Của The Coffee House_ Tại Sao Quán Luôn _Kín Bàn_ Nhưng Lại Âm Thầm Phá Sản__refine.md",
-    "data/output/The Doolittle Raid rescue_ A beacon across time_raw.md",
-    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_raw.md",
-    "data/output/Lưu Hằng – Hoàng đế “giả ngu giả ngốc” duy nhất tạo nên thời thịnh trị_refine.md",
-    "data/output/The Doolittle Raid rescue_ A beacon across time_refine.md",
-    "data/output/Sự Kiện Ngày 11.9_raw.md",
-    "data/output/Sự Kiện Ngày 11.9_refine.md",
-    "data/output/4-Year Marketing Degree in 2 MINUTES._raw.md",
-    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_refine.md",
-    "data/output/Tại sao Nhật Bản từ chối đầu hàng sau khi 2 quả bom nguyên tử_raw.md"
->>>>>>> Stashed changes
+    "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_raw.md",
+    "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
+    "Pasted image 20260928234210.png"
   ]
 }

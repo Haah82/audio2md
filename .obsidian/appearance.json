@@ -1,4 +1,10 @@
 {
   "theme": "obsidian",
-  "cssTheme": "Baseline"
+  "cssTheme": "Primary",
+  "enabledCssSnippets": [
+    "table-scroll",
+    "table-resize"
+  ],
+  "baseFontSizeAction": true,
+  "baseFontSize": 25
 }
