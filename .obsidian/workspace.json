@@ -1,24 +1,22 @@
 {
   "main": {
-    "id": "e17b5f60da3265d7",
+    "id": "88defc84efc6047b",
     "type": "split",
     "children": [
       {
-        "id": "64a431ccd5e15ed4",
+        "id": "58bbf77ff61e7fb9",
         "type": "tabs",
         "children": [
           {
-            "id": "dde68c32f5125630",
+            "id": "231af16a7d472ab3",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "release-notes",
               "state": {
-                "file": "data/output/The Light L _l_ and Dark L [ɫ] in English_refine.md",
-                "mode": "preview",
-                "source": false
+                "currentVersion": "1.14.4"
               },
-              "icon": "lucide-file",
-              "title": "The Light L _l_ and Dark L [ɫ] in English_refine"
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.14.4"
             }
           }
         ]
@@ -27,15 +25,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "cef2df2aaffad099",
+    "id": "393c7cb25d9a14c5",
     "type": "split",
     "children": [
       {
-        "id": "fd166891a27b86b8",
+        "id": "2c361f69afcbdaaf",
         "type": "tabs",
         "children": [
           {
-            "id": "fafcadef07629f2b",
+            "id": "7792aba161dacde7",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -50,7 +48,7 @@
             }
           },
           {
-            "id": "8ae5df069c353a87",
+            "id": "e63ff30d989320b2",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -67,7 +65,7 @@
             }
           },
           {
-            "id": "8098744ede74b248",
+            "id": "eb59e1b8e884f780",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -86,20 +84,19 @@
     "width": 300
   },
   "right": {
-    "id": "231d86eae20fb884",
+    "id": "6ded4f384546500f",
     "type": "split",
     "children": [
       {
-        "id": "e3f43c60e62805db",
+        "id": "e7b55755a1935957",
         "type": "tabs",
         "children": [
           {
-            "id": "e343980484923476",
+            "id": "96d7318b8f170c91",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,12 +110,11 @@
             }
           },
           {
-            "id": "e3eecc7c55e9b6a0",
+            "id": "e3e23a94a1e010f2",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -127,7 +123,7 @@
             }
           },
           {
-            "id": "83db159c33926482",
+            "id": "a2fce813dbef2d8f",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -142,7 +138,7 @@
             }
           },
           {
-            "id": "2b230a96694d0e6b",
+            "id": "2963f27cd9f99ac1",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -156,12 +152,11 @@
             }
           },
           {
-            "id": "07015f8099bc5e89",
+            "id": "f73adf475bd76b4a",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -188,11 +183,18 @@
       "bases:Create new base": false
     }
   },
-  "active": "dde68c32f5125630",
+  "active": "231af16a7d472ab3",
   "lastOpenFiles": [
-    "data/input/build-audio2md.md",
-    "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
-    "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_raw.md",
+    "data/mp4/Vinh-xuan-quyen.mp4",
+    "data/mp4/Vinh-xuan-quyen.temp.mp4",
+    "data/mp4/Vinh-xuan-quyen.f1553543222782579a.m4a",
+    "data/mp4/Vinh-xuan-quyen.f1553543222782579a.m4a.part",
+    "data/mp4/Vinh-xuan-quyen.f1304061005164370v.mp4",
+    "data/mp4/Vinh-xuan-quyen.f1304061005164370v.mp4.part",
+    "data/output/The Light L _l_ and Dark L [ɫ] in English_refine.md",
+    "data/output/The Light L _l_ and Dark L [ɫ] in English_raw.md",
+    "data/output/How to Make English a Habit_refine.md",
+    "data/output/How to Make English a Habit_raw.md",
     "Pasted image 20260928234210.png"
   ]
 }
