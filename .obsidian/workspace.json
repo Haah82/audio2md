@@ -13,10 +13,19 @@
             "state": {
               "type": "release-notes",
               "state": {
+<<<<<<< HEAD
                 "currentVersion": "1.14.4"
               },
               "icon": "lucide-book-up",
               "title": "Release Notes 1.14.4"
+=======
+                "file": "data/output/How I Improved My Listening and Speaking in English 🇺🇸_raw.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "How I Improved My Listening and Speaking in English 🇺🇸_raw"
+>>>>>>> 8945b45a1f01959c5bc173b3b82bbe0f7c688179
             }
           }
         ]
@@ -185,6 +194,7 @@
   },
   "active": "231af16a7d472ab3",
   "lastOpenFiles": [
+<<<<<<< HEAD
     "data/mp4/Vinh-xuan-quyen.mp4",
     "data/mp4/Vinh-xuan-quyen.temp.mp4",
     "data/mp4/Vinh-xuan-quyen.f1553543222782579a.m4a",
@@ -195,6 +205,14 @@
     "data/output/The Light L _l_ and Dark L [ɫ] in English_raw.md",
     "data/output/How to Make English a Habit_refine.md",
     "data/output/How to Make English a Habit_raw.md",
+=======
+    "data/input/build-audio2md.md",
+    "data/output/21K views · 1.3K reactions_raw.md",
+    "data/output/How I Improved My Listening and Speaking in English 🇺🇸_refine.md",
+    "data/output/The Light L _l_ and Dark L [ɫ] in English_refine.md",
+    "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
+    "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_raw.md",
+>>>>>>> 8945b45a1f01959c5bc173b3b82bbe0f7c688179
     "Pasted image 20260928234210.png"
   ]
 }
