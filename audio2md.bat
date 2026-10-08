@@ -7,6 +7,12 @@ cd /d "%~dp0"
 REM Tao bien chua ky tu pipe de tranh loi syntax cua Batch Script
 set "pipe=|"
 
+REM Python dung chung C:\Addins\.venv (tao bang 40_Python\setup-venv.bat).
+REM Chua co venv thi lui ve python he thong de menu van chay duoc.
+set "VENV=C:\Addins\.venv"
+set "PY=%VENV%\Scripts\python.exe"
+if not exist "%PY%" set "PY=python"
+
 REM Kiem tra va tao thu muc, file can thiet
 set "INPUT_DIR=data\input"
 set "LINK_FILE=%INPUT_DIR%\build-audio2md.md"
@@ -25,7 +31,7 @@ cls
 echo ===================================================
 echo     HỆ THỐNG AUDIO2MD - TRÍCH XUẤT ^& TINH LUYỆN
 echo ===================================================
-echo [1] Cai dat he thong (Tao .venv va cai requirements)
+echo [1] Cai dat thu vien vao C:\Addins\.venv ^& FFmpeg
 echo [2] Convert file Video (mp4, avi, mov, mkv...)
 echo [3] Convert file Audio (mp3, wav, m4a, aac...)
 echo [4] Convert tu Link (Youtube/Facebook/LinkedIn...)
@@ -42,17 +48,26 @@ if /i "!choice!"=="4" goto MENU_LINK
 goto MENU
 
 :SETUP
-if not exist ".venv" (
-    echo [+] Dang tao moi truong ao .venv...
-    python -m venv .venv
+if not exist "%VENV%\Scripts\python.exe" (
+    echo [+] Chua co %VENV%, dang tao bang setup-venv.bat...
+    if exist "C:\Addins\40_Python\setup-venv.bat" (
+        call "C:\Addins\40_Python\setup-venv.bat" /nopause
+    ) else (
+        python -m venv "%VENV%"
+    )
 )
-call .venv\Scripts\activate
-echo [+] Dang cai dat thu vien...
-pip install -r requirements.txt --upgrade
+if not exist "%VENV%\Scripts\python.exe" (
+    echo [X] Khong tao duoc %VENV%.
+    pause
+    goto MENU
+)
+set "PY=%VENV%\Scripts\python.exe"
+echo [+] Dang cai dat thu vien cho audio2md vao %VENV%...
+"%PY%" -m pip install -r requirements.txt --upgrade
 
 echo.
 echo [+] Tien hanh thiet lap FFmpeg (Tu dong tai va them vao System PATH)...
-python src\install_ffmpeg.py
+"%PY%" src\install_ffmpeg.py
 
 echo.
 echo [OK] Da thiet lap xong he thong! Vui long khoi dong lai CMD neu truoc do PATH chua co san.
@@ -150,13 +165,7 @@ set /p newlink="Paste mot hoac nhieu link, cach nhau bang , hoac ; : "
 if "!newlink!"=="" goto MENU_LINK
 
 REM Python tach nhieu link, mo menu cho tung kenh/playlist va ghi danh sach theo thu tu.
-if not exist ".venv" (
-    echo [!] Chua co moi truong. Vui long chon Menu [1] truoc de cai dat.
-    pause
-    goto MENU
-)
-call .venv\Scripts\activate 2>nul
-python src\chon_video_kenh.py "!newlink!" "%TEMP_LIST%"
+"%PY%" src\chon_video_kenh.py "!newlink!" "%TEMP_LIST%"
 set "KENH_RC=!errorlevel!"
 if "!KENH_RC!"=="2" goto MENU_LINK
 if "!KENH_RC!"=="1" (
@@ -231,13 +240,7 @@ echo.
 echo ===================================================
 echo  ĐANG GỌI PYTHON XỬ LÝ (TRÍCH XUẤT ^& REFINE)...
 echo ===================================================
-if not exist ".venv" (
-    echo [!] Chua co moi truong. Vui long chon Menu [1] truoc de cai dat.
-    pause
-    goto MENU
-)
-call .venv\Scripts\activate 2>nul
-python src\main_audio2md.py "%TEMP_LIST%"
+"%PY%" src\main_audio2md.py "%TEMP_LIST%"
 echo.
 echo [OK] DA XU LY XONG TOAN BO!
 pause
