@@ -11,6 +11,7 @@
             "id": "231af16a7d472ab3",
             "type": "leaf",
             "state": {
+<<<<<<< Updated upstream
               "type": "release-notes",
               "state": {
 <<<<<<< HEAD
@@ -26,6 +27,12 @@
               "icon": "lucide-file",
               "title": "How I Improved My Listening and Speaking in English 🇺🇸_raw"
 >>>>>>> 8945b45a1f01959c5bc173b3b82bbe0f7c688179
+=======
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+>>>>>>> Stashed changes
             }
           }
         ]
@@ -193,6 +200,7 @@
     }
   },
   "active": "231af16a7d472ab3",
+<<<<<<< Updated upstream
   "lastOpenFiles": [
 <<<<<<< HEAD
     "data/mp4/Vinh-xuan-quyen.mp4",
@@ -215,4 +223,7 @@
 >>>>>>> 8945b45a1f01959c5bc173b3b82bbe0f7c688179
     "Pasted image 20260928234210.png"
   ]
+=======
+  "lastOpenFiles": []
+>>>>>>> Stashed changes
 }
