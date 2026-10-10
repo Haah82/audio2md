@@ -360,3 +360,50 @@ MP4_MAX_HEIGHT=1080
 - Không tải toàn bộ MP4 trong lần kiểm tra này: thao tác đó có thể tạo nhiều file lớn trong `data/mp4`. Cấu hình lưu đã sẵn sàng: đặt `save-mp4: Yes` và tùy chọn `MP4_MAX_HEIGHT=720` hoặc `1080`, rồi chạy luồng bình thường để tải trực tiếp vào `data/mp4`.
 - Không gọi pipeline Gemini để tránh phát sinh transcript/API không được yêu cầu cho kiểm thử kết nối và chọn link. Cần chạy Menu 4 > O hoàn chỉnh khi muốn tạo Raw/Refine cho các video này.
 
+
+## Cập nhật 10/10/2026: `save-media.bat` với form tkinter
+
+### Mục tiêu
+
+Chỉ cần lưu lại file MP4 hoặc MP3 thay vì xóa đi: MP4 vào `data\mp4`, MP3 vào `data\mp3`. Không gọi Gemini, không tạo Raw/Refine, không sửa `build-audio2md.md`. Mọi lựa chọn nằm trên một form tkinter đơn giản.
+
+### Thay đổi file
+
+| File | Thay đổi |
+| --- | --- |
+| `save-mp4.bat` | Đổi tên thành `save-media.bat`. Bỏ toàn bộ các câu hỏi `set /p`; chỉ kiểm tra `.venv` rồi chạy `src\save_media_gui.py`. |
+| `src/save_media_gui.py` | **Mới.** Form tkinter, chỉ dùng thư viện chuẩn `tkinter`, không thêm dependency. |
+| `src/save_mp4.py` | Thêm tham số định dạng `mp4` hoặc `mp3`; nhánh MP3 dùng `bestaudio` và `FFmpegExtractAudio` sang mp3. Phần tách link, bộ chọn kênh và tên file giữ nguyên. |
+
+### Form
+
+- **Links:** ô nhập nhiều dòng, phân cách bằng dấu phẩy `,`, chấm phẩy `;` hoặc xuống dòng.
+- **Định dạng:** hai radio `MP4` (mặc định) và `MP3`.
+- **Thư mục lưu:** mặc định `data\mp4` hoặc `data\mp3` và tự đổi theo định dạng; nút `Browse...` để chọn thư mục khác.
+- **Chất lượng tối đa:** combobox `1080p` (mặc định) và `720p`; chỉ có tác dụng với MP4, bị vô hiệu hóa khi chọn MP3.
+- **Tên riêng cho từng file:** checkbox, mặc định tắt (dùng tiêu đề video); bật thì hiện hộp nhập tên trước mỗi file.
+- **Nút:** `Bắt đầu` và `Thoát`.
+- **Log:** ô văn bản cuộn ở cuối form. Tải chạy ở luồng nền, nên form không bị treo; nút `Bắt đầu` bị khóa khi đang chạy.
+
+### Quy tắc
+
+1. Link kênh hoặc playlist YouTube vẫn dùng menu chọn video trong cửa sổ cmd (`chon_video_kenh.py`), không viết lại thành dialog.
+2. MP3 chuyển bằng FFmpeg, bitrate 192 kbps cố định. Không thêm tùy chọn bitrate.
+3. Tên trùng với file đã có thì bị chặn, không ghi đè, giống hành vi hiện tại.
+4. Link rỗng hoặc không hợp lệ thì báo trong log, không đóng form.
+5. Cấu hình `save-mp4` và `save-mp3` trong `.env` của Menu 4 không liên quan tới form này.
+
+### Kiểm tra
+
+- Mở `save-media.bat`, xác nhận form hiện ra, mặc định MP4, thư mục `data\mp4`.
+- Chọn MP3, xác nhận thư mục đổi thành `data\mp3` và combobox chất lượng bị khóa.
+- Tải một link YouTube ở mỗi định dạng; file xuất hiện đúng thư mục.
+- Dán nhiều link (cả Facebook), một link kênh YouTube, và một link lỗi; luồng vẫn chạy tiếp được.
+- Bật `Tên riêng`, xác nhận có hộp nhập tên và tên trùng bị chặn.
+- Bấm `Bắt đầu` khi đang chạy không tạo lượt tải thứ hai.
+
+### Trạng thái triển khai - 10/10/2026
+
+Đã code: `save-media.bat` (đổi tên bằng `git mv`), `src/save_media_gui.py` (mới), `src/save_mp4.py` (thêm `--format mp4|mp3`, `fmt` cho `download_one`/`custom_name`). Link không giới hạn ở YouTube: YouTube, Facebook, Instagram, LinkedIn... đều đi qua yt-dlp; site nào yt-dlp không hỗ trợ (hoặc cần đăng nhập, như nhiều bài LinkedIn) sẽ báo lỗi trong log và chạy tiếp link sau. Đã kiểm tra: form khởi tạo, chọn MP3 đổi thư mục sang `data\mp3` và khóa chất lượng, tùy chọn MP3 dùng FFmpegExtractAudio 192 kbps. Chưa tải thử link thật; `save-media.bat` dùng Python của `C:\Addins\.venv`, thiếu thì lùi về `python` hệ thống (như `audio2md.bat`).
+### How to run
+C:\addins\.venv\Scripts\python.exe path-to-file.py

@@ -1,38 +1,24 @@
 {
   "main": {
-    "id": "88defc84efc6047b",
+    "id": "aae4f8ac1f5ca071",
     "type": "split",
     "children": [
       {
-        "id": "58bbf77ff61e7fb9",
+        "id": "8a51b864013093d7",
         "type": "tabs",
         "children": [
           {
-            "id": "231af16a7d472ab3",
+            "id": "f74622bd03311b1a",
             "type": "leaf",
             "state": {
-<<<<<<< Updated upstream
-              "type": "release-notes",
+              "type": "markdown",
               "state": {
-<<<<<<< HEAD
-                "currentVersion": "1.14.4"
-              },
-              "icon": "lucide-book-up",
-              "title": "Release Notes 1.14.4"
-=======
-                "file": "data/output/How I Improved My Listening and Speaking in English 🇺🇸_raw.md",
-                "mode": "preview",
+                "file": "data/output/The Vietnamese Boom Is a Lie (and it's worse than you think)_refine.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "How I Improved My Listening and Speaking in English 🇺🇸_raw"
->>>>>>> 8945b45a1f01959c5bc173b3b82bbe0f7c688179
-=======
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
->>>>>>> Stashed changes
+              "title": "The Vietnamese Boom Is a Lie (and it's worse than you think)_refine"
             }
           }
         ]
@@ -41,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "393c7cb25d9a14c5",
+    "id": "129dbd6cba1846c6",
     "type": "split",
     "children": [
       {
-        "id": "2c361f69afcbdaaf",
+        "id": "416c623567fa2b80",
         "type": "tabs",
         "children": [
           {
-            "id": "7792aba161dacde7",
+            "id": "5c73a384eafa6b6c",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -64,7 +50,7 @@
             }
           },
           {
-            "id": "e63ff30d989320b2",
+            "id": "2c9adb9578ee3cdc",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -81,7 +67,7 @@
             }
           },
           {
-            "id": "eb59e1b8e884f780",
+            "id": "c19d1b4c3b8585e3",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -100,19 +86,20 @@
     "width": 300
   },
   "right": {
-    "id": "6ded4f384546500f",
+    "id": "95a7054809b4fb23",
     "type": "split",
     "children": [
       {
-        "id": "e7b55755a1935957",
+        "id": "718927d84625326f",
         "type": "tabs",
         "children": [
           {
-            "id": "96d7318b8f170c91",
+            "id": "5780e12867682bb8",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
+                "file": "data/output/The Vietnamese Boom Is a Lie (and it's worse than you think)_refine.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,11 +113,12 @@
             }
           },
           {
-            "id": "e3e23a94a1e010f2",
+            "id": "defefeca81972921",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "data/output/The Vietnamese Boom Is a Lie (and it's worse than you think)_refine.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -139,7 +127,7 @@
             }
           },
           {
-            "id": "a2fce813dbef2d8f",
+            "id": "090a359f0fd2d7ce",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -154,7 +142,7 @@
             }
           },
           {
-            "id": "2963f27cd9f99ac1",
+            "id": "7ff570dc37cdcb57",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -168,11 +156,12 @@
             }
           },
           {
-            "id": "f73adf475bd76b4a",
+            "id": "ac6381d81eba41ec",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
+                "file": "data/output/The Vietnamese Boom Is a Lie (and it's worse than you think)_refine.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -199,31 +188,12 @@
       "bases:Create new base": false
     }
   },
-  "active": "231af16a7d472ab3",
-<<<<<<< Updated upstream
+  "active": "f74622bd03311b1a",
   "lastOpenFiles": [
-<<<<<<< HEAD
-    "data/mp4/Vinh-xuan-quyen.mp4",
-    "data/mp4/Vinh-xuan-quyen.temp.mp4",
-    "data/mp4/Vinh-xuan-quyen.f1553543222782579a.m4a",
-    "data/mp4/Vinh-xuan-quyen.f1553543222782579a.m4a.part",
-    "data/mp4/Vinh-xuan-quyen.f1304061005164370v.mp4",
-    "data/mp4/Vinh-xuan-quyen.f1304061005164370v.mp4.part",
-    "data/output/The Light L _l_ and Dark L [ɫ] in English_refine.md",
-    "data/output/The Light L _l_ and Dark L [ɫ] in English_raw.md",
-    "data/output/How to Make English a Habit_refine.md",
-    "data/output/How to Make English a Habit_raw.md",
-=======
+    "data/output/Can Vietnam be the new Singapore__raw.md",
+    "data/input/9uAKxTmCTcM.en.vtt",
+    "data/input/9uAKxTmCTcM.en.vtt.part",
     "data/input/build-audio2md.md",
-    "data/output/21K views · 1.3K reactions_raw.md",
-    "data/output/How I Improved My Listening and Speaking in English 🇺🇸_refine.md",
-    "data/output/The Light L _l_ and Dark L [ɫ] in English_refine.md",
-    "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_refine.md",
-    "data/output/how to STOP BEING LAZY and wasting your life away (no bs) + free schedule_raw.md",
->>>>>>> 8945b45a1f01959c5bc173b3b82bbe0f7c688179
-    "Pasted image 20260928234210.png"
+    "data/input/vo cuc- am duong.mp4"
   ]
-=======
-  "lastOpenFiles": []
->>>>>>> Stashed changes
 }
