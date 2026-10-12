@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import unicodedata
 import urllib.parse
 import re
 import glob
@@ -117,11 +118,94 @@ def youtube_extraction_url(value):
         return f'https://www.youtube.com/watch?v={video_id}'
     return value.strip()
 
+_MAU_EMOJI = re.compile(
+    r'[\U0001F1E6-\U0001F1FF\U0001F300-\U0001FAFF☀-➿️‍]'
+)
+
+def bo_dau(text):
+    """Bo dau tieng Viet (va chu Latin co dau khac nhu tieng Tay Ban Nha) de
+    ten file chi con ky tu ASCII, an toan va de doc tren moi he dieu hanh."""
+    text = text.replace('đ', 'd').replace('Đ', 'D')
+    text = unicodedata.normalize('NFD', text)
+    text = ''.join(c for c in text if unicodedata.category(c) != 'Mn')
+    return unicodedata.normalize('NFC', text)
+
+def rut_gon_ten(ten, do_dai_toi_da=40):
+    """Cat ten dai dien ve toi da do_dai_toi_da ky tu, uu tien cat tai
+    khoang trang gan nhat de khong dut giua tu."""
+    ten = ten.strip()
+    if len(ten) <= do_dai_toi_da:
+        return ten
+    cat = ten[:do_dai_toi_da]
+    vi_tri_cach = cat.rfind(' ')
+    if vi_tri_cach >= 15:
+        cat = cat[:vi_tri_cach]
+    return cat.rstrip(' .,-_')
+
 def sanitize_filename(name):
     # Cắt bỏ phần sau dấu '|' (tên kênh) hoặc '#' (hashtag) để tên file ngắn gọn
     name = re.split(r'[|#]', name)[0].strip()
+    name = bo_dau(name)
+    name = _MAU_EMOJI.sub('', name)
+    # Gach ngang dai (en/em dash) khong phai ASCII; doi ve gach ngan '-'.
+    name = re.sub(r'[‐‑‒–—―−]', '-', name)
     clean_name = re.sub(r'[\\/*?:"<>|]', "_", name)
-    return " ".join(clean_name.split())[:150]
+    clean_name = " ".join(clean_name.split())
+    return rut_gon_ten(clean_name, 40)
+
+# "{N}K views · {M}K reactions - ..." la dang tieu de Facebook/Instagram/LinkedIn
+# tra ve khi khong co caption rieng; so lieu nay doi moi lan chay nen khong dung
+# lam ten file duoc (xem plan-audio2md.md muc IV.2).
+_MAU_THONG_KE_MANG_XA_HOI = re.compile(
+    r'^\s*[\d][\d.,]*\s*[kmb]?\+?\s*(?:views?|luợt\s*xem)\s*[·-]\s*'
+    r'[\d][\d.,]*\s*[kmb]?\+?\s*(?:reactions?|luợt\s*thích)\s*-\s*',
+    re.IGNORECASE,
+)
+
+_HOST_MANG_XA_HOI = ('facebook.com', 'instagram.com', 'linkedin.com')
+
+def la_link_mang_xa_hoi(url):
+    host = urllib.parse.urlsplit(url).netloc.lower().removeprefix('www.').removeprefix('m.')
+    return any(host == h or host.endswith('.' + h) for h in _HOST_MANG_XA_HOI)
+
+def ten_dai_dien(url, original_title, raw_text=None):
+    """Tra ve ten dai dien dung de dat ten file.
+
+    YouTube: giu nguyen tieu de (da la ten dai dien dung). Facebook/Instagram/
+    LinkedIn: cat bo tien to so lieu tuong tac va hau to '- Ten trang' cuoi
+    cung, chi giu phan caption. Neu cat xong rong (reel khong caption), lay vai
+    tu dau noi dung file Raw lam ten dai dien thay the.
+    """
+    if not la_link_mang_xa_hoi(url):
+        return original_title
+
+    co_khop = _MAU_THONG_KE_MANG_XA_HOI.match(original_title)
+    ten = _MAU_THONG_KE_MANG_XA_HOI.sub('', original_title).strip() if co_khop else original_title
+    if co_khop and ten and ' - ' in ten:
+        ten = ten.rsplit(' - ', 1)[0].strip()
+
+    if not ten and raw_text:
+        tu = re.sub(r'\s+', ' ', raw_text).strip().split(' ')
+        ten = ' '.join(tu[:12]).strip()
+
+    return ten or original_title
+
+def doc_stt_hien_co(md_file):
+    """Doc STT lon nhat va STT da gan cho tung URL trong build-audio2md.md,
+    de dat tien to NNN cho file moi khop dung dong trong bang."""
+    stt_max = 0
+    theo_url = {}
+    if os.path.exists(md_file):
+        with open(md_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                parts = line.rstrip('\n').split('|')
+                if len(parts) >= 9 and parts[1].strip().isdigit():
+                    stt = int(parts[1].strip())
+                    stt_max = max(stt_max, stt)
+                    url_o_cot2 = parts[2].strip()
+                    if url_o_cot2:
+                        theo_url[canonical_url(url_o_cot2)] = stt
+    return stt_max, theo_url
 
 def local_media_title(file_path):
     """Get the default output title from a local media filename, never from a URL."""
@@ -175,7 +259,7 @@ def clean_subtitle(file_path):
         print(f"[WARN] Loi doc phu de: {e}")
         return None
 
-def update_md_table(item_url, title, raw_file_name, refine_file_name):
+def update_md_table(item_url, title, raw_file_name, refine_file_name, stt_moi=None):
     md_file = os.path.join(INPUT_DIR, 'build-audio2md.md')
     if not os.path.exists(md_file): 
         return
@@ -198,7 +282,7 @@ def update_md_table(item_url, title, raw_file_name, refine_file_name):
             # Link moi (vi du chon tu menu kenh): chen mot dong ngay duoi header
             # thay vi bo qua. Nho vay batch khong can ghi truoc dong 'Pending'.
             them_dong_moi(md_file, lines, item_url, safe_title,
-                          raw_file_name, refine_file_name)
+                          raw_file_name, refine_file_name, stt_moi)
             return
         if len(matches) > 1:
             print(f"[WARN] Tim thay {len(matches)} dong trung link; chi cap nhat dong dau tien.")
@@ -215,8 +299,14 @@ def update_md_table(item_url, title, raw_file_name, refine_file_name):
     except Exception as e:
         print(f"[WARN] Khong the cap nhat file md danh sach: {e}")
 
-def them_dong_moi(md_file, lines, item_url, safe_title, raw_file_name, refine_file_name):
-    """Chen mot dong moi ngay duoi header bang, STT = so lon nhat + 1."""
+def them_dong_moi(md_file, lines, item_url, safe_title, raw_file_name, refine_file_name, stt_moi=None):
+    """Chen mot dong moi ngay duoi header bang.
+
+    stt_moi duoc truyen vao khi main() da gan truoc STT nay cho tien to NNN
+    cua ten file (xem doc_stt_hien_co); neu khong co thi tu tinh = max + 1
+    nhu truoc, de ham nay van dung doc lap duoc (ví du khi goi tu menu chon
+    video kenh, nơi chưa co co che gan STT truoc).
+    """
     stt_max = 0
     vi_tri_chen = len(lines)
     for i, line in enumerate(lines):
@@ -229,18 +319,19 @@ def them_dong_moi(md_file, lines, item_url, safe_title, raw_file_name, refine_fi
         # Bang chua co dong du lieu nao; chen sau header va dong ke phan cach.
         vi_tri_chen = min(2, len(lines))
 
+    stt_ghi = stt_moi if stt_moi is not None else stt_max + 1
     thoi_gian = time.strftime('%d/%m/%y %H:%M:%S')
     refine_o = f" [[{refine_file_name}]] " if refine_file_name else " "
     trang_thai = " Done " if refine_file_name else " Raw only "
     dong_moi = "|".join([
-        "", f" {stt_max + 1} ", f" {item_url} ", f" {safe_title} ",
+        "", f" {stt_ghi} ", f" {item_url} ", f" {safe_title} ",
         f" {thoi_gian} ", f" [[{raw_file_name}]] ", refine_o, trang_thai, "",
     ]) + "\n"
 
     lines.insert(vi_tri_chen, dong_moi)
     with open(md_file, 'w', encoding='utf-8') as f:
         f.writelines(lines)
-    print(f"[+] Da them vao danh sach o STT {stt_max + 1}: {safe_title}")
+    print(f"[+] Da them vao danh sach o STT {stt_ghi}: {safe_title}")
 
 def ghi_loi_md(item_url, reason):
     """Keep failed URLs visible and mark the row for a later retry."""
@@ -573,7 +664,10 @@ def main():
     
     with open(temp_list_path, 'r', encoding='utf-8') as f:
         items = [line.strip() for line in f.readlines() if line.strip()]
-        
+
+    md_file = os.path.join(INPUT_DIR, 'build-audio2md.md')
+    stt_max, stt_theo_url = doc_stt_hien_co(md_file)
+
     for item in items:
         raw_text = None
         target_audio = None
@@ -598,17 +692,29 @@ def main():
                 lambda ydl: ydl.extract_info(metadata_url, download=False))
             if info:
                 original_title = info.get('title', 'Unknown_Title')
-                file_title = sanitize_filename(original_title)
             else:
                 # Khong client nao lay duoc metadata. Van thu buoc tai media:
                 # mot so client khong cho xem thong tin nhung van cho tai.
                 print("[LOI] Khong lay duoc thong tin link qua bat ky client nao.")
                 original_title = canonical_url(item).removeprefix('youtube:') or 'Unknown_Title'
-                file_title = sanitize_filename(original_title)
+
+            # Gan STT truoc khi dat ten file, de tien to NNN khop dung dong
+            # trong build-audio2md.md (dong da co thi giu nguyen STT cu).
+            target_key = canonical_url(item)
+            if target_key in stt_theo_url:
+                stt_gan = stt_theo_url[target_key]
+            else:
+                stt_max += 1
+                stt_gan = stt_max
+                stt_theo_url[target_key] = stt_gan
+            # raw_text chua co o day; neu la link mang xa hoi khong co caption
+            # rieng thi tam dung nguyen tieu de, se tinh lai chuan hon sau khi
+            # download_media() tra ve noi dung phu de (xem phia duoi).
+            file_title = f"{stt_gan:03d}_{sanitize_filename(ten_dai_dien(item, original_title))}"
 
             raw_md_path = os.path.join(OUTPUT_DIR, f"{file_title}_raw.md")
             refine_md_path = os.path.join(OUTPUT_DIR, f"{file_title}_refine.md")
-            
+
             if not item_overwrite and (os.path.exists(raw_md_path) or os.path.exists(refine_md_path)):
                 ans = input(f"[?] File MD cua '{file_title}' da ton tai. Ban co muon ghi de khong? (Y/N): ")
                 if ans.strip().lower() != 'y':
@@ -616,13 +722,17 @@ def main():
                     continue
                 item_overwrite = True
 
-            raw_text, target_audio, file_title = download_media(item, client_metadata)
-            if not file_title or (raw_text is None and target_audio is None):
+            raw_text, target_audio, _ = download_media(item, client_metadata)
+            if raw_text is None and target_audio is None:
                 so_client = len(danh_sach_client(youtube_extraction_url(item)))
                 print(f"[BO QUA] Tai that bai, khong tong hop vao build-audio2md.md: {item}")
                 ghi_loi_md(item, f"Tai that bai (da thu {so_client} client)")
                 continue
             is_temp = True
+            # download_media() da tra ve noi dung phu de (neu co); tinh lai
+            # ten dai dien mot lan nua phong khi lan dau khong co raw_text
+            # de lam fallback (reel mang xa hoi khong caption rieng).
+            file_title = f"{stt_gan:03d}_{sanitize_filename(ten_dai_dien(item, original_title, raw_text))}"
 
         else:
             target_audio = item
@@ -680,7 +790,8 @@ def main():
         # tai) de wikilink khop dung ten file cuoi cung do download_media tra ve.
         if is_url(item):
             update_md_table(item, original_title, f"{file_title}_raw",
-                            f"{file_title}_refine" if co_refine else None)
+                            f"{file_title}_refine" if co_refine else None,
+                            stt_moi=stt_gan)
 
     pool.tong_ket()
 

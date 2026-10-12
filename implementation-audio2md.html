@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Implementation audio2md</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: mot cot doc 1160px; dai so lieu tren cung, the du an 2 cot, bang cuon ngang trong khung rieng */
+:root{
+  --bg:#ffffff; --surface:#f5f8f9; --line:#e1e7ea; --fg:#14222c; --mut:#5d6d78;
+  --accent:#0a6a8a; --accent-soft:#e6f2f6;
+  --navy-hero:#e4eaf5; --navy-hero-line:#c9d5ea; --navy-ink:#1c2f55;
+  --navy-tab:#2d4a7e; --navy-tab-act:#1d355f; --navy-sub:#d5dfef;
+  --ok:#23763a; --ok-bg:#e5f4e8; --warn:#8a5a00; --warn-bg:#fff2d2; --bad:#b0291c; --bad-bg:#fde7e4;
+  --sans:"Be Vietnam Pro",system-ui,"Segoe UI",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);margin:0}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:16px;padding-block:32px 64px}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:34px;font-weight:700;letter-spacing:-.02em}
+h2{font-size:21px;font-weight:700;margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+h3{font-size:16px;font-weight:600;margin:24px 0 8px}
+h4{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:14px 0 6px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+code{font-family:var(--mono);font-size:.84em;background:var(--surface);border:1px solid var(--line);padding:0 4px;border-radius:4px;word-break:break-word}
+.mut{color:var(--mut)}.small{font-size:13px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:600;margin:0 0 6px}
+.lede{font-size:17px;max-width:68ch;margin:8px 0 6px}
+.in{max-width:1160px;margin:0 auto;padding-inline:16px}
+.hero{background:var(--navy-hero);border-bottom:1px solid var(--navy-hero-line);color:var(--navy-ink)}
+.top{padding-top:28px}
+.hero h1{color:var(--navy-ink)}
+.hero .eyebrow{color:#3d5a94}
+.hero-note{color:#4a5c7d;margin:0}
+.hero code{background:#f3f6fb;border-color:var(--navy-hero-line)}
+.hero .stats{margin:20px 0 0;padding-bottom:22px}
+.hero .stat{background:#fff;border:1px solid var(--navy-hero-line)}
+.tabsbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;width:min(1128px,calc(100% - 32px));margin:0 auto;background:var(--navy-tab);border-radius:0 0 10px 10px;overflow:hidden;box-shadow:0 2px 6px rgba(20,34,60,.2)}
+.tabs-g{display:flex;flex-wrap:wrap;gap:0 4px;padding-top:8px}
+.tabs-g a{color:#dbe5f6;padding:9px 18px;font-size:14px;font-weight:600;border-radius:8px 8px 0 0;text-decoration:none}
+.tabs-g a:hover{background:rgba(255,255,255,.1);color:#fff}
+.tabs-g a[aria-selected=true]{background:var(--navy-tab-act);color:#fff}
+.subbar{background:var(--navy-tab-act)}
+.tabs-s{display:none;gap:0 2px;flex-wrap:wrap;padding-top:6px}
+.tabs-s.on{display:flex}
+.tabs-s a{color:#c3d1ea;padding:8px 14px;font-size:13.5px;font-weight:500;border-bottom:3px solid transparent;text-decoration:none}
+.tabs-s a:hover{color:#fff}
+.tabs-s a[aria-selected=true]{color:#fff;border-bottom-color:#8fb2ee}
+.tabs a:focus-visible,.tabs-g a:focus-visible,.tabs-s a:focus-visible{outline:2px solid #fff;outline-offset:-3px}
+html.js .pane{display:none}
+html.js .pane.on{display:block}
+.pane:first-child{margin-top:0}
+.wrap{padding-block-start:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:24px 0 8px}
+.stat{background:var(--surface);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column}
+.stat b{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:13px;color:var(--mut)}
+.stat.warn b{color:var(--warn)}.stat.bad b{color:var(--bad)}
+section{margin-top:40px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;white-space:nowrap;background:var(--surface);color:var(--mut)}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.warn{background:var(--warn-bg);color:var(--warn)}.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:12px;padding:18px 20px;min-width:0;background:var(--bg)}
+.card-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.card-h h3{margin:0;font-size:17px}
+.role{margin:4px 0 10px;color:var(--mut);font-size:14px}
+.meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 10px;padding:10px 0;border-block:1px solid var(--line)}
+.meta dt{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+.meta dd{margin:0;font-size:14px;font-variant-numeric:tabular-nums}
+.sum{margin:0}
+.open{margin:0;padding-left:18px}.open li{margin:3px 0}
+.docs{display:flex;flex-direction:column;gap:4px;margin-top:12px;font-size:13px}
+.doc code{font-size:12px}.art{font-weight:600;font-size:13px}
+.sens{text-decoration:underline dotted var(--warn);text-underline-offset:3px}
+.hid{color:var(--mut);font-style:italic}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+tbody tr:last-child>*{border-bottom:0}
+thead th{background:var(--surface);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);font-weight:600;white-space:nowrap}
+tbody th{font-weight:600}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.logs{columns:2 360px;padding-left:18px;font-size:13px;margin:0}.logs li{break-inside:avoid;margin:2px 0}
+.plain{padding-left:18px;margin:10px 0}.plain li{margin:4px 0;max-width:90ch}
+.sw{display:inline-flex;align-items:center;justify-content:center;width:44px;height:28px;border-radius:6px;border:1px solid var(--line);font-weight:700}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
+.tool{background:var(--surface);border-radius:10px;padding:14px 16px;min-width:0}
+.tool h4{margin-top:0;color:var(--accent)}
+.tool ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.tool li{display:flex;flex-direction:column}.tool li span{color:var(--mut);font-size:13px}
+.road{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
+.wk{border-top:3px solid var(--accent);padding-top:10px;min-width:0}
+.wk-h{display:flex;justify-content:space-between;gap:8px}.wk-h span{color:var(--mut);font-size:13px;font-variant-numeric:tabular-nums}
+.wk ul{padding-left:18px;margin:8px 0 0;font-size:14px}.wk li{margin:4px 0}
+.tool .plain-in{margin:0;padding-left:18px;font-size:13.5px;display:block}.tool .plain-in li{display:block}.tool .plain-in li code{display:inline}
+table.nm td.old code,table.nm td.new code{white-space:nowrap;word-break:normal}.tool .plain-in li{margin:5px 0}
+table.nm td.old code{background:#fff}table.nm td.new code{background:var(--accent-soft);border-color:#b9d9e4;color:#064a62;font-weight:500}
+table.nm tr.grp th{background:var(--navy-sub);color:var(--navy-ink);font-size:14px;text-transform:none;letter-spacing:0;white-space:normal}
+table.nm tr.grp code{background:#fff}
+@media (max-width:560px){.meta{grid-template-columns:repeat(2,minmax(0,1fr))}h1{font-size:28px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+html{scroll-behavior:smooth}
+
+.pill.info{background:var(--accent-soft);color:var(--accent)}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin:10px 0}
+.flow>div{flex:1 1 170px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px}
+.flow>div b{display:block;font-size:13px;color:var(--accent);margin-bottom:2px}
+.note{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:10px 14px;margin:12px 0;background:var(--surface);font-size:14px}
+.note.warn{border-left-color:var(--warn)}.note.bad{border-left-color:var(--bad)}.note.ok{border-left-color:var(--ok)}
+.tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.tl li{border-left:3px solid var(--navy-hero-line);padding:2px 0 2px 14px}
+.tl time{font-size:12.5px;color:var(--mut);font-variant-numeric:tabular-nums}
+.tl p{margin:4px 0 0;font-size:14px;max-width:90ch}
+pre{margin:8px 0;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow-x:auto;font:13px/1.5 var(--mono)}
+td.wrapcode code{white-space:normal}
+</style>
+</head><body>
+<div class="hero"><div class="in">
+<header class="top">
+  <p class="eyebrow">Git/audio2md · Audio, Video, Link sang Markdown</p>
+  <h1>audio2md</h1>
+  <p class="lede">Trích xuất và tinh luyện nội dung từ video, audio và link mạng xã hội thành Markdown Raw và Refine, ưu tiên phụ đề có sẵn để tiết kiệm API.</p>
+  <p class="small hero-note">Dựng 12/10/2026 từ <code>README.md</code>, <code>audio2md.bat</code>, <code>src/</code>, <code>tests/</code>, <code>plan-audio2md.md</code> và <code>history/</code>. Phần "Kiểm tra môi trường" là kết quả lần chạy thật trên <code>C:\Addins\.venv</code>, không tự cập nhật. <code>implementation-audio.html</code> đã gộp nội dung vào đây và bị xóa ngày 12/10/2026.</p>
+</header>
+<section class="stats"><div class="stat "><b>6</b><span>module trong src</span></div><div class="stat warn"><b>3/5</b><span>file test đạt</span></div><div class="stat "><b>2/2</b><span>thư viện import được</span></div><div class="stat "><b>0</b><span>gói phải cài thêm</span></div><div class="stat "><b>3.12.10</b><span>Python của C:\Addins\.venv</span></div><div class="stat warn"><b>2</b><span>test cũ cần sửa</span></div></section>
+</div></div>
+<div class="tabsbar"><div class="in"><div class="tabs-g" role="tablist"><a href="#tong-quan" role="tab" data-g="tq">Tổng quan</a><a href="#menu" role="tab" data-g="vh">Vận hành</a><a href="#kt-python" role="tab" data-g="kt">Kiểm tra môi trường</a><a href="#nhat-ky" role="tab" data-g="nk">Nhật ký</a></div></div><div class="subbar"><div class="in"><div class="tabs-s" data-g="tq" role="tablist"><a href="#tong-quan" role="tab" data-t="tong-quan">Luồng xử lý</a><a href="#module" role="tab" data-t="module">Module src</a></div><div class="tabs-s" data-g="vh" role="tablist"><a href="#menu" role="tab" data-t="menu">Menu và lệnh</a><a href="#cau-hinh" role="tab" data-t="cau-hinh">Cấu hình và dữ liệu</a></div><div class="tabs-s" data-g="kt" role="tablist"><a href="#kt-python" role="tab" data-t="kt-python">Chọn Python</a><a href="#kt-thu-vien" role="tab" data-t="kt-thu-vien">Thư viện</a><a href="#kt-test" role="tab" data-t="kt-test">Biên dịch và test</a></div><div class="tabs-s" data-g="nk" role="tablist"><a href="#nhat-ky" role="tab" data-t="nhat-ky">Triển khai MP4/MP3</a><a href="#loi-link" role="tab" data-t="loi-link">Lỗi link &amp; đổi tên</a><a href="#api" role="tab" data-t="api">API và bảo mật</a><a href="#quyet-dinh" role="tab" data-t="quyet-dinh">Quyết định và việc còn lại</a></div></div></div></div>
+<div class="wrap">
+<section class="pane" id="tong-quan"><h2>Luồng xử lý</h2>
+<p class="mut">audio2md biến video, audio và link YouTube/Facebook/LinkedIn thành Markdown. Ưu tiên phụ đề có sẵn để khỏi tải audio và khỏi tốn API.</p><h3>Luồng xử lý</h3><div class="flow"><div><b>1. Nguồn</b>File video/audio trong <code>data/input</code> hoặc link nhập ở Menu 4.</div><div><b>2. Phụ đề trước</b>yt-dlp lấy phụ đề; có thì chuyển thẳng thành <code>_raw.md</code>, bỏ tải audio và Gemini.</div><div><b>3. Bóc băng</b>Không có phụ đề hoặc là file cục bộ: tải <code>.mp3</code>, Gemini Flash bóc băng.</div><div><b>4. Raw và Refine</b><code>_raw.md</code> giữ nguyên 100%; <code>_refine.md</code> có 4 phần: tiêu đề, tóm tắt, bài học, trích dẫn.</div></div><h3>Định dạng nhận</h3><div class="tbl"><table><thead><tr><th>Loại</th><th>Đuôi file</th></tr></thead><tbody><tr><td>Video</td><td>mp4, avi, mov, mkv, wmv, flv</td></tr><tr><td>Audio</td><td>mp3, wav, m4a, aac, ogg, flac</td></tr><tr><td>Link</td><td>YouTube, Facebook (share/v, reel, share/r), Instagram, LinkedIn và mọi link yt-dlp hỗ trợ</td></tr></tbody></table></div><div class="note ">Danh sách link nằm ở <code>data/input/build-audio2md.md</code>, bảng 7 cột: STT, Link, Tên file - tiêu đề, Thời gian, Raw, Refine, Status.</div></section>
+<section class="pane" id="module"><h2>Module trong src (6 file)</h2>
+<div class="tbl"><table><thead><tr><th>File</th><th>Nhóm</th><th>Vai trò</th><th>Dòng</th></tr></thead><tbody><tr><td><code>main_audio2md.py</code></td><td>Lõi</td><td>Pipeline chính: lấy phụ đề bằng yt-dlp, không có thì tải audio và nhờ Gemini bóc băng; sinh <code>_raw.md</code> và <code>_refine.md</code>, cập nhật bảng link; lưu MP4/MP3 theo cấu hình.</td><td class="num">688</td></tr><tr><td><code>chon_video_kenh.py</code></td><td>Menu 4 &gt; O</td><td>Tách nhiều link, mở menu chọn video cho link kênh/playlist YouTube (20 video mỗi trang), ghi danh sách theo thứ tự. Mã thoát 0 có link, 1 lỗi/rỗng, 2 quay lại.</td><td class="num">250</td></tr><tr><td><code>gemini_pool.py</code></td><td>API</td><td>Pool key Gemini: Free trước, redact credential trong log, retry 503 trên Free, phân loại 404 model và 404 file.</td><td class="num">220</td></tr><tr><td><code>check_api.py</code></td><td>API</td><td>Liệt kê model <code>generateContent</code> theo nhãn key mà không in key; <code>--probe</code> mới gửi request thật. Đọc cả <code>KEY=VALUE</code> lẫn <code>key: value</code>.</td><td class="num">89</td></tr><tr><td><code>save_mp4.py</code></td><td>Lưu media</td><td>Tải MP4/MP3 độc lập, không gọi Gemini; chọn chất lượng theo chiều cao hoặc chiều rộng để Reel dọc 1080×1920 vẫn tính là 1080p.</td><td class="num">137</td></tr><tr><td><code>save_media_gui.py</code></td><td>Lưu media</td><td>Form Tkinter cho <code>save-media.bat</code>: ô nhập link, MP4/MP3, thư mục lưu, chất lượng, tên riêng, ô log; tải chạy ở luồng nền.</td><td class="num">152</td></tr></tbody></table></div></section>
+<section class="pane" id="menu"><h2>Menu và lệnh chạy</h2>
+<h3>Menu audio2md.bat</h3><div class="tbl"><table><thead><tr><th>Phím</th><th>Việc</th><th>Ghi chú</th></tr></thead><tbody><tr><td>1</td><td>Cài thư viện vào <code>C:\Addins\.venv</code> và FFmpeg</td><td>Tạo venv chung bằng <code>40_Python\setup-venv.bat</code> nếu chưa có, rồi <code>pip install -r requirements.txt --upgrade</code>.</td></tr><tr><td>2</td><td>Convert file video</td><td>Chọn theo số (<code>1</code>, <code>1,3,5</code>, <code>2-4</code>), <code>A</code> tất cả, <code>T</code> theo tên.</td></tr><tr><td>3</td><td>Convert file audio</td><td>Cách chọn như trên.</td></tr><tr><td>4</td><td>Convert từ link</td><td>Chọn dòng trong bảng, <code>A</code> cả danh sách, <code>O</code> nhập link mới (nhiều link cách nhau bằng <code>,</code> hoặc <code>;</code>).</td></tr><tr><td>0</td><td>Thoát</td><td></td></tr></tbody></table></div><h3>Python mà bat chọn</h3><div class="tbl"><table><thead><tr><th>Thứ tự</th><th>Interpreter</th><th>Ở đâu trong code</th></tr></thead><tbody><tr><td>1</td><td><code>C:\Addins\.venv\Scripts\python.exe</code></td><td><code>audio2md.bat</code> dòng 12-13 và <code>save-media.bat</code> dòng 8</td></tr><tr><td>2</td><td><code>python</code> hệ thống</td><td>Dòng 14: <code>if not exist "%PY%" set "PY=python"</code></td></tr></tbody></table></div><div class="note ok">Cả hai bat đã mặc định dùng <code>C:\Addins\.venv</code> từ trước, không cần sửa. Chỉ có chung một bước lùi, không có <code>.venv</code> cục bộ.</div><h3>Lệnh khác</h3><pre>save-media.bat                       :: form Tkinter lưu MP4/MP3, không gọi Gemini
+python src\check_api.py              :: liệt kê model theo key, --probe mới gọi API
+python src\chon_video_kenh.py "&lt;link kênh&gt;" "&lt;file_kết_quả&gt;"</pre></section>
+<section class="pane" id="cau-hinh"><h2>Cấu hình và thư mục</h2>
+<p class="mut">Chỉ ghi tên biến. Giá trị trong <code>.env</code> (không được commit) không xuất hiện ở đây.</p><div class="tbl"><table><thead><tr><th>Biến</th><th>Tác dụng</th></tr></thead><tbody><tr><td><code>GEMINI_MODEL</code>, <code>GEMINI_FALLBACK_MODELS</code></td><td>Model chính và dự phòng; không có fallback hard-code.</td></tr><tr><td><code>GEMINI_API_KEY_*</code></td><td>Nhiều key; chỉ tên có chữ <code>FREE</code> mới là Free Tier. <code>GEMINI_KHONG_DUNG_FREE=1</code> ép đi qua key trả phí.</td></tr><tr><td><code>save-mp4: Yes</code>, <code>save-mp3: Yes</code></td><td>Opt-in lưu MP4/MP3 vào <code>data/mp4</code>, <code>data/mp3</code>. Giá trị khác hoặc thiếu thì không lưu.</td></tr><tr><td><code>MP4_MAX_HEIGHT</code></td><td>Chỉ nhận 720 hoặc 1080, mặc định 1080 để không vô tình hạ chất lượng.</td></tr><tr><td><code>MP4_FILENAME_LIMIT=150</code></td><td><code>audio2md.bat</code> đặt sẵn; giới hạn byte tên MP4 mặc định trước khi yt-dlp tạo <code>.part</code> để tránh lỗi đường dẫn dài trên Windows.</td></tr><tr><td><code>FORCE_OVERWRITE</code></td><td>Bat đặt 0 hoặc 1 để ghi đè file Markdown cũ.</td></tr></tbody></table></div><h3>Thư mục</h3><div class="tbl"><table><thead><tr><th>Thư mục</th><th>Nội dung</th><th>Số file hiện có</th></tr></thead><tbody><tr><td><code>data/input</code></td><td>Video/audio, phụ đề <code>.vtt</code>, bảng <code>build-audio2md.md</code></td><td class="num">7</td></tr><tr><td><code>data/output</code></td><td><code>_raw.md</code>, <code>_refine.md</code></td><td class="num">229</td></tr><tr><td><code>data/mp4</code>, <code>data/mp3</code></td><td>Chỉ có khi bật lưu media</td><td class="num">chưa tạo</td></tr><tr><td><code>history</code></td><td><code>2026-09.jsonl</code>, <code>check-api.md</code>, <code>implementation-notes.html</code></td><td class="num">3</td></tr></tbody></table></div></section>
+<section class="pane" id="kt-python"><h2>Chọn Python và môi trường <span class="pill ok">đang dùng C:\Addins\.venv</span></h2>
+<p class="mut">Quy tắc chọn Python cho audio2md: ưu tiên môi trường dùng chung, không có mới lùi dần. Phần kiểm tra chạy bằng interpreter ở dòng 1.</p><div class="tbl"><table><thead><tr><th>Thứ tự</th><th>Interpreter</th><th>Điều kiện</th><th>Trạng thái trên máy này</th></tr></thead><tbody><tr><td>1</td><td><code>C:\Addins\.venv\Scripts\python.exe</code></td><td>Mặc định, dùng chung cho <code>40_Python</code></td><td><span class="pill ok">có, Python 3.12.10</span></td></tr><tr><td>2</td><td><code>.venv</code> cục bộ của dự án</td><td>Không có trong bat của audio2md</td><td><span class="pill ">không dùng</span></td></tr><tr><td>3</td><td><code>python</code> trong PATH</td><td>Chỉ dùng khi hai mục trên không có</td><td><span class="pill ">không cần dùng</span></td></tr></tbody></table></div><h3>Interpreter đã dùng để kiểm tra</h3><div class="tbl"><table><thead><tr><th>Mục</th><th>Giá trị</th></tr></thead><tbody><tr><td>Đường dẫn</td><td><code>C:\addins\.venv\Scripts\python.exe</code></td></tr><tr><td>Phiên bản</td><td>3.12.10</td></tr><tr><td>Tkinter</td><td><span class="pill ok">sẵn sàng</span></td></tr><tr><td>Thời điểm chạy</td><td>12/10/2026</td></tr><tr><td>Cách chạy</td><td><code>check_src.py</code> (py_compile + import thật từng thư viện + chạy từng file test), không gọi mạng</td></tr></tbody></table></div><div class="note warn"><code>audio2md.bat</code> và <code>save-media.bat</code> đã chọn Python theo đúng thứ tự này. Menu [1] gọi <code>src\install_ffmpeg.py</code> nhưng file đó không có trong <code>src</code>; bộ cài thật là <code>install-ffmpeg.bat</code> ở gốc repo. FFmpeg hiện có sẵn tại <code>C:\ffmpeg\bin</code>.</div></section>
+<section class="pane" id="kt-thu-vien"><h2>Thư viện của src <span class="pill ok">2/2 import được</span></h2>
+<p class="mut">Import thật từng thư viện ngoài chuẩn mà <code>src</code> cần. Cột "Trước khi cài" là lần chạy đầu tiên trên chính <code>C:\Addins\.venv</code>.</p><div class="tbl"><table><thead><tr><th>Gói import</th><th>Trước khi cài</th><th>Sau khi cài</th><th>Phiên bản</th><th>Gói pip</th><th>Dùng trong</th></tr></thead><tbody><tr><td><code>google</code></td><td><span class="pill ">không đo</span></td><td><span class="pill ok">import được</span></td><td>2.61.0</td><td>google-auth, google-genai</td><td><code>gemini_pool.py</code></td></tr><tr><td><code>yt_dlp</code></td><td><span class="pill ">không đo</span></td><td><span class="pill ok">import được</span></td><td>2026.8.19</td><td>yt-dlp</td><td><code>chon_video_kenh.py, main_audio2md.py, save_mp4.py</code></td></tr></tbody></table></div><div class="note "><code>C:\Addins\.venv</code> đã có sẵn <code>google-genai</code> và <code>yt-dlp</code> từ trước, nên dự án này chạy được ngay, không cần cài thêm. <code>python-dotenv</code> có trong <code>requirements.txt</code> nhưng không module nào trong <code>src</code> import (các script tự đọc <code>.env</code>).</div></section>
+<section class="pane" id="kt-test"><h2>Biên dịch và test <span class="pill warn">3/5 test đạt</span></h2>
+<h3>Chạy từng file test</h3><p class="mut">Mỗi file chạy bằng cùng interpreter, tại thư mục dự án, không gọi mạng.</p><div class="tbl"><table><thead><tr><th>File test</th><th>Kết quả</th><th>Thời gian</th><th>Ghi chú</th></tr></thead><tbody><tr><td><code>test_audio2md.py</code></td><td><span class="pill ok">đạt</span></td><td>4.5 s</td><td></td></tr><tr><td><code>test_check_api.py</code></td><td><span class="pill ok">đạt</span></td><td>2.5 s</td><td></td></tr><tr><td><code>test_gemini_pool.py</code></td><td><span class="pill ok">đạt</span></td><td>2.6 s</td><td></td></tr><tr><td><code>test_gui.py</code></td><td><span class="pill bad">lỗi rc=1</span></td><td>0.3 s</td><td>Ran 2 tests in 0.003s FAILED (failures=1)</td></tr><tr><td><code>test_save_mp4.py</code></td><td><span class="pill bad">lỗi rc=1</span></td><td>3.4 s</td><td>Ran 5 tests in 0.070s FAILED (errors=1)</td></tr></tbody></table></div><div class="note warn">Hai test lỗi cũng lỗi y hệt khi chạy bằng Python hệ thống, nên nguyên nhân không nằm ở venv. <code>test_gui</code> còn tìm chuỗi <code>python src\chon_video_kenh.py</code>, nhưng bat hiện gọi <code>"%PY%" src\chon_video_kenh.py</code>. <code>test_save_mp4</code> đọc <code>save-mp4.bat</code>, file đã đổi tên thành <code>save-media.bat</code>. Cả hai là test cũ chưa theo kịp bat; chưa sửa vì ngoài phạm vi.</div><h3>Biên dịch từng module trong src</h3><div class="tbl"><table><thead><tr><th>File</th><th>py_compile</th><th>Thư viện ngoài</th></tr></thead><tbody><tr><td><code>check_api.py</code></td><td><span class="pill ok">đạt</span></td><td>(chỉ thư viện chuẩn)</td></tr><tr><td><code>chon_video_kenh.py</code></td><td><span class="pill ok">đạt</span></td><td>yt_dlp</td></tr><tr><td><code>gemini_pool.py</code></td><td><span class="pill ok">đạt</span></td><td>google</td></tr><tr><td><code>main_audio2md.py</code></td><td><span class="pill ok">đạt</span></td><td>yt_dlp</td></tr><tr><td><code>save_media_gui.py</code></td><td><span class="pill ok">đạt</span></td><td>(chỉ thư viện chuẩn)</td></tr><tr><td><code>save_mp4.py</code></td><td><span class="pill ok">đạt</span></td><td>yt_dlp</td></tr></tbody></table></div></section>
+<section class="pane" id="nhat-ky"><h2>Nhật ký triển khai</h2>
+<h3>Hôm nay</h3><ul class="tl"><li><time>12/10/2026</time><p><strong>Kiểm tra src trên venv chung.</strong> Trên <code>C:\Addins\.venv</code> (Python 3.12.10), 6 module <code>src</code> đều biên dịch được và 2/2 thư viện ngoài import được. 3 trong 5 file test đạt; 2 file lỗi do test cũ, không phải do môi trường (xem tab Biên dịch và test).</p></li></ul><h3>MP4 / MP3 và nhập nhiều link</h3><p class="mut">Chuyển từ <code>implementation-audio.html</code>, giữ nguyên nội dung quyết định và kết quả kiểm thử.</p><ul class="tl"><li><time>Menu 4 &gt; O</time><p><strong>Cấu hình.</strong> <code>save-mp4: Yes</code> và <code>save-mp3: Yes</code> là opt-in; mọi giá trị khác hoặc thiếu đều không lưu. <code>MP4_MAX_HEIGHT</code> chỉ nhận 720/1080, mặc định 1080.</p></li><li><time>Chất lượng</time><p><strong>Chất lượng thay vì nén.</strong> MP4 dùng format tốt nhất không vượt trần chiều cao và không tái mã hóa. Kích thước file không được bảo đảm, đổi lại không mất chất lượng và không tốn thời gian nén.</p></li><li><time>Facebook</time><p><strong>Giữ một luồng tải.</strong> Fallback player-client chỉ dành cho YouTube; Facebook không thử các YouTube client.</p></li><li><time>Kiểm thử mạng</time><p><strong>Chín link Facebook.</strong> Bộ chọn trả mã 0 và ghi 9/9 URL đúng thứ tự (cả dấu phẩy lẫn chấm phẩy). yt-dlp 2026.08.19 đọc metadata thành công cả ba dạng <code>share/v</code>, <code>reel</code>, <code>share/r</code>. Không gọi Gemini, không tải toàn bộ MP4 trong đợt xác minh.</p></li><li><time>Test suite</time><p><strong>Sửa test.</strong> Hai test cũ kiểm tra một ứng dụng Tk/pipeline mà repo không còn chứa; được chuyển sang kiểm tra CLI hiện hành. Khi đó suite chạy 19 test và đạt hết; <code>check_api.py</code> đổi bộ nạp cấu hình để nhận cả <code>KEY=VALUE</code> và <code>key: value</code>.</p></li><li><time>Lệnh độc lập</time><p><strong><code>save-mp4.bat</code>.</strong> Chỉ tải video, không gọi Gemini, không đổi danh sách Markdown. Nhận nhiều link, dùng chung thư mục <code>data/mp4</code> hoặc thư mục chọn bằng Browse; tên trùng bị chặn để không ghi đè.</p></li><li><time>Reel Facebook</time><p><strong>Hai sửa lỗi.</strong> Tên mặc định bị giới hạn ngay trong output template (tên tự nhập tối đa 120 đơn vị ký tự Windows) để yt-dlp tạo được <code>.part</code>. Reel 1080×1920 có <code>height=1920</code> nhưng vẫn là 1080p, nên bộ chọn thử chiều cao cho video ngang rồi chiều rộng cho video dọc.</p></li><li><time>Đối chiếu</time><p><strong>Một nguồn chọn format.</strong> <code>save_mp4.py</code> gọi <code>main_audio2md.mp4_format(max_height)</code>, nên cả Menu 4 và lệnh độc lập dùng chung bản sửa Reel dọc.</p></li><li><time>Form</time><p><strong><code>save-mp4-mp3.bat</code>.</strong> Đổi tên từ <code>save-mp4.bat</code>, mở <code>src/save_media_gui.py</code>. MP3 cố định 192 kbps; link kênh YouTube vẫn dùng menu console. Form và logic MP3 đã kiểm tra khởi tạo, chưa tải thử link thật. File hiện nằm trong repo với tên <code>save-media.bat</code>.</p></li></ul></section>
+<section class="pane" id="loi-link"><h2>Lỗi link trong build-audio2md.md và chuẩn hóa tên file <span class="pill ok">4/4 đã xử lý</span></h2>
+<p class="mut">Rà soát 12/10/2026: đếm cột và đối chiếu từng wikilink <code>[[...]]</code> trong <code>data/input/build-audio2md.md</code> với tên file thật trong <code>data/output/</code>. Chi tiết đầy đủ ở <code>plan-audio2md.md</code> mục IV.</p>
+<div class="tbl"><table><thead><tr><th>Dòng (STT)</th><th>Lỗi</th><th>Nguyên nhân</th><th>Trạng thái</th></tr></thead><tbody><tr><td>107, 106</td><td>Cột Refine trống</td><td>Lấy phụ đề qua yt-dlp thành công (đúng thiết kế) nhưng bước gọi Gemini tinh luyện sau đó không ra kết quả lần đầu, không có log để xác định nguyên nhân</td><td><span class="pill ok">Đã sửa</span> chạy lại Menu 4, cả 2 đã ra Refine</td></tr><tr><td>2</td><td>Lệch cột: tên file dính <code>_raw]]</code>, mất dấu <code>!</code> và <code>[[</code>, cột Thời gian/Raw/Refine xô lệch</td><td>Lỗi thao tác tay cũ, tồn tại xuyên suốt lịch sử git</td><td><span class="pill ok">Đã sửa</span></td></tr><tr><td>90</td><td>Link Raw trỏ file không còn tồn tại</td><td>File Raw bị xóa tay ở commit <code>357a1b8</code> (27/09/2026), vi phạm nguyên tắc bảo toàn Raw 100%</td><td><span class="pill ok">Đã sửa</span> (ghi chú đã xóa, đổi Status)</td></tr><tr><td>(toàn bộ các dòng)</td><td>File mồ côi trong <code>data/output/</code> không dòng nào trỏ tới, do tiêu đề nguồn đổi nhẹ giữa các lần chạy</td><td>Tên file cũ dựa thẳng vào tiêu đề yt-dlp/Facebook (số view/reaction đổi mỗi lần chạy)</td><td><span class="pill ok">Đã xử lý xong</span> 343 file đổi tên qua 3 đợt; 3 nội dung chưa có dòng → thêm STT 110-112; 3 nội dung trùng dòng có sẵn → xóa 5 file sau khi duyệt; chỉ còn <code>vo cuc- am duong</code> mồ côi đúng thiết kế (nguồn file cục bộ)</td></tr></tbody></table></div>
+<h3>Quy ước đặt tên: <code>NNN_Ten_raw.md</code> / <code>NNN_Ten_refine.md</code> — đã áp dụng cho toàn bộ <code>data/output/</code></h3>
+<p class="mut">Tham khảo logic <code>C:\Addins\rename-management.md</code> (số đứng trước để sắp xếp và tránh trùng tên, tên ngắn không dấu). <code>NNN</code> = STT của dòng trong bảng, đệm 3 số, neo cố định file vào đúng dòng để không còn mồ côi khi tiêu đề nguồn đổi nhẹ. <code>Ten</code>: 10-40 ký tự, chỉ ASCII (tiếng Anh, hoặc tiếng Việt đã bỏ dấu).</p>
+<div class="tbl"><table><thead><tr><th>Nguồn</th><th>Cách lấy "Ten"</th></tr></thead><tbody><tr><td>YouTube</td><td>Giữ nguyên tiêu đề video — luôn là tên đại diện mô tả đúng nội dung</td></tr><tr><td>Facebook / Instagram / LinkedIn</td><td>Cắt bỏ tiền tố số liệu tương tác (<code>"{N}K views · {M}K reactions - "</code>) và hậu tố <code>" - {Tên trang}"</code>, giữ đoạn caption giữa làm tên. Nếu cắt xong rỗng (reel không caption), lấy vài từ đầu nội dung file Raw làm tên thay thế</td></tr></tbody></table></div>
+<p class="mut">Làm sạch chung (mọi nguồn): bỏ dấu tiếng Việt/Latin khác (<code>Hướng dẫn</code> → <code>Huong dan</code>), bỏ emoji, đổi gạch ngang dài thành <code>-</code>, cắt về tối đa 40 ký tự tại khoảng trắng gần nhất.</p>
+<h3>Đã triển khai 12/10/2026 (2 vòng)</h3>
+<ul class="plain"><li><code>src/main_audio2md.py</code>: thêm <code>ten_dai_dien()</code>, <code>doc_stt_hien_co()</code>, <code>bo_dau()</code>, <code>rut_gon_ten()</code>; <code>main()</code> gán STT cho mỗi link trước khi tạo file và dùng làm tiền tố NNN; <code>sanitize_filename()</code> giờ bỏ dấu + giới hạn 40 ký tự. Link mới qua Menu 4 từ nay tự ra file dạng <code>NNN_Ten_raw/refine.md</code> không dấu. <code>tests/test_audio2md.py</code> vẫn 12/12 đạt. Đã kiểm chứng trên dữ liệu thật: các lần chạy Menu 4 song song lúc đang sửa code (STT 108, 109) tự ra đúng file theo quy ước mới.</li><li><code>src/rename_output_files.py</code> (mới, có <code>--dry-run</code>): đổi tên hồi tố toàn bộ <code>data/output/</code>, dùng lại trực tiếp <code>ten_dai_dien()</code>/<code>sanitize_filename()</code> từ <code>main_audio2md.py</code> để nhất quán. Chạy 2 vòng: vòng 1 thêm tiền tố NNN (211 file), vòng 2 bỏ dấu + cắt 40 ký tự (thêm 132 file). Kiểm tra cuối: 0 link gãy, 0 dòng lệch STT giữa bảng và tên file, không còn tên nào có dấu hoặc dài hơn 40 ký tự ngoài 11 file mồ côi (không dòng nào trong bảng từng trỏ tới, không tự đổi/xóa).</li></ul></section>
+<section class="pane" id="api"><h2>Nhật ký API và bảo mật</h2>
+<p class="mut">Gộp từ <code>history/implementation-notes.html</code> và <code>history/check-api.md</code>.</p><ul class="tl"><li><time>18/09/2026</time><p><strong>Bảo mật.</strong> Không đọc, in hay ghi API key vào log, test, HTML hay tài liệu; output chỉ dùng nhãn biến và tier. <code>env.zip</code> được thêm vào <code>.gitignore</code>, file không bị mở hay xóa.</p></li><li><time>18/09/2026</time><p><strong>Live probe là opt-in.</strong> <code>check_api.py</code> chỉ liệt kê model; <code>--probe</code> mới gọi <code>generate_content</code>, tránh phát sinh request/billing ngoài ý muốn.</p></li><li><time>18/09/2026</time><p><strong>503.</strong> Xem là lỗi tạm thời của model/service: retry với exponential backoff trên Free, không rơi sang Paid chỉ vì 503.</p></li><li><time>18/09/2026</time><p><strong>404.</strong> Chỉ đánh dấu model hỏng khi message vừa có <code>404/not found</code> vừa có từ <code>model</code>; lỗi file upload 404 không được vô hiệu hóa model. Model chính/dự phòng chỉ lấy từ <code>GEMINI_MODEL</code> và <code>GEMINI_FALLBACK_MODELS</code>.</p></li><li><time>18/09/2026</time><p><strong>Hiện trạng check-api.</strong> Pool nhận 2 key Free và 1 key Paid, dùng <code>gemini-3.6-flash</code> trước. Hai key Free trả 503; <code>gemini-2.5-flash</code> trả 404 với key mới; key Paid trả lỗi ở <code>gemini-3.6-flash</code>. Mục còn mở: chạy unit test và smoke test rồi mới chạy lại link William Damon.</p></li></ul></section>
+<section class="pane" id="quyet-dinh"><h2>Quyết định và việc còn lại</h2>
+<ul class="plain"><li>Trang <code>implementation-audio2md.html</code> đặt ở gốc repo theo bố cục tab của <code>implementation-My-workspace.html</code>. <code>implementation-audio.html</code> đã gộp xong nội dung vào tab Nhật ký và bị xóa 12/10/2026 (tránh hai trang tồn tại song song với nội dung trùng); <code>history/implementation-notes.html</code> vẫn được giữ nguyên vì đây là log gốc.</li><li>Bat đã chọn <code>C:\Addins\.venv</code> trước rồi mới lùi về <code>python</code> hệ thống, nên không sửa <code>audio2md.bat</code> và <code>save-media.bat</code>.</li><li>Không cài thêm gì vào venv chung vì <code>google-genai</code> và <code>yt-dlp</code> đã có.</li><li>Không chạy <code>check_api.py --probe</code> và không tải link thật trong lượt kiểm tra.</li></ul><h3>Việc còn lại</h3><ul class="plain"><li>Sửa <code>tests/test_gui.py</code> (chuỗi lệnh Python trong bat) và <code>tests/test_save_mp4.py</code> (tên <code>save-media.bat</code>) để suite đạt 5/5.</li><li>Menu [1] của <code>audio2md.bat</code> trỏ tới <code>src\install_ffmpeg.py</code> không tồn tại; đổi sang <code>install-ffmpeg.bat</code> hoặc thêm file.</li><li>Mục "Chạy unit test và smoke test rồi chạy lại link William Damon" trong <code>history/check-api.md</code> vẫn chưa đánh dấu xong.</li></ul></section>
+</div>
+<script>(function(){
+var MAP={"tong-quan": "tq", "module": "tq", "menu": "vh", "cau-hinh": "vh", "kt-python": "kt", "kt-thu-vien": "kt", "kt-test": "kt", "nhat-ky": "nk", "loi-link": "nk", "api": "nk", "quyet-dinh": "nk"},ORDER=Object.keys(MAP),KEY="impl-audio2md";
+var root=document.documentElement;root.classList.add('js');
+function show(id,push){
+  if(!MAP[id])id=ORDER[0];
+  var g=MAP[id];
+  document.querySelectorAll('.pane').forEach(function(p){p.classList.toggle('on',p.id===id)});
+  document.querySelectorAll('.tabs-g a').forEach(function(a){a.setAttribute('aria-selected',a.dataset.g===g)});
+  document.querySelectorAll('.tabs-s').forEach(function(d){d.classList.toggle('on',d.dataset.g===g)});
+  document.querySelectorAll('.tabs-s a').forEach(function(a){a.setAttribute('aria-selected',a.dataset.t===id)});
+  try{localStorage.setItem(KEY,id)}catch(e){}
+  if(push&&location.hash!=='#'+id){try{history.replaceState(null,'','#'+id)}catch(e){}}
+}
+document.querySelectorAll('.tabs-g a,.tabs-s a').forEach(function(a){
+  a.addEventListener('click',function(e){e.preventDefault();show(a.getAttribute('href').slice(1),true);window.scrollTo({top:0})});
+});
+document.querySelectorAll('.tabs-g a').forEach(function(a){a.addEventListener('click',function(){
+  var g=a.dataset.g,first=document.querySelector('.tabs-s[data-g="'+g+'"] a');
+  if(first){show(first.dataset.t,true)}
+})});
+var start=location.hash.slice(1),saved=null;
+try{saved=localStorage.getItem(KEY)}catch(e){}
+show(MAP[start]?start:(MAP[saved]?saved:ORDER[0]),false);
+if(start)window.scrollTo(0,0);
+window.addEventListener('hashchange',function(){var h=location.hash.slice(1);if(MAP[h])show(h,false)});
+})();</script>
+</body></html>
