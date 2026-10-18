@@ -1,42 +1,24 @@
 {
   "main": {
-<<<<<<< Updated upstream
-    "id": "aae4f8ac1f5ca071",
+    "id": "62a5fb2616bccab0",
     "type": "split",
     "children": [
       {
-        "id": "8a51b864013093d7",
+        "id": "c68a70a71f397808",
         "type": "tabs",
         "children": [
           {
-            "id": "f74622bd03311b1a",
+            "id": "31ff686c2aaf83c9",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "data/output/The Vietnamese Boom Is a Lie (and it's worse than you think)_refine.md",
+                "file": "data/output/114_Dinh cao giao tiep_refine.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "The Vietnamese Boom Is a Lie (and it's worse than you think)_refine"
-=======
-    "id": "88defc84efc6047b",
-    "type": "split",
-    "children": [
-      {
-        "id": "58bbf77ff61e7fb9",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "231af16a7d472ab3",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
->>>>>>> Stashed changes
+              "title": "114_Dinh cao giao tiep_refine"
             }
           }
         ]
@@ -45,27 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-<<<<<<< Updated upstream
-    "id": "129dbd6cba1846c6",
+    "id": "93c9141ae9db2eb4",
     "type": "split",
     "children": [
       {
-        "id": "416c623567fa2b80",
+        "id": "87498d85b1ec9c56",
         "type": "tabs",
         "children": [
           {
-            "id": "5c73a384eafa6b6c",
-=======
-    "id": "393c7cb25d9a14c5",
-    "type": "split",
-    "children": [
-      {
-        "id": "2c361f69afcbdaaf",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "7792aba161dacde7",
->>>>>>> Stashed changes
+            "id": "9ed7dbeac06b1c9f",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -80,11 +50,7 @@
             }
           },
           {
-<<<<<<< Updated upstream
-            "id": "2c9adb9578ee3cdc",
-=======
-            "id": "e63ff30d989320b2",
->>>>>>> Stashed changes
+            "id": "d8842a37ba0e16f4",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -101,11 +67,7 @@
             }
           },
           {
-<<<<<<< Updated upstream
-            "id": "c19d1b4c3b8585e3",
-=======
-            "id": "eb59e1b8e884f780",
->>>>>>> Stashed changes
+            "id": "e2b2860b29a4421c",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -124,35 +86,19 @@
     "width": 300
   },
   "right": {
-<<<<<<< Updated upstream
-    "id": "95a7054809b4fb23",
+    "id": "0ed9bee1ccf7454b",
     "type": "split",
     "children": [
       {
-        "id": "718927d84625326f",
+        "id": "d39a2ff799e14ee8",
         "type": "tabs",
         "children": [
           {
-            "id": "5780e12867682bb8",
-=======
-    "id": "6ded4f384546500f",
-    "type": "split",
-    "children": [
-      {
-        "id": "e7b55755a1935957",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "96d7318b8f170c91",
->>>>>>> Stashed changes
+            "id": "fd3fdb6c1f7d7722",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-<<<<<<< Updated upstream
-                "file": "data/output/The Vietnamese Boom Is a Lie (and it's worse than you think)_refine.md",
-=======
->>>>>>> Stashed changes
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -166,19 +112,11 @@
             }
           },
           {
-<<<<<<< Updated upstream
-            "id": "defefeca81972921",
-=======
-            "id": "e3e23a94a1e010f2",
->>>>>>> Stashed changes
+            "id": "78fcaacfbc040904",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-<<<<<<< Updated upstream
-                "file": "data/output/The Vietnamese Boom Is a Lie (and it's worse than you think)_refine.md",
-=======
->>>>>>> Stashed changes
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -187,11 +125,7 @@
             }
           },
           {
-<<<<<<< Updated upstream
-            "id": "090a359f0fd2d7ce",
-=======
-            "id": "a2fce813dbef2d8f",
->>>>>>> Stashed changes
+            "id": "9ea8a7f51440c2d6",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -206,11 +140,7 @@
             }
           },
           {
-<<<<<<< Updated upstream
-            "id": "7ff570dc37cdcb57",
-=======
-            "id": "2963f27cd9f99ac1",
->>>>>>> Stashed changes
+            "id": "bcc2302d9e8f347f",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -224,19 +154,11 @@
             }
           },
           {
-<<<<<<< Updated upstream
-            "id": "ac6381d81eba41ec",
-=======
-            "id": "f73adf475bd76b4a",
->>>>>>> Stashed changes
+            "id": "33a004e389d1ab7c",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-<<<<<<< Updated upstream
-                "file": "data/output/The Vietnamese Boom Is a Lie (and it's worse than you think)_refine.md",
-=======
->>>>>>> Stashed changes
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -263,17 +185,44 @@
       "bases:Create new base": false
     }
   },
-<<<<<<< Updated upstream
-  "active": "f74622bd03311b1a",
+  "active": "31ff686c2aaf83c9",
   "lastOpenFiles": [
-    "data/output/Can Vietnam be the new Singapore__raw.md",
-    "data/input/9uAKxTmCTcM.en.vtt",
-    "data/input/9uAKxTmCTcM.en.vtt.part",
+    "data/output/115_EQ cao va chuyen so do_raw.md",
+    "data/output/115_EQ cao va chuyen so do_refine.md",
+    "data/output/114_Dinh cao giao tiep_raw.md",
     "data/input/build-audio2md.md",
-    "data/input/vo cuc- am duong.mp4"
+    "data/output/109_Which university degrees will survive_refine.md",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.mp4",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.temp.mp4",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.f251.webm",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.f251.webm.part",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.f616.mp4",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.f616.mp4.part-Frag320",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.f616.mp4.part-Frag320.part",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.f616.mp4.part-Frag319",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.f616.mp4.part-Frag319.part",
+    "data/mp4/7 Cấp Độ LÃI KÉP： Bạn Đang Ở Thiên Đường Hay Địa Ngục Tài Chính？.f616.mp4.part-Frag318",
+    "data/output/113_SUOI NGUON_ Cuon Self-Help CHI DOC LUC_refine.md",
+    "data/output/113_SUOI NGUON_ Cuon Self-Help CHI DOC LUC_raw.md",
+    "data/output/110_12 chu giup nhin thau ke gia nhan gia_raw.md",
+    "data/output/112_NANG CAP GIONG NOI - GIAO TIEP - THUYET_raw.md",
+    "data/output/112_NANG CAP GIONG NOI - GIAO TIEP - THUYET_refine.md",
+    "data/output/084_Mieu bo - Buoc nhe, Than vung, Tam an_raw.md",
+    "data/output/183 - William Damon_ How to Live a Purposeful Life_raw.md",
+    "data/output/006_How I Got My American Accent_raw.md",
+    "data/output/109_Which university degrees will survive_raw.md",
+    "data/output/108_How AI is causing an unemployment crisis among middle aged job seekers_refine.md",
+    "data/output/001_Claude AI qua manh cho cong viec hang_refine.md",
+    "data/output/032_Speak English in 30 Minutes_ Advanced_raw.md",
+    "data/output/033_Read the NEWS in English Advanced_refine.md",
+    "data/output/033_Read the NEWS in English Advanced_raw.md",
+    "data/output/034_Bai phat bieu cua GS.TS Nguyen Trung_refine.md",
+    "data/output/034_Bai phat bieu cua GS.TS Nguyen Trung_raw.md",
+    "data/output/043_179 - Cynthia Osborne_ Translating_raw.md",
+    "data/output/044_183 - William Damon_ How to Live a_refine.md",
+    "data/output/044_183 - William Damon_ How to Live a_raw.md",
+    "data/output/045_How I read every day (with a full time_refine.md",
+    "data/output/045_How I read every day (with a full time_raw.md",
+    "data/Pasted image 20260927133614.png"
   ]
-=======
-  "active": "231af16a7d472ab3",
-  "lastOpenFiles": []
->>>>>>> Stashed changes
 }
